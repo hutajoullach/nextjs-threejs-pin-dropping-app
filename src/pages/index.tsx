@@ -9,7 +9,7 @@ import { api } from "~/utils/api";
 const Home: NextPage = () => {
   const user = useUser();
 
-  const { data } = api.example.getAll.useQuery();
+  const { data } = api.geolocationPins.getAll.useQuery();
 
   return (
     <>
@@ -22,6 +22,11 @@ const Home: NextPage = () => {
         <div>
           {!user.isSignedIn && <SignInButton />}
           {!!user.isSignedIn && <SignOutButton />}
+        </div>
+        <div>
+          {data?.map((pin) => (
+            <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
+          ))}
         </div>
       </main>
     </>

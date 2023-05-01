@@ -16,8 +16,8 @@ model GeolocationPin {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    lat String @db.VarChar(20)
-    lon String @db.VarChar(20)
+    lat String @db.VarChar(30)
+    lon String @db.VarChar(30)
     userId String
     
     @@index([userId])
