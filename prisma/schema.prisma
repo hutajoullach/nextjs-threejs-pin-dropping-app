@@ -11,8 +11,20 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Example {
+// model Example {
+//     id        String   @id @default(cuid())
+//     createdAt DateTime @default(now())
+//     updatedAt DateTime @updatedAt
+// }
+
+model GeolocationPin {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    lat String @db.VarChar(20)
+    lon String @db.VarChar(20)
+    userId String
+    
+    @@index([userId])
 }
