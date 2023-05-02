@@ -6,17 +6,19 @@ import { useRouter } from "next/router";
 
 import theme from "../styles/styles";
 
-import { travelPinGlobeLogo } from "../assets";
+import { travelPinGlobeLogo, githubwhite } from "../assets";
 
 const Navbar = () => {
   const { route } = useRouter();
+
+  const { user, isLoaded: userLoaded, isSignedIn } = useUser();
 
   return (
     <nav
       className={`${theme.p.x.sm} ${theme.bg.navbarBackground} ${theme.h.navbar} fixed top-0 z-20 flex w-full items-center`}
     >
       <div
-        className={`flex flex-row items-center justify-between gap-3 md:gap-0`}
+        className={`flex w-full flex-row items-center justify-between gap-3 md:gap-0`}
       >
         <Link href={"/"} className="flex items-center gap-2">
           <Image
@@ -27,6 +29,34 @@ const Navbar = () => {
             alt="logo"
           />
         </Link>
+
+        {/* search menu */}
+
+        <ul className="hidden list-none flex-row items-center gap-10 sm:flex">
+          {!isSignedIn && (
+            <li className="cursor-pointer">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-red-300">
+                <Link href={"/signin/"}>
+                  <Image
+                    src={githubwhite}
+                    className="h-7 w-7 rounded-full"
+                    alt="githubwhite"
+                    width={56}
+                    height={56}
+                  />
+                </Link>
+              </div>
+            </li>
+          )}
+          {!!isSignedIn && (
+            <li className="flex cursor-pointer gap-1 text-xs">
+              <UserButton />
+              {/* {githubUsername && (
+              <span className="pt-3">{`@${githubUsername}`}</span>
+            )} */}
+            </li>
+          )}
+        </ul>
       </div>
     </nav>
   );
