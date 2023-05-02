@@ -10,9 +10,7 @@ const Navbar = () => {
   return (
     <nav
       className={`${theme.p.x.sm} ${theme.bg.navbarBackground} ${theme.h.navbar} fixed top-0 z-20 flex w-full items-center`}
-    >
-      hey
-    </nav>
+    ></nav>
   );
 };
 
