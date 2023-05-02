@@ -13,7 +13,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Head>
         <title>Next.js, Three.js Pin Dropping App</title>
         <meta name="description" content="t3-threejs-pin-dropping-app" />
-        <link rel="icon" href="/alphabet.svg" />
+        {/* <link rel="icon" href="/alphabet.svg" /> */}
       </Head>
       <Toaster position="top-right" />
       <Component {...pageProps} />

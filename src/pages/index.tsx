@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
   const Footer = () => {
     return (
-      <div className={`${theme.bg.navbarBackground}`} w-full>
+      <div className={`${theme.bg.navbarBackground} w-full`}>
         <div className="flex items-center justify-center py-2 text-white">
           <span>©2023 @hutajoullach</span>
         </div>
