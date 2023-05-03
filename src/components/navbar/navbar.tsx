@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import theme from "../styles/styles";
+import theme from "../../styles/styles";
+import { travelPinGlobeLogo, githubwhite } from "../../assets";
+import Search from "./search";
 
-import { travelPinGlobeLogo, githubwhite } from "../assets";
+import { GoMarkGithub } from "react-icons/go";
 
 const Navbar = () => {
   const { route } = useRouter();
@@ -30,20 +32,21 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* search menu */}
+        <Search />
 
         <ul className="hidden list-none flex-row items-center gap-10 sm:flex">
           {!isSignedIn && (
             <li className="cursor-pointer">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-red-300">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
                 <Link href={"/signin/"}>
-                  <Image
+                  {/* <Image
                     src={githubwhite}
                     className="h-7 w-7 rounded-full"
                     alt="githubwhite"
                     width={56}
                     height={56}
-                  />
+                  /> */}
+                  <GoMarkGithub size={30} color="black" />
                 </Link>
               </div>
             </li>

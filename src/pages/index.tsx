@@ -22,10 +22,6 @@ const Home: NextPage = () => {
     return (
       <div className="flex h-full w-full justify-center">
         <div>
-          {!user.isSignedIn && <SignInButton />}
-          {!!user.isSignedIn && <SignOutButton />}
-        </div>
-        <div>
           {data.map((pin) => (
             <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
           ))}
@@ -37,7 +33,7 @@ const Home: NextPage = () => {
   const Footer = () => {
     return (
       <div className={`${theme.bg.navbarBackground} w-full`}>
-        <div className="flex items-center justify-center py-2 text-white">
+        <div className="flex items-center justify-center py-2 text-gray-500">
           <span>©2023 @hutajoullach</span>
         </div>
       </div>

@@ -40,7 +40,7 @@ const theme = {
   },
   bg: {
     primary: "bg-stone-950",
-    navbarBackground: "bg-red-200",
+    navbarBackground: "bg-slate-100",
     cardBackground: "",
     utilityCardBackground: "bg-zinc-700",
     // contactModalBackground: "bg-red-200",
