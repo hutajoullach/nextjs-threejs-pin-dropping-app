@@ -1,1 +1,6 @@
-export const searchMenuList = [{}];
+export const searchMenuList = [
+  {
+    id: "",
+    title: "",
+  },
+];
