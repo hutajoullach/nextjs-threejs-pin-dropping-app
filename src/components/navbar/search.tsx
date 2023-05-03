@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { searchMenuList } from "../../constants";
 import SearchMenu from "./search-menu";
 
 import { BiSearch } from "react-icons/bi";
@@ -32,7 +33,7 @@ const Search = () => {
       </ul>
 
       <div className="absolute top-[47px] overflow-hidden rounded-xl bg-white text-sm shadow-md">
-        <SearchMenu />
+        <SearchMenu searchMenuList={searchMenuList} />
       </div>
     </div>
   );
