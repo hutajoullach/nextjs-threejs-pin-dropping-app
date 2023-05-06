@@ -61,17 +61,14 @@ const Modal = ({
 
   return (
     <>
-      <div
-        onClick={handleClose}
-        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-neutral-800/70 outline-none focus:outline-none"
-      >
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-neutral-800/70 outline-none focus:outline-none">
         <div className="relative mx-auto my-6 h-full w-full md:h-auto md:w-4/6 lg:h-auto lg:w-3/6 xl:w-2/5">
           <div
             className={`translate h-full duration-300
             ${showModal ? "translate-y-0" : "translate-y-full"}
             ${showModal ? "opacity-100" : "opacity-0"}`}
           >
-            <div className="translate relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none md:h-auto lg:h-auto">
+            <div className="translate z-53 relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none md:h-auto lg:h-auto">
               <div className="relative flex items-center justify-center rounded-t border-b-[1px] p-6">
                 <button
                   onClick={handleClose}
@@ -105,6 +102,11 @@ const Modal = ({
           </div>
         </div>
       </div>
+
+      {/* <div
+        onClick={handleClose}
+        className="z-520 fixed left-0 top-0 h-full w-full bg-transparent"
+      /> */}
     </>
   );
 };
