@@ -51,11 +51,11 @@ const Modal = ({
   //   onSubmit();
   // }, [onSubmit, disabled]);
 
-  // const handleSecondaryAction = useCallback(() => {
-  //   if (disabled || !secondaryAction) return;
+  const handleSecondaryAction = useCallback(() => {
+    if (disabled || !secondaryAction) return;
 
-  //   secondaryAction();
-  // }, [secondaryAction, disabled]);
+    secondaryAction();
+  }, [secondaryAction, disabled]);
 
   if (!isOpen) return null;
 
@@ -81,14 +81,14 @@ const Modal = ({
               <div className="relative flex-auto p-6">{/* {body} */}</div>
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex w-full flex-row items-center gap-4">
-                  {/* {secondaryAction && secondaryActionLabel && (
+                  {secondaryAction && secondaryActionLabel && (
                     <Button
                       disabled={disabled}
                       label={secondaryActionLabel}
                       onClick={handleSecondaryAction}
                       outline
                     />
-                  )} */}
+                  )}
                   {/* <Button
                     disabled={disabled}
                     label={actionLabel}
