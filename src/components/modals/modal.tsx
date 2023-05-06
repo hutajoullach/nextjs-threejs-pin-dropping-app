@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 
+import Button from "../button";
+
+import { GoX } from "react-icons/go";
+
 type ModalProps = {
   isOpen?: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
+  // onClose: () => void;
+  // onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
-  actionLabel: string;
+  // actionLabel: string;
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
@@ -15,12 +19,12 @@ type ModalProps = {
 
 const Modal = ({
   isOpen,
-  onClose,
-  onSubmit,
+  // onClose,
+  // onSubmit,
   title,
   body,
-  actionLabel,
   footer,
+  // actionLabel,
   disabled,
   secondaryAction,
   secondaryActionLabel,
@@ -31,27 +35,27 @@ const Modal = ({
     setShowModal(isOpen);
   }, [isOpen]);
 
-  const handleClose = useCallback(() => {
-    if (disabled) return;
+  // const handleClose = useCallback(() => {
+  //   if (disabled) return;
 
-    setShowModal(false);
-    onClose();
-    // setTimeout(() => {
-    //   onClose();
-    // }, 300);
-  }, [onClose, disabled]);
+  //   setShowModal(false);
+  //   onClose();
+  //   // setTimeout(() => {
+  //   //   onClose();
+  //   // }, 300);
+  // }, [onClose, disabled]);
 
-  const handleSubmit = useCallback(() => {
-    if (disabled) return;
+  // const handleSubmit = useCallback(() => {
+  //   if (disabled) return;
 
-    onSubmit();
-  }, [onSubmit, disabled]);
+  //   onSubmit();
+  // }, [onSubmit, disabled]);
 
-  const handleSecondaryAction = useCallback(() => {
-    if (disabled || !secondaryAction) return;
+  // const handleSecondaryAction = useCallback(() => {
+  //   if (disabled || !secondaryAction) return;
 
-    secondaryAction();
-  }, [secondaryAction, disabled]);
+  //   secondaryAction();
+  // }, [secondaryAction, disabled]);
 
   if (!isOpen) return null;
 
@@ -67,14 +71,14 @@ const Modal = ({
             <div className="translate relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none md:h-auto lg:h-auto">
               <div className="relative flex items-center justify-center rounded-t border-b-[1px] p-6">
                 <button
-                  onClick={handleClose}
+                  // onClick={handleClose}
                   className="absolute left-9 border-0 p-1 transition hover:opacity-70"
                 >
-                  {/* <IoMdClose size={18} /> */}
+                  <GoX size={24} color="black" />
                 </button>
-                <div className="text-lg font-semibold">{title}</div>
+                <div className="text-lg font-semibold">{/* {title} */}</div>
               </div>
-              <div className="relative flex-auto p-6">{body}</div>
+              <div className="relative flex-auto p-6">{/* {body} */}</div>
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex w-full flex-row items-center gap-4">
                   {/* {secondaryAction && secondaryActionLabel && (
