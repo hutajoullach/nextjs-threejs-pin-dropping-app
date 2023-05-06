@@ -19,7 +19,7 @@ type SearchMenuProps = {
   searchMenuList: { id: string; title: string; icon: string }[];
 };
 
-const SearchMenu = ({ searchMenuList }: SearchMenuProps) => {
+const SearchMenu = async ({ searchMenuList }: SearchMenuProps) => {
   const router = useRouter();
 
   const handleClick = useCallback(
