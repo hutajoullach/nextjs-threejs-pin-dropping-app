@@ -1,6 +1,6 @@
 import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import React, { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -17,6 +17,8 @@ const Navbar = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
 
+  const logo = travelPinGlobeLogo as StaticImageData;
+
   return (
     <nav
       className={`${theme.p.x.sm} ${theme.bg.navbarBackground} ${theme.h.navbar} fixed top-0 z-20 flex w-full items-center`}
@@ -26,7 +28,7 @@ const Navbar = () => {
       >
         <Link href={"/"} className="flex items-center gap-2">
           <Image
-            src={travelPinGlobeLogo}
+            src={logo}
             className="hidden cursor-pointer md:block"
             width={140}
             height={140}

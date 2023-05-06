@@ -59,7 +59,10 @@ const GeolocationPinModal = () => {
       title="GeolocationPin"
       actionLabel="Drop Pin"
       onClose={geolocationPinModal.onClose}
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={() => {
+        console.log("hey");
+      }}
       body={bodyContent}
       footer={footerContent}
     />
