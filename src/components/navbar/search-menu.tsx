@@ -19,13 +19,13 @@ type SearchMenuProps = {
   searchMenuList: { id: string; title: string; icon: string }[];
 };
 
-const SearchMenu = async ({ searchMenuList }: SearchMenuProps) => {
+const SearchMenu = ({ searchMenuList }: SearchMenuProps) => {
   const router = useRouter();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      router.push("/");
+      router.push("/").catch((err) => console.error(err));
     },
     [router]
   );
