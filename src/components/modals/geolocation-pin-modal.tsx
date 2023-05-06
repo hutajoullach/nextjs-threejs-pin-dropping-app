@@ -1,3 +1,4 @@
+import { useUser } from "@clerk/nextjs";
 import { useCallback, useState } from "react";
 
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
@@ -11,8 +12,11 @@ import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const GeolocationPinModal = () => {
+  const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
+
+  // console.log(user);
 
   const {
     register,
@@ -27,6 +31,8 @@ const GeolocationPinModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (!user) return null;
+
     setIsLoading(true);
   };
 

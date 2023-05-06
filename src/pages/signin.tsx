@@ -10,7 +10,7 @@ const Signin: NextPage = () => (
         path="/signin"
         routing="path"
         signUpUrl="/signup"
-        redirectUrl="/sandbox"
+        redirectUrl="/"
       />
     </div>
   </PageLayout>
