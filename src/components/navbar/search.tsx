@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { searchMenuList, searchTab } from "../../constants";
 import SearchMenu from "./search-menu";
 
 import { BiSearch } from "react-icons/bi";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 const Search = () => {
   const [activeSearchTab, setActiveSearchTab] = useState(searchTab.tabCenter);

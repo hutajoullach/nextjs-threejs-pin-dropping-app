@@ -8,7 +8,7 @@ import theme from "../../styles/styles";
 import { travelPinGlobeLogo, githubwhite } from "../../assets";
 import Search from "./search";
 
-import { GoMarkGithub } from "react-icons/go";
+import { GoOctoface, GoSignIn } from "react-icons/go";
 
 const Navbar = () => {
   const { route } = useRouter();
@@ -34,19 +34,19 @@ const Navbar = () => {
 
         <Search />
 
-        <ul className="hidden list-none flex-row items-center gap-10 sm:flex">
+        <ul className="hidden list-none flex-row items-center gap-4 sm:flex">
+          <li className="cursor-pointer">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
+              <GoOctoface size={30} color="black" />
+            </div>
+          </li>
           {!isSignedIn && (
             <li className="cursor-pointer">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
+              <div className=" flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
                 <Link href={"/signin/"}>
-                  {/* <Image
-                    src={githubwhite}
-                    className="h-7 w-7 rounded-full"
-                    alt="githubwhite"
-                    width={56}
-                    height={56}
-                  /> */}
-                  <GoMarkGithub size={30} color="black" />
+                  <div className="mt-1">
+                    <GoSignIn size={30} color="black" />
+                  </div>
                 </Link>
               </div>
             </li>
@@ -54,9 +54,6 @@ const Navbar = () => {
           {!!isSignedIn && (
             <li className="flex cursor-pointer gap-1 text-xs">
               <UserButton />
-              {/* {githubUsername && (
-              <span className="pt-3">{`@${githubUsername}`}</span>
-            )} */}
             </li>
           )}
         </ul>

@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
+import { useRouter } from "next/router";
 
 type MenuItemProps = {
   onClick: () => void;
@@ -19,11 +20,22 @@ type SearchMenuProps = {
 };
 
 const SearchMenu = ({ searchMenuList }: SearchMenuProps) => {
+  const router = useRouter();
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    router.push("/");
+  }, []);
+
   return (
     <div className="flex cursor-pointer flex-col items-center px-8 py-4">
       <ul className="space-y-3 text-sm font-semibold text-gray-500">
         {searchMenuList.map((list) => (
-          <MenuItem onClick={() => {}} id={list.id} title={list.title} />
+          <MenuItem
+            onClick={() => handleClick}
+            id={list.id}
+            title={list.title}
+          />
         ))}
       </ul>
     </div>

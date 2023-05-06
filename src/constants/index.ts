@@ -6,12 +6,12 @@ export const searchTab = {
 
 export const searchMenuList = [
   {
-    id: "",
+    id: "id1",
     title: "title 1",
     icon: "",
   },
   {
-    id: "",
+    id: "id2",
     title: "title 2",
     icon: "",
   },
