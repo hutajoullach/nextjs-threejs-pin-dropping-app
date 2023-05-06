@@ -3,11 +3,11 @@ import { useCallback, useState } from "react";
 import { searchMenuList, searchTab } from "../../constants";
 import SearchMenu from "./search-menu";
 
-import { BiSearch } from "react-icons/bi";
+import { GoGlobe, GoRocket, GoSquirrel } from "react-icons/go";
 // import { motion } from "framer-motion";
 
 const Search = () => {
-  const [activeSearchTab, setActiveSearchTab] = useState(searchTab.tabCenter);
+  const [activeSearchTab, setActiveSearchTab] = useState("");
 
   const toggleSearchTab = useCallback(
     (hoveredTab: string, mouseEvent: string) => {
@@ -28,8 +28,8 @@ const Search = () => {
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-purple-600 to-blue-500 p-0.5 hover:text-white group-hover:from-purple-600 group-hover:to-blue-500">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">
-              <div className="rounded-full bg-slate-300 p-1 text-white">
-                <BiSearch size={18} />
+              <div className="rounded-full bg-slate-800 p-1 text-white">
+                <GoSquirrel size={18} />
               </div>
               <span className="flex items-center justify-center font-semibold">
                 {searchTab.tabLeft}
@@ -52,8 +52,8 @@ const Search = () => {
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-green-400 to-blue-600 p-0.5 hover:text-white group-hover:from-green-400 group-hover:to-blue-600">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">
-              <div className="rounded-full bg-slate-300 p-1 text-white">
-                <BiSearch size={18} />
+              <div className="rounded-full bg-slate-800 p-1 text-white">
+                <GoGlobe size={18} />
               </div>
               <span className="flex items-center justify-center font-semibold">
                 {searchTab.tabCenter}
@@ -76,8 +76,8 @@ const Search = () => {
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 group-hover:from-teal-300 group-hover:to-lime-300">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">
-              <div className="rounded-full bg-slate-300 p-1 text-white">
-                <BiSearch size={18} />
+              <div className="rounded-full bg-slate-800 p-1 text-white">
+                <GoRocket size={18} />
               </div>
               <span className="flex items-center justify-center font-semibold">
                 {searchTab.tabRight}

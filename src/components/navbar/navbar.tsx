@@ -37,7 +37,13 @@ const Navbar = () => {
         <ul className="hidden list-none flex-row items-center gap-4 sm:flex">
           <li className="cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
-              <GoOctoface size={30} color="black" />
+              <a
+                target="_blank"
+                href="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app"
+                rel="noopener noreferrer"
+              >
+                <GoOctoface size={30} color="black" />
+              </a>
             </div>
           </li>
           {!isSignedIn && (
