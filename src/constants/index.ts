@@ -1,7 +1,7 @@
 export const searchTab = {
-  tab1: "tab1",
-  tab2: "tab2",
-  tab3: "tab3",
+  tabLeft: "tab left",
+  tabCenter: "tab center",
+  tabRight: "tab right",
 };
 
 export const searchMenuList = [
