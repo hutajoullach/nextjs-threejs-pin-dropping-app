@@ -12,6 +12,10 @@ const config = {
       parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
       },
+      rules: {
+        "react/no-unescaped-entities": "off",
+        "@next/next/no-page-custom-font": "off",
+      },
     },
   ],
   parser: "@typescript-eslint/parser",
