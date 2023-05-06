@@ -46,7 +46,8 @@ const Search = () => {
         </li>
 
         <li
-          onMouseOver={() => toggleSearchTab(searchTab.tabCenter)}
+          onMouseOver={() => toggleSearchTab(searchTab.tabCenter, "enter")}
+          onMouseLeave={() => toggleSearchTab(searchTab.tabCenter, "leave")}
           className="text-sm text-gray-600"
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-green-400 to-blue-600 p-0.5 hover:text-white group-hover:from-green-400 group-hover:to-blue-600">
@@ -60,14 +61,17 @@ const Search = () => {
             </div>
           </div>
           {activeSearchTab === searchTab.tabCenter && (
-            <div className="absolute top-[47px] overflow-hidden rounded-xl bg-white text-sm shadow-md">
-              <SearchMenu searchMenuList={searchMenuList} />
+            <div className="absolute left-1/2 top-[36px] -translate-x-1/2 transform bg-transparent p-3">
+              <div className="overflow-hidden rounded-xl bg-white text-sm shadow-md">
+                <SearchMenu searchMenuList={searchMenuList} />
+              </div>
             </div>
           )}
         </li>
 
         <li
-          onMouseOver={() => toggleSearchTab(searchTab.tabRight)}
+          onMouseOver={() => toggleSearchTab(searchTab.tabRight, "enter")}
+          onMouseLeave={() => toggleSearchTab(searchTab.tabRight, "leave")}
           className="text-sm text-gray-600"
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 group-hover:from-teal-300 group-hover:to-lime-300">
@@ -81,8 +85,10 @@ const Search = () => {
             </div>
           </div>
           {activeSearchTab === searchTab.tabRight && (
-            <div className="absolute top-[47px] overflow-hidden rounded-xl bg-white text-sm shadow-md">
-              <SearchMenu searchMenuList={searchMenuList} />
+            <div className="absolute left-1/2 top-[36px] -translate-x-1/2 transform bg-transparent p-3">
+              <div className="overflow-hidden rounded-xl bg-white text-sm shadow-md">
+                <SearchMenu searchMenuList={searchMenuList} />
+              </div>
             </div>
           )}
         </li>
