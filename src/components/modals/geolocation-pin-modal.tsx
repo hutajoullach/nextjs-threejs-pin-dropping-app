@@ -4,6 +4,7 @@ import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 
 import Modal from "./modal";
 import Button from "../button";
+import Heading from "../heading";
 
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -30,8 +31,11 @@ const GeolocationPinModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      {/* <Heading title="GeolocationPin" subtitle="drop your pin on a map!" />
-      <Input
+      <Heading
+        title="Add Your GeolocationPin"
+        subtitle="drop your pin on a map!"
+      />
+      {/* <Input
         id="address"
         label="Address"
         disabled={isLoading}
