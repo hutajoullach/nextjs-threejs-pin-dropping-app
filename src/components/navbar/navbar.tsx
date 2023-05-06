@@ -4,16 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 import theme from "../../styles/styles";
-import { travelPinGlobeLogo, githubwhite } from "../../assets";
+import { travelPinGlobeLogo } from "../../assets";
 import Search from "./search";
 
-import { GoOctoface, GoSignIn } from "react-icons/go";
+import { GoOctoface, GoSignIn, GoPin } from "react-icons/go";
 
 const Navbar = () => {
   const { route } = useRouter();
 
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
+  const geolocationPinModal = useGeolocationPinModal();
 
   return (
     <nav
@@ -34,7 +36,15 @@ const Navbar = () => {
 
         <Search />
 
-        <ul className="hidden list-none flex-row items-center gap-4 sm:flex">
+        <ul className="hidden list-none flex-row items-center gap-3 sm:flex">
+          <li className="cursor-pointer">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
+              <div onClick={geolocationPinModal.onOpen}>
+                <GoPin size={29} color="black" />
+              </div>
+            </div>
+          </li>
+
           <li className="cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
               <a
@@ -46,6 +56,7 @@ const Navbar = () => {
               </a>
             </div>
           </li>
+
           {!isSignedIn && (
             <li className="cursor-pointer">
               <div className=" flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
@@ -57,6 +68,7 @@ const Navbar = () => {
               </div>
             </li>
           )}
+
           {!!isSignedIn && (
             <li className="flex cursor-pointer gap-1 text-xs">
               <UserButton />

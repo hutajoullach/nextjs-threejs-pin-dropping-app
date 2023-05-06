@@ -76,7 +76,9 @@ const Modal = ({
                 >
                   <GoX size={24} color="black" />
                 </button>
-                <div className="text-lg font-semibold">{title}</div>
+                <div className="text-lg font-semibold text-gray-600">
+                  {title}
+                </div>
               </div>
               <div className="relative flex-auto p-6">{body}</div>
               <div className="flex flex-col gap-2 p-6">

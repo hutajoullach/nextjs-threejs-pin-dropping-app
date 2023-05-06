@@ -52,8 +52,8 @@ const GeolocationPinModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={geolocationPinModal.isOpen}
-      title="Register"
-      actionLabel="Continue"
+      title="GeolocationPin"
+      actionLabel="Drop Pin"
       onClose={geolocationPinModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
