@@ -50,8 +50,7 @@ const Search = () => {
               </span>
             </div>
           </div>
-          {/* {activeSearchTab === searchTab.left.name && ( */}
-          {true && (
+          {activeSearchTab === searchTab.left.name && (
             <div className="sm:-translate-x-1/5 absolute left-0 top-[36px] transform bg-transparent py-3 sm:left-auto md:-translate-x-1/3">
               <div className="overflow-hidden rounded-xl bg-white text-sm shadow-md">
                 <SearchMenu

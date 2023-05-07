@@ -39,6 +39,26 @@ export const hotspotSearchMenuList = [
     title: "title 2",
     icon: "",
   },
+  {
+    id: "id3",
+    title: "title 3",
+    icon: "",
+  },
+  {
+    id: "id4",
+    title: "title 4",
+    icon: "",
+  },
+  {
+    id: "id5",
+    title: "title 5",
+    icon: "",
+  },
+  {
+    id: "id6",
+    title: "title 6",
+    icon: "",
+  },
 ];
 
 export const globalApiSearchMenuList = [
@@ -47,12 +67,62 @@ export const globalApiSearchMenuList = [
     title: "title 1",
     icon: "",
   },
+  {
+    id: "id2",
+    title: "title 2",
+    icon: "",
+  },
+  {
+    id: "id3",
+    title: "title 3",
+    icon: "",
+  },
+  {
+    id: "id4",
+    title: "title 4",
+    icon: "",
+  },
+  {
+    id: "id5",
+    title: "title 5",
+    icon: "",
+  },
+  {
+    id: "id6",
+    title: "title 6",
+    icon: "",
+  },
 ];
 
 export const exploreSearchMenuList = [
   {
     id: "id1",
     title: "title 1",
+    icon: "",
+  },
+  {
+    id: "id2",
+    title: "title 2",
+    icon: "",
+  },
+  {
+    id: "id3",
+    title: "title 3",
+    icon: "",
+  },
+  {
+    id: "id4",
+    title: "title 4",
+    icon: "",
+  },
+  {
+    id: "id5",
+    title: "title 5",
+    icon: "",
+  },
+  {
+    id: "id6",
+    title: "title 6",
     icon: "",
   },
 ];

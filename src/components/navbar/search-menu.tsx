@@ -40,15 +40,34 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
         <span>{searchTabDesc.desc}</span>
       </div>
       {/* <hr /> */}
-      <div className="flex justify-center pb-1">
+      <div className="flex justify-evenly pb-1">
         <ul className="space-y-3 text-sm font-semibold text-gray-500">
-          {searchMenuList.map((list) => (
-            <MenuItem
-              key={list.id}
-              onClick={() => handleClick}
-              id={list.id}
-              title={list.title}
-            />
+          {searchMenuList.map((list, index) => (
+            <>
+              {index < 3 && (
+                <MenuItem
+                  key={list.id}
+                  onClick={() => handleClick}
+                  id={list.id}
+                  title={list.title}
+                />
+              )}
+            </>
+          ))}
+        </ul>
+
+        <ul className="space-y-3 text-sm font-semibold text-gray-500">
+          {searchMenuList.map((list, index) => (
+            <>
+              {index >= 3 && index <= 6 && (
+                <MenuItem
+                  key={list.id}
+                  onClick={() => handleClick}
+                  id={list.id}
+                  title={list.title}
+                />
+              )}
+            </>
           ))}
         </ul>
       </div>
