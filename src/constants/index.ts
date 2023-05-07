@@ -28,6 +28,8 @@ import {
   GiDutchBike,
 } from "react-icons/gi";
 
+import { IconType } from "react-icons";
+
 export const searchTab = {
   left: {
     name: "hotspot",
@@ -145,60 +147,66 @@ export const exploreSearchMenuList = [
   },
 ];
 
-export const categories = [
+type Category = {
+  id: string;
+  label: string;
+  icon: IconType;
+  description: string;
+};
+
+export const categories: Category[] = [
   {
     id: "home",
     label: "home",
     icon: GiHouse,
-    description: "",
+    description: "description",
   },
   {
     id: "food",
     label: "food",
     icon: GiForkKnifeSpoon,
-    description: "",
+    description: "description",
   },
   {
     id: "stores",
     label: "stores",
     icon: GiShoppingBag,
-    description: "",
+    description: "description",
   },
   {
     id: "weather",
     label: "weather",
     icon: GiSunCloud,
-    description: "",
+    description: "description",
   },
   {
     id: "wildfire",
     label: "wildfire",
     icon: GoFlame,
-    description: "",
+    description: "description",
   },
   {
     id: "tornado",
     label: "tornado",
     icon: GiTwister,
-    description: "",
+    description: "description",
   },
   {
     id: "flood",
     label: "flood",
     icon: GiFlood,
-    description: "",
+    description: "description",
   },
   {
     id: "volcano",
     label: "volcano",
     icon: GiSmokingVolcano,
-    description: "",
+    description: "description",
   },
   {
     id: "traffic",
     label: "traffic",
     icon: GiTrafficCone,
-    description: "",
+    description: "description",
   },
-  ,
 ];

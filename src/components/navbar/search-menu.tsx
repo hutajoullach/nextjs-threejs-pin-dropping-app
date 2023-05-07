@@ -7,7 +7,7 @@ type MenuItemProps = {
   onClick: () => void;
   id: string;
   title: string;
-  icon?: IconType;
+  icon: IconType;
 };
 
 const MenuItem = ({ onClick, id, title, icon: Icon }: MenuItemProps) => {
