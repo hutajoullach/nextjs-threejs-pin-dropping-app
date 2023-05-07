@@ -2,6 +2,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import { categories } from "../../constants";
 import theme from "../../styles/styles";
+import CategoryBox from "../category-box";
 
 const Categories = () => {
   const params = useSearchParams();
@@ -13,17 +14,17 @@ const Categories = () => {
 
   return (
     <div
-      className={`${theme.h.categoriesBar} ${theme.top.categoriesBar} ${theme.bg.categoriesBarBackground}`}
+      className={`${theme.h.categoriesBar} ${theme.top.categoriesBar} ${theme.bg.categoriesBarBackground} flex justify-center`}
     >
-      <div className="flex flex-row items-center justify-between overflow-x-auto pt-4">
-        {/* {categories.map((item) => (
-        <CategoryBox 
-          key={item.label}
-          label={item.label}
-          icon={item.icon}
-          selected={category === item.label}
-        />
-      ))} */}
+      <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto">
+        {categories.map((item) => (
+          <CategoryBox
+            key={item!.label}
+            label={item!.label}
+            icon={item!.icon}
+            selected={category === item!.label}
+          />
+        ))}
       </div>
     </div>
   );

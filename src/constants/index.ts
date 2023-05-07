@@ -1,3 +1,6 @@
+import { GoFlame } from "react-icons/go";
+import { GiSunCloud, GiHouse } from "react-icons/gi";
+
 export const searchTab = {
   tabLeft: "tab left",
   tabCenter: "tab center",
@@ -20,14 +23,20 @@ export const searchMenuList = [
 export const categories = [
   {
     id: "",
-    label: "",
-    icon: "",
+    label: "home",
+    icon: GiHouse,
     description: "",
   },
   {
     id: "",
-    label: "",
-    icon: "",
+    label: "weather",
+    icon: GiSunCloud,
+    description: "",
+  },
+  {
+    id: "",
+    label: "Wildfire",
+    icon: GoFlame,
     description: "",
   },
   ,
