@@ -17,9 +17,10 @@ const MenuItem = ({ onClick, id, title }: MenuItemProps) => {
 
 type SearchMenuProps = {
   searchMenuList: { id: string; title: string; icon: string }[];
+  searchTabDesc: { name: string; title: string; desc: string };
 };
 
-const SearchMenu = ({ searchMenuList }: SearchMenuProps) => {
+const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
   const router = useRouter();
 
   const handleClick = useCallback(
@@ -31,17 +32,26 @@ const SearchMenu = ({ searchMenuList }: SearchMenuProps) => {
   );
 
   return (
-    <div className="flex cursor-pointer flex-col items-center px-8 py-4">
-      <ul className="space-y-3 text-sm font-semibold text-gray-500">
-        {searchMenuList.map((list) => (
-          <MenuItem
-            key={list.id}
-            onClick={() => handleClick}
-            id={list.id}
-            title={list.title}
-          />
-        ))}
-      </ul>
+    <div className="flex w-screen cursor-pointer flex-col px-8 py-4 sm:w-96">
+      <div className="flex flex-col justify-start gap-1 px-3 pb-4">
+        <h3 className="text-sm font-semibold text-blue-900">
+          {searchTabDesc.title}
+        </h3>
+        <span>{searchTabDesc.desc}</span>
+      </div>
+      {/* <hr /> */}
+      <div className="flex justify-center pb-1">
+        <ul className="space-y-3 text-sm font-semibold text-gray-500">
+          {searchMenuList.map((list) => (
+            <MenuItem
+              key={list.id}
+              onClick={() => handleClick}
+              id={list.id}
+              title={list.title}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

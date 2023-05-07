@@ -1,13 +1,34 @@
 import { GoFlame } from "react-icons/go";
-import { GiSunCloud, GiHouse } from "react-icons/gi";
+import {
+  GiHouse,
+  GiForkKnifeSpoon,
+  GiShoppingBag,
+  GiSunCloud,
+  GiTwister,
+  GiFlood,
+  GiSmokingVolcano,
+  GiTrafficCone,
+} from "react-icons/gi";
 
 export const searchTab = {
-  tabLeft: "tab left",
-  tabCenter: "tab center",
-  tabRight: "tab right",
+  left: {
+    name: "hotspot",
+    title: "title",
+    desc: "desc",
+  },
+  center: {
+    name: "global api",
+    title: "title",
+    desc: "desc",
+  },
+  right: {
+    name: "explore",
+    title: "title",
+    desc: "desc",
+  },
 };
 
-export const searchMenuList = [
+export const hotspotSearchMenuList = [
   {
     id: "id1",
     title: "title 1",
@@ -20,23 +41,75 @@ export const searchMenuList = [
   },
 ];
 
+export const globalApiSearchMenuList = [
+  {
+    id: "id1",
+    title: "title 1",
+    icon: "",
+  },
+];
+
+export const exploreSearchMenuList = [
+  {
+    id: "id1",
+    title: "title 1",
+    icon: "",
+  },
+];
+
 export const categories = [
   {
-    id: "",
+    id: "home",
     label: "home",
     icon: GiHouse,
     description: "",
   },
   {
-    id: "",
+    id: "food",
+    label: "food",
+    icon: GiForkKnifeSpoon,
+    description: "",
+  },
+  {
+    id: "stores",
+    label: "stores",
+    icon: GiShoppingBag,
+    description: "",
+  },
+  {
+    id: "weather",
     label: "weather",
     icon: GiSunCloud,
     description: "",
   },
   {
-    id: "",
-    label: "Wildfire",
+    id: "wildfire",
+    label: "wildfire",
     icon: GoFlame,
+    description: "",
+  },
+  {
+    id: "tornado",
+    label: "tornado",
+    icon: GiTwister,
+    description: "",
+  },
+  {
+    id: "flood",
+    label: "flood",
+    icon: GiFlood,
+    description: "",
+  },
+  {
+    id: "volcano",
+    label: "volcano",
+    icon: GiSmokingVolcano,
+    description: "",
+  },
+  {
+    id: "traffic",
+    label: "traffic",
+    icon: GiTrafficCone,
     description: "",
   },
   ,
