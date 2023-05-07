@@ -14,11 +14,18 @@ const theme = {
   m: {},
   h: {
     navbar: "h-[48px]",
+    categoriesBar: "h-[50px]",
+    // categoriesBarExpanded: "",
     content: "h-[calc(100vh-48px)]",
+    contentShrunkWithCb: "h-[calc(100vh-48px-50px)]",
+    // contentShrunkWithCbExpanded: "",
   },
   w: {},
   top: {
+    categoriesBar: "mt-[48px]",
     content: "mt-[48px]",
+    contentWithCb: "",
+    // contentWithCbExpanded: "",
   },
   rounded: {
     cardBorder: "",
@@ -44,8 +51,8 @@ const theme = {
     cardBackground: "",
     utilityCardBackground: "bg-zinc-700",
     // contactModalBackground: "bg-red-200",
-    headerBarBackground: "",
-    fieldInputBackground: "",
+    // headerBarBackground: "",
+    // fieldInputBackground: "",
   },
   btn: {
     rounded: {

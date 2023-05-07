@@ -16,3 +16,19 @@ export const searchMenuList = [
     icon: "",
   },
 ];
+
+export const categories = [
+  {
+    id: "",
+    label: "",
+    icon: "",
+    description: "",
+  },
+  {
+    id: "",
+    label: "",
+    icon: "",
+    description: "",
+  },
+  ,
+];
