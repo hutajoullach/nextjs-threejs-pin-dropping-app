@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${theme.p.x.sm} ${theme.bg.navbarBackground} ${theme.h.navbar} fixed top-0 z-20 flex w-full items-center`}
+      className={`${theme.p.x.sm} ${theme.bg.navbarBackground} ${theme.h.navbar} fixed top-0 z-20 flex w-full items-center shadow-sm`}
     >
       <div
         className={`flex w-full flex-row items-center justify-between gap-3 md:gap-0`}

@@ -15,7 +15,7 @@ const Jumbotron = () => {
   if (!data) return null;
 
   return (
-    <div className="flex h-full w-full justify-center">
+    <div className={`${theme.bg.primary} flex h-full w-full justify-center`}>
       <div>
         {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>

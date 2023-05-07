@@ -12,7 +12,9 @@ const Categories = () => {
   if (!isMainPage) return null;
 
   return (
-    <div className={`${theme.h.categoriesBar} ${theme.top.categoriesBar}`}>
+    <div
+      className={`${theme.h.categoriesBar} ${theme.top.categoriesBar} ${theme.bg.categoriesBarBackground}`}
+    >
       <div className="flex flex-row items-center justify-between overflow-x-auto pt-4">
         {/* {categories.map((item) => (
         <CategoryBox 
