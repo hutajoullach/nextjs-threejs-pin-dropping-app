@@ -8,6 +8,24 @@ import {
   GiFlood,
   GiSmokingVolcano,
   GiTrafficCone,
+  GiCrowNest,
+  GiPlesiosaurus,
+  GiPlanetConquest,
+  GiRaining,
+  GiSeaCreature,
+  GiMagnifyingGlass,
+  GiPathDistance,
+  GiShipBow,
+  GiTrireme,
+  GiBus,
+  GiCommercialAirplane,
+  GiControlTower,
+  GiCampfire,
+  GiCampingTent,
+  GiCirclingFish,
+  GiCycling,
+  GiDrakkar,
+  GiDutchBike,
 } from "react-icons/gi";
 
 export const searchTab = {
@@ -32,32 +50,32 @@ export const hotspotSearchMenuList = [
   {
     id: "id1",
     title: "title 1",
-    icon: "",
+    icon: GiCrowNest,
   },
   {
     id: "id2",
     title: "title 2",
-    icon: "",
+    icon: GiPlesiosaurus,
   },
   {
     id: "id3",
     title: "title 3",
-    icon: "",
+    icon: GiPlanetConquest,
   },
   {
     id: "id4",
     title: "title 4",
-    icon: "",
+    icon: GiRaining,
   },
   {
     id: "id5",
     title: "title 5",
-    icon: "",
+    icon: GiSeaCreature,
   },
   {
     id: "id6",
     title: "title 6",
-    icon: "",
+    icon: GiMagnifyingGlass,
   },
 ];
 
@@ -65,32 +83,32 @@ export const globalApiSearchMenuList = [
   {
     id: "id1",
     title: "title 1",
-    icon: "",
+    icon: GiPathDistance,
   },
   {
     id: "id2",
     title: "title 2",
-    icon: "",
+    icon: GiShipBow,
   },
   {
     id: "id3",
     title: "title 3",
-    icon: "",
+    icon: GiTrireme,
   },
   {
     id: "id4",
     title: "title 4",
-    icon: "",
+    icon: GiBus,
   },
   {
     id: "id5",
     title: "title 5",
-    icon: "",
+    icon: GiCommercialAirplane,
   },
   {
     id: "id6",
     title: "title 6",
-    icon: "",
+    icon: GiControlTower,
   },
 ];
 
@@ -98,32 +116,32 @@ export const exploreSearchMenuList = [
   {
     id: "id1",
     title: "title 1",
-    icon: "",
+    icon: GiCampfire,
   },
   {
     id: "id2",
     title: "title 2",
-    icon: "",
+    icon: GiCampingTent,
   },
   {
     id: "id3",
     title: "title 3",
-    icon: "",
+    icon: GiCirclingFish,
   },
   {
     id: "id4",
     title: "title 4",
-    icon: "",
+    icon: GiCycling,
   },
   {
     id: "id5",
     title: "title 5",
-    icon: "",
+    icon: GiDrakkar,
   },
   {
     id: "id6",
     title: "title 6",
-    icon: "",
+    icon: GiDutchBike,
   },
 ];
 

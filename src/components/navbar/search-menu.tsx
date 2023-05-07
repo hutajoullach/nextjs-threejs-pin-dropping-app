@@ -1,22 +1,32 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 
+import { IconType } from "react-icons";
+
 type MenuItemProps = {
   onClick: () => void;
   id: string;
   title: string;
+  icon?: IconType;
 };
 
-const MenuItem = ({ onClick, id, title }: MenuItemProps) => {
+const MenuItem = ({ onClick, id, title, icon: Icon }: MenuItemProps) => {
   return (
-    <li onClick={onClick} key={id} className="hover:text-gray-700">
-      {title}
-    </li>
+    <>
+      <li
+        onClick={onClick}
+        key={id}
+        className="flex items-center gap-8 text-base hover:text-gray-700"
+      >
+        <Icon size={21} />
+        <span>{title}</span>
+      </li>
+    </>
   );
 };
 
 type SearchMenuProps = {
-  searchMenuList: { id: string; title: string; icon: string }[];
+  searchMenuList: { id: string; title: string; icon?: IconType }[];
   searchTabDesc: { name: string; title: string; desc: string };
 };
 
@@ -32,7 +42,7 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
   );
 
   return (
-    <div className="flex w-screen cursor-pointer flex-col px-8 py-4 sm:w-96">
+    <div className="flex w-screen flex-col px-8 py-4 sm:w-96">
       <div className="flex flex-col justify-start gap-1 px-3 pb-4">
         <h3 className="text-sm font-semibold text-blue-900">
           {searchTabDesc.title}
@@ -50,6 +60,7 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
                   onClick={() => handleClick}
                   id={list.id}
                   title={list.title}
+                  icon={list.icon}
                 />
               )}
             </>
@@ -65,6 +76,7 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
                   onClick={() => handleClick}
                   id={list.id}
                   title={list.title}
+                  icon={list.icon}
                 />
               )}
             </>
