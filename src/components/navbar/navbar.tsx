@@ -6,7 +6,13 @@ import { useRouter } from "next/router";
 
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 import theme from "../../styles/styles";
-import { travelPinGlobeLogo } from "../../assets";
+import {
+  travelPinGlobeLogo,
+  travelPinGlobeBlack,
+  travelPinGlobeCircle,
+  travelPinGlobeCircleBlack,
+  travelPinGlobeSquare,
+} from "../../assets";
 import Search from "./search";
 
 import { GoOctoface, GoSignIn, GoPin } from "react-icons/go";
@@ -17,7 +23,7 @@ const Navbar = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
 
-  const logo = travelPinGlobeLogo as StaticImageData;
+  const logo = travelPinGlobeSquare as StaticImageData;
 
   return (
     <nav
@@ -30,8 +36,8 @@ const Navbar = () => {
           <Image
             src={logo}
             className="hidden cursor-pointer md:block"
-            width={140}
-            height={140}
+            width={70}
+            height={70}
             alt="logo"
           />
         </Link>
