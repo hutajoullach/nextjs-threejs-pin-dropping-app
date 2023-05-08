@@ -26,7 +26,7 @@ const MenuItem = ({ onClick, id, title, icon: Icon }: MenuItemProps) => {
 };
 
 type SearchMenuProps = {
-  searchMenuList: { id: string; title: string; icon?: IconType }[];
+  searchMenuList: { id: string; title: string; icon: IconType }[];
   searchTabDesc: { name: string; title: string; desc: string };
 };
 

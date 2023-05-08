@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import theme from "../styles/styles";
 
-import qs from "query-string";
+import qs, { ParsedQuery } from "query-string";
 import { IconType } from "react-icons";
 
 type CategoryBoxProps = {
@@ -17,13 +17,24 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
   const params = useSearchParams();
 
   const handleClick = useCallback(() => {
-    let currentQuery = {};
+    // let currentQuery = {};
+
+    let currentQuery: Record<string, string> = {};
+
+    // if (params) {
+    //   currentQuery = qs.parse(params.toString());
+    // }
 
     if (params) {
-      currentQuery = qs.parse(params.toString());
+      currentQuery = qs.parse(params.toString()) as Record<string, string>;
     }
 
-    const updatedQuery: any = {
+    // const updatedQuery: any = {
+    //   ...currentQuery,
+    //   category: label,
+    // };
+
+    const updatedQuery: Record<string, string> = {
       ...currentQuery,
       category: label,
     };

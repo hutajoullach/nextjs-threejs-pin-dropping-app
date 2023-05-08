@@ -19,10 +19,10 @@ const Categories = () => {
       <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto">
         {categories.map((item) => (
           <CategoryBox
-            key={item!.label}
-            label={item!.label}
-            icon={item!.icon}
-            selected={category === item!.label}
+            key={item.label}
+            label={item.label}
+            icon={item.icon}
+            selected={category === item.label}
           />
         ))}
       </div>
