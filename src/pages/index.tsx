@@ -16,10 +16,11 @@ const Jumbotron = () => {
 
   return (
     <div className={`${theme.bg.primary} flex h-full w-full justify-center`}>
-      <div>
-        {data.map(({ geolocationPin: pin, user }) => (
+      <div className="flex items-center justify-center">
+        {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
-        ))}
+        ))} */}
+        scaffolding... come back later 🚧🏗️👷‍♂️
       </div>
     </div>
   );

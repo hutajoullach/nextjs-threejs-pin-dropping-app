@@ -17,22 +17,11 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
   const params = useSearchParams();
 
   const handleClick = useCallback(() => {
-    // let currentQuery = {};
-
     let currentQuery: Record<string, string> = {};
-
-    // if (params) {
-    //   currentQuery = qs.parse(params.toString());
-    // }
 
     if (params) {
       currentQuery = qs.parse(params.toString()) as Record<string, string>;
     }
-
-    // const updatedQuery: any = {
-    //   ...currentQuery,
-    //   category: label,
-    // };
 
     const updatedQuery: Record<string, string> = {
       ...currentQuery,
