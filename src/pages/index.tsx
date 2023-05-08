@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import theme from "../styles/styles";
 
 import { PageLayout } from "~/components/layout";
+import Globe from "~/components/globe";
 
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
@@ -20,7 +21,8 @@ const Jumbotron = () => {
         {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
         ))} */}
-        scaffolding... come back later 🚧🏗️👷‍♂️
+        {/* <Globe /> */}
+        {/* scaffolding... come back later 🚧🏗️👷‍♂️ */}
       </div>
     </div>
   );
