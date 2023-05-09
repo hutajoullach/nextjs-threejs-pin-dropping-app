@@ -21,7 +21,7 @@ const Jumbotron = () => {
         {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
         ))} */}
-        {/* <Globe /> */}
+        <Globe />
         {/* scaffolding... come back later 🚧🏗️👷‍♂️ */}
       </div>
     </div>
