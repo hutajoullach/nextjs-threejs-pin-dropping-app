@@ -96,7 +96,7 @@ const Globe = () => {
     }
   }, [globeData]);
 
-  // let lookup: any[] = [];
+  let lookup: any[] = [];
 
   if (loading) return <div>Loading...</div>;
 
