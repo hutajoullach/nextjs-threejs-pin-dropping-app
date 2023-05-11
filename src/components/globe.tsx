@@ -7,7 +7,6 @@ import GlobeGl, { GlobeMethods, GlobeProps } from "react-globe.gl";
 import number from "numeral";
 import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
-import type { GeoJSON } from "geojson";
 
 import * as THREE from "three";
 
