@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 
 import correctedData from "../constants/correctedData.json";
 import { LoadingSpinner } from "./loading";
 
-import GlobeGl, { GlobeMethods, GlobeProps } from "react-globe.gl";
+// import GlobeGl, { GlobeMethods, GlobeProps } from "react-globe.gl";
+
 import number from "numeral";
 import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
 
 import * as THREE from "three";
+
+import { GlobeMethods, GlobeProps } from "react-globe.gl";
+const GlobeGl = dynamic(
+  () => {
+    return import("react-globe.gl");
+  },
+  { ssr: false }
+);
 
 const Globe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
