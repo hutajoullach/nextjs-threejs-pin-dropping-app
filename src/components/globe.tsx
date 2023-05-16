@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 
+import theme from "../styles/styles";
 import correctedData from "../constants/correctedData.json";
 import { LoadingSpinner } from "./loading";
-
-// import GlobeGl, { GlobeMethods, GlobeProps } from "react-globe.gl";
 
 import number from "numeral";
 import chroma from "chroma-js";
@@ -124,7 +123,7 @@ const Globe = () => {
   }
 
   return (
-    <div>
+    <div className={``}>
       {!loading && (
         <Suspense fallback={<LoadingSpinner />}>
           <GlobeGl
@@ -132,6 +131,7 @@ const Globe = () => {
             backgroundColor="#F6F7FB"
             globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
             backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+            height={600}
             showAtmosphere={true}
             polygonsData={globeData.countries.features}
             polygonStrokeColor={() => "#A4B0BB"}
