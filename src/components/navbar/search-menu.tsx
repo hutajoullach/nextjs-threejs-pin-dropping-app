@@ -15,8 +15,8 @@ const MenuItem = ({ onClick, id, title, icon: Icon }: MenuItemProps) => {
     <>
       <li
         onClick={onClick}
-        key={id}
         className="flex items-center gap-8 text-base hover:text-gray-700"
+        key={id}
       >
         <Icon size={21} />
         <span>{title}</span>

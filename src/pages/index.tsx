@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import theme from "../styles/styles";
 
 import { PageLayout } from "~/components/layout";
-import Globe from "~/components/globe";
+import Globe from "~/components/globe/globe";
 
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 

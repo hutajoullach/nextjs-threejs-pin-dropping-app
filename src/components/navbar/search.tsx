@@ -39,6 +39,7 @@ const Search = () => {
           onMouseOver={() => toggleSearchTab(searchTab.left.name, "enter")}
           onMouseLeave={() => toggleSearchTab(searchTab.left.name, "leave")}
           className="text-sm text-gray-600"
+          key={searchTab.left.name}
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-purple-600 to-blue-500 p-0.5 hover:text-white group-hover:from-purple-600 group-hover:to-blue-500">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">
@@ -66,6 +67,7 @@ const Search = () => {
           onMouseOver={() => toggleSearchTab(searchTab.center.name, "enter")}
           onMouseLeave={() => toggleSearchTab(searchTab.center.name, "leave")}
           className="text-sm text-gray-600"
+          key={searchTab.center.name}
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-green-400 to-blue-600 p-0.5 hover:text-white group-hover:from-green-400 group-hover:to-blue-600">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">
@@ -93,6 +95,7 @@ const Search = () => {
           onMouseOver={() => toggleSearchTab(searchTab.right.name, "enter")}
           onMouseLeave={() => toggleSearchTab(searchTab.right.name, "leave")}
           className="text-sm text-gray-600"
+          key={searchTab.right.name}
         >
           <div className="group flex flex-row rounded-full bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 hover:text-white group-hover:from-teal-300 group-hover:to-lime-300">
             <div className="flex flex-row gap-1 rounded-full bg-white px-2 py-1 transition-all duration-75 ease-in group-hover:bg-opacity-0">

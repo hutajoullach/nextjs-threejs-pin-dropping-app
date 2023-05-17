@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import theme from "../styles/styles";
-import worldHappinessScoreData from "../constants/worldHappinessScoreData.json";
-import { LoadingSpinner } from "./loading";
+import theme from "../../styles/styles";
+import worldHappinessScoreData from "../../constants/worldHappinessScoreData.json";
+import { LoadingSpinner } from "../loading";
+
+import {
+  GeoJsonCollection,
+  Feature,
+  Properties,
+} from "../../types/geo-json-collection";
+import { Lookup } from "../../types/lookup";
+import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
 
 import number from "numeral";
 import chroma from "chroma-js";
@@ -258,62 +266,3 @@ const Globe = () => {
 };
 
 export default Globe;
-
-// GeoJsonCollection interface
-export interface GeoJsonCollection<T> {
-  type: string;
-  features: Feature<T>[];
-  bbox: number[];
-  [Symbol.iterator](): IterableIterator<Feature<T>>;
-}
-
-export interface Feature<T> {
-  type: string;
-  properties: Properties<T>;
-  bbox: number[];
-  geometry: Geometry;
-  [Symbol.iterator](): IterableIterator<T>;
-}
-
-export interface Properties<T> {
-  ADMIN?: string;
-  POP_EST?: number;
-  type?: string;
-  latitude?: T;
-  longitude?: T;
-}
-
-export interface Geometry {
-  type: string;
-  coordinates: any[];
-}
-
-// WorldHappinessScoreData interface
-export interface WorldHappinessScoreData {
-  countryName: string;
-  region: string;
-  happinessRank: string;
-  happinessScore: string;
-  standardError: string;
-  economyGDPperCapita: string;
-  family: string;
-  healthLifeExpectancy: string;
-  freedom: string;
-  trustGovernmentCorruption: string;
-  generosity: string;
-  dystopiaResidual: string;
-  year: string;
-  geoData?: GeoData;
-}
-
-export interface GeoData {
-  countryName: string;
-  capitalName: string;
-  capitalLat: string;
-  capitalLong: string;
-}
-
-// Lookup interface
-export interface Lookup {
-  [key: string]: WorldHappinessScoreData;
-}
