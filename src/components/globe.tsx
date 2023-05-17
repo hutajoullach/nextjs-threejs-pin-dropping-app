@@ -136,6 +136,66 @@ const Globe = () => {
       .hex();
   };
 
+  const polygonLabel = (obj: object) => {
+    const d = obj as Feature<string>;
+
+    if (lookup === undefined || lookup.length == 0) {
+      (data as WorldHappinessScoreData[]).forEach((d) => {
+        const countryData = { [d.countryName]: d };
+        lookup.push(countryData);
+      });
+    }
+
+    let lookedUpCountryData;
+    for (const object of lookup) {
+      for (const key in object) {
+        if (key === d?.properties?.ADMIN) {
+          lookedUpCountryData = object[key];
+        }
+      }
+    }
+
+    return `
+            <div style="position: relative; z-index: 4; min-width: 108px; padding: 10px 14px;background: #fff;border: 1px solid #E5E5E5;box-shadow: 0px 2px 20px rgba(32, 32, 35, 0.13);border-radius: 4px; text-align: left;">
+            <div style="font-family: 'Open sans', sans-serif; margin-bottom:10px;font-weight: 600;font-size: 13px;line-height: 16px;text-transform: capitalize;color: #2D3032;">
+                ${d?.properties?.ADMIN}
+            </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Visitors: ${number(d?.properties?.POP_EST).format("0a")}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Happiness Score: ${lookedUpCountryData?.happinessScore}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Happiness Rank: ${lookedUpCountryData?.happinessRank}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Life Expectancy: ${
+                      lookedUpCountryData?.healthLifeExpectancy
+                    }
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Generosity: ${lookedUpCountryData?.generosity}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    Freedom: ${lookedUpCountryData?.freedom}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    TrustGovernmentCorruption: ${
+                      lookedUpCountryData?.trustGovernmentCorruption
+                    }
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    DystopiaResidual: ${lookedUpCountryData?.dystopiaResidual}
+                </div>
+                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
+                    DataYear: ${lookedUpCountryData?.year}
+                </div>
+  
+            </div>
+        `;
+  };
+
   if (loading) return <div>Loading...</div>;
 
   if (
@@ -170,67 +230,7 @@ const Globe = () => {
             polygonSideColor={() => "rgba(222,225,228,.6)"}
             onPolygonHover={setHoverD}
             polygonCapColor={polygonCapColor}
-            // polygonLabel={function (d: Properties<string>) {
-            //   (data as WorldHappinessScoreData[]).forEach((d) => {
-            //     const countryData = { [d.countryName]: d };
-            //     // lookup.push(countryData);
-            //     // lookup.map((e) => {
-            //     //   if (!e.hasOwnProperty(d.countryName)) {
-            //     //     lookup.push(countryData);
-            //     //   }
-            //     // });
-            //   });
-
-            //   const lookedUpCountryData = lookup.find(
-            //     (e) => e?.key === d?.ADMIN
-            //   )?.value;
-
-            //   return `
-            //           <div style="position: relative; z-index: 4; min-width: 108px; padding: 10px 14px;background: #fff;border: 1px solid #E5E5E5;box-shadow: 0px 2px 20px rgba(32, 32, 35, 0.13);border-radius: 4px; text-align: left;">
-            //           <div style="font-family: 'Open sans', sans-serif; margin-bottom:10px;font-weight: 600;font-size: 13px;line-height: 16px;text-transform: capitalize;color: #2D3032;">
-            //               ${d.ADMIN}
-            //           </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Visitors: ${number(d.POP_EST).format("0a")}
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Happiness Score: ${
-            //                     lookedUpCountryData?.happinessScore
-            //                   }
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Happiness Rank: ${
-            //                     lookedUpCountryData?.happinessRank
-            //                   }
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Life Expectancy: ${
-            //                     lookedUpCountryData?.healthLifeExpectancy
-            //                   }
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Generosity: ${lookedUpCountryData?.generosity}
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   Freedom: ${lookedUpCountryData?.freedom}
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   TrustGovernmentCorruption: ${
-            //                     lookedUpCountryData?.trustGovernmentCorruption
-            //                   }
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   DystopiaResidual: ${
-            //                     lookedUpCountryData?.dystopiaResidual
-            //                   }
-            //               </div>
-            //               <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-            //                   DataYear: ${lookedUpCountryData?.year}
-            //               </div>
-
-            //           </div>
-            //       `;
-            // }}
+            polygonLabel={polygonLabel}
             labelsData={globeData.points.features}
             labelLat={(d: object) =>
               (d as Feature<number>).properties.latitude || 0
