@@ -12,11 +12,7 @@ export const PageLayout = (props: PropsWithChildren) => {
         <Navbar />
         <Categories />
         <GeolocationPinModal />
-        <div
-          className={`${theme.h.contentShrunkWithCb} ${theme.top.contentWithCb}`}
-        >
-          {props.children}
-        </div>
+        <div className={`${theme.h.contentShrunkWithCb}`}>{props.children}</div>
       </div>
     </main>
   );

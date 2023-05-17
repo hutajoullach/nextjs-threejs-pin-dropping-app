@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 
 import theme from "../styles/styles";
-import correctedData from "../constants/correctedData.json";
+import worldHappinessScoreData from "../constants/worldHappinessScoreData.json";
 import { LoadingSpinner } from "./loading";
 
 import number from "numeral";
@@ -43,7 +43,9 @@ const Globe = () => {
     },
   });
 
-  const [data, setData] = useState(correctedData);
+  const [data, setData] = useState<WorldHappinessScoreData[]>(
+    worldHappinessScoreData
+  );
 
   const [loading, setLoading] = useState(true);
   const colorScale = chroma.scale(["red", "yellow"]);
@@ -52,7 +54,7 @@ const Globe = () => {
     const fetchData = () => {
       setLoading(true);
 
-      const sortedData = correctedData.sort((a, b) =>
+      const sortedData = worldHappinessScoreData.sort((a, b) =>
         a.countryName.localeCompare(b.countryName)
       );
       setData(sortedData);
@@ -105,7 +107,22 @@ const Globe = () => {
     }
   }, [globeData]);
 
-  // let lookup: any[] = [];
+  let lookup: Lookup[] = [];
+
+  const polygonCapColor = (d: Properties<string>) => {
+    (data as WorldHappinessScoreData[]).forEach((d) => {
+      const countryData = { [d.countryName]: d };
+      lookup.push(countryData);
+    });
+
+    const lookedUpCountryData = lookup.find((e) => e?.key === d?.ADMIN)?.value;
+
+    if (typeof lookedUpCountryData === "undefined") return "";
+
+    return colorScale(parseInt(lookedUpCountryData?.happinessScore) * 0.1)
+      .brighten(0.5)
+      .hex();
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -123,7 +140,7 @@ const Globe = () => {
   }
 
   return (
-    <div className={``}>
+    <div className={`${theme.h.contentShrunkWithCb} flex`}>
       {!loading && (
         <Suspense fallback={<LoadingSpinner />}>
           <GlobeGl
@@ -131,20 +148,16 @@ const Globe = () => {
             backgroundColor="#F6F7FB"
             globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
             backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-            height={600}
+            // update canvas width on screen width change
+            // width={1000}
+            // fix height to relative value
+            // height={600}
             showAtmosphere={true}
             polygonsData={globeData.countries.features}
             polygonStrokeColor={() => "#A4B0BB"}
             polygonSideColor={() => "rgba(222,225,228,.6)"}
             onPolygonHover={setHoverD}
-            // polygonCapColor={function ({ properties: d }: any) {
-            //   for (let i = 0, len = data.length; i < len; i++) {
-            //     lookup[data?[i].countryName] = data[i];
-            //   }
-            //   return colorScale(lookup[d.ADMIN]?.happinessScore * 0.1)
-            //     .brighten(0.5)
-            //     .hex();
-            // }}
+            polygonCapColor={polygonCapColor}
             // polygonLabel={function ({ properties: d }) {
             //   for (let i = 0, len = data.length; i < len; i++) {
             //     lookup[data[i].countryName] = data[i];
@@ -220,6 +233,7 @@ const Globe = () => {
 
 export default Globe;
 
+// GeoJsonCollection interface
 export interface GeoJsonCollection<T> {
   type: string;
   features: Feature<T>[];
@@ -246,4 +260,34 @@ export interface Properties<T> {
 export interface Geometry {
   type: string;
   coordinates: any[];
+}
+
+// WorldHappinessScoreData interface
+export interface WorldHappinessScoreData {
+  countryName: string;
+  region: string;
+  happinessRank: string;
+  happinessScore: string;
+  standardError: string;
+  economyGDPperCapita: string;
+  family: string;
+  healthLifeExpectancy: string;
+  freedom: string;
+  trustGovernmentCorruption: string;
+  generosity: string;
+  dystopiaResidual: string;
+  year: string;
+  geoData?: GeoData;
+}
+
+export interface GeoData {
+  countryName: string;
+  capitalName: string;
+  capitalLat: string;
+  capitalLong: string;
+}
+
+// Lookup interface
+export interface Lookup {
+  [key: string]: WorldHappinessScoreData;
 }
