@@ -13,7 +13,7 @@ import Input from "../inputs/input";
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -75,6 +75,9 @@ const GeolocationPinModal = () => {
         errors={errors}
         required
       />
+      {/* <MapContainer>
+        <Marker position={[ipLocCoords?.lat, ipLocCoords?.lon]}></Marker>
+      </MapContainer> */}
     </div>
   );
 
