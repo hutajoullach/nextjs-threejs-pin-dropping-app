@@ -17,8 +17,10 @@ const GeolocationPinModal = () => {
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { browserLocStatus, browserLocData } = useBrowserLocation();
+  const { browserLocStatus, browserLocCoords, browserLocData } =
+    useBrowserLocation();
   // console.log(browserLocStatus);
+  // console.log(browserLocCoords);
   // console.log(browserLocData);
 
   // console.log(user);
