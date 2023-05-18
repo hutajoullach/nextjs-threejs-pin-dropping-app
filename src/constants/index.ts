@@ -1,6 +1,7 @@
 import { GoFlame } from "react-icons/go";
 import {
   GiHouse,
+  GiHearts,
   GiForkKnifeSpoon,
   GiShoppingBag,
   GiSunCloud,
@@ -159,6 +160,12 @@ export const categories: Category[] = [
     id: "home",
     label: "home",
     icon: GiHouse,
+    description: "description",
+  },
+  {
+    id: "health",
+    label: "health",
+    icon: GiHearts,
     description: "description",
   },
   {

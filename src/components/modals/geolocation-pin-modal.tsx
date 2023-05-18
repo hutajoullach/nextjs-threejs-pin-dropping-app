@@ -1,7 +1,8 @@
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useCallback, useState } from "react";
 
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
+import useBrowserLocation from "../../hooks/use-browser-location";
 
 import Modal from "./modal";
 import Button from "../button";
@@ -15,6 +16,10 @@ const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
+
+  const { browserLocStatus, browserLocData } = useBrowserLocation();
+  // console.log(browserLocStatus);
+  // console.log(browserLocData);
 
   // console.log(user);
 

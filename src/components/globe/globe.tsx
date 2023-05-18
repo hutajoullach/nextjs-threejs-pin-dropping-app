@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, useState, useMemo, Suspense } from "react";
 import dynamic from "next/dynamic";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import theme from "../../styles/styles";
+import { categories } from "../../constants";
 import worldHappinessScoreData from "../../constants/worldHappinessScoreData.json";
 import { LoadingSpinner } from "../loading";
 import useLookup from "../../store/lookupStore";
@@ -29,15 +31,30 @@ const GlobeGl = dynamic(
   { ssr: false }
 );
 
+import useBrowserLocation from "../../hooks/use-browser-location";
+
 const Globe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
 
   const sceneRef = useRef<THREE.Scene | null>(null);
 
+  const params = useSearchParams();
+  const category = params?.get("category");
+  const pathname = usePathname();
+  const isHomeRoute = pathname === "/";
+
+  // const { browserLocStatus, browserLocData } = useBrowserLocation();
+  // // const { browserLocStatus, browserLocData } = useMemo(
+  // //   () => useBrowserLocation(),
+  // //   []
+  // // );
+  // console.log(browserLocStatus);
+  // console.log(browserLocData);
+
   // need to expedite render with fallback state
-  const lookup = useLookup();
-  // let lookup: Lookup[] = [];
+  // const lookup = useLookup();
+  let lookup: Lookup[] = [];
 
   interface GlobeData {
     countries: {
@@ -124,19 +141,17 @@ const Globe = () => {
   const polygonCapColor = (obj: object) => {
     const d = obj as Feature<string>;
 
-    // need to expedite render with fallback state
-    // if (lookup === undefined || lookup.length == 0) {
-    if (lookup.lookups === undefined || lookup.lookups.length == 0) {
+    if (category !== "health") return "";
+
+    if (lookup === undefined || lookup.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
-        // lookup.push(countryData);
-        lookup.addLookup(countryData);
+        lookup.push(countryData);
       });
     }
 
     let lookedUpCountryData;
-    // for (const object of lookup) {
-    for (const object of lookup.lookups) {
+    for (const object of lookup) {
       for (const key in object) {
         if (key === d?.properties?.ADMIN) {
           lookedUpCountryData = object[key];
@@ -154,19 +169,15 @@ const Globe = () => {
   const polygonLabel = (obj: object) => {
     const d = obj as Feature<string>;
 
-    // need to expedite render with fallback state
-    // if (lookup === undefined || lookup.length == 0) {
-    if (lookup.lookups === undefined || lookup.lookups.length == 0) {
+    if (lookup === undefined || lookup.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
-        // lookup.push(countryData);
-        lookup.addLookup(countryData);
+        lookup.push(countryData);
       });
     }
 
     let lookedUpCountryData;
-    // for (const object of lookup) {
-    for (const object of lookup.lookups) {
+    for (const object of lookup) {
       for (const key in object) {
         if (key === d?.properties?.ADMIN) {
           lookedUpCountryData = object[key];
@@ -215,6 +226,19 @@ const Globe = () => {
         `;
   };
 
+  if (
+    category === "home" ||
+    category === "food" ||
+    category === "stores" ||
+    category === "weather" ||
+    category === "wildfire" ||
+    category === "tornado" ||
+    category === "flood" ||
+    category === "volcano" ||
+    category === "traffic"
+  )
+    return <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
+
   if (loading) return <div>Loading...</div>;
 
   if (
@@ -229,6 +253,17 @@ const Globe = () => {
   ) {
     return <div>Fetching data</div>;
   }
+
+  // return (
+  //   <button
+  //     onClick={() => {
+  //       const { browserLocStatus } = useBrowserLocation();
+  //       console.log(browserLocStatus);
+  //     }}
+  //   >
+  //     hey
+  //   </button>
+  // );
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
