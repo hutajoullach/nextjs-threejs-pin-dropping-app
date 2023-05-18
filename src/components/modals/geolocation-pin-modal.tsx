@@ -3,6 +3,7 @@ import { useUser } from "@clerk/nextjs";
 
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 import useBrowserLocation from "../../hooks/use-browser-location";
+import useIPLocation from "../../hooks/use-ip-location";
 
 import Modal from "./modal";
 import Button from "../button";
@@ -11,6 +12,19 @@ import Input from "../inputs/input";
 
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+// import L from "leaflet";
+
+import "leaflet/dist/leaflet.css";
+// import osm from "./osm-providers";
+
+// const markerIcon = new L.Icon({
+//   iconUrl: require("resources/images/marker.png"),
+//   iconSize: [40, 40],
+//   iconAnchor: [17, 46], //[left/right, top/bottom]
+//   popupAnchor: [0, -46], //[left/right, top/bottom]
+// });
 
 const GeolocationPinModal = () => {
   const { user } = useUser();
@@ -22,6 +36,10 @@ const GeolocationPinModal = () => {
   // console.log(browserLocStatus);
   // console.log(browserLocCoords);
   // console.log(browserLocData);
+
+  const { ipLocStatus, ipLocCoords } = useIPLocation();
+  // console.log(ipLocStatus);
+  // console.log(ipLocCoords);
 
   // console.log(user);
 
