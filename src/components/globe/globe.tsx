@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import theme from "../../styles/styles";
 import worldHappinessScoreData from "../../constants/worldHappinessScoreData.json";
 import { LoadingSpinner } from "../loading";
+import useLookup from "../../store/lookupStore";
 
 import {
   GeoJsonCollection,
@@ -33,6 +34,10 @@ const Globe = () => {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
 
   const sceneRef = useRef<THREE.Scene | null>(null);
+
+  // need to expedite render with fallback state
+  const lookup = useLookup();
+  // let lookup: Lookup[] = [];
 
   interface GlobeData {
     countries: {
@@ -116,20 +121,22 @@ const Globe = () => {
     }
   }, [globeData]);
 
-  let lookup: Lookup[] = [];
-
   const polygonCapColor = (obj: object) => {
     const d = obj as Feature<string>;
 
-    if (lookup === undefined || lookup.length == 0) {
+    // need to expedite render with fallback state
+    // if (lookup === undefined || lookup.length == 0) {
+    if (lookup.lookups === undefined || lookup.lookups.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
-        lookup.push(countryData);
+        // lookup.push(countryData);
+        lookup.addLookup(countryData);
       });
     }
 
     let lookedUpCountryData;
-    for (const object of lookup) {
+    // for (const object of lookup) {
+    for (const object of lookup.lookups) {
       for (const key in object) {
         if (key === d?.properties?.ADMIN) {
           lookedUpCountryData = object[key];
@@ -147,15 +154,19 @@ const Globe = () => {
   const polygonLabel = (obj: object) => {
     const d = obj as Feature<string>;
 
-    if (lookup === undefined || lookup.length == 0) {
+    // need to expedite render with fallback state
+    // if (lookup === undefined || lookup.length == 0) {
+    if (lookup.lookups === undefined || lookup.lookups.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
-        lookup.push(countryData);
+        // lookup.push(countryData);
+        lookup.addLookup(countryData);
       });
     }
 
     let lookedUpCountryData;
-    for (const object of lookup) {
+    // for (const object of lookup) {
+    for (const object of lookup.lookups) {
       for (const key in object) {
         if (key === d?.properties?.ADMIN) {
           lookedUpCountryData = object[key];
