@@ -15,10 +15,17 @@ import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 const BasicMap = dynamic(() => import("../leaflet/basic-map"), { ssr: false });
 
+enum STEPS {
+  GEOLOCATION = 0,
+  MAPICON = 1,
+  MESSAGE = 2,
+}
+
 const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(STEPS.GEOLOCATION);
 
   const [userLocCoords, setUserLocCoords] = useState({
     lat: -77.508333,
@@ -78,26 +85,67 @@ const GeolocationPinModal = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       lat: "",
       lon: "",
-      address: "",
+      emoji: "",
+      svgicon: "",
+      message: "",
     },
   });
 
+  // const lat = watch("lat");
+  // const lon = watch("lon");
+  const emoji = watch("emoji");
+  // const svgicon = watch("svgicon");
+  const message = watch("message");
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
+
+  const onBack = () => {
+    setStep((value) => value - 1);
+  };
+
+  const onNext = () => {
+    setStep((value) => value + 1);
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (!user) return null;
+    // if (!user) return null;
+
+    if (step !== STEPS.MESSAGE) return onNext();
 
     setIsLoading(true);
   };
 
-  const bodyContent = (
+  const actionLabel = useMemo(() => {
+    if (step === STEPS.MESSAGE) return "Drop Pin";
+
+    return "Next";
+  }, [step]);
+
+  const secondaryActionLabel = useMemo(() => {
+    if (step === STEPS.GEOLOCATION) return undefined;
+
+    return "Back";
+  }, [step]);
+
+  let bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
         title="Add Your GeolocationPin"
-        subtitle="drop your pin on a map!"
+        subtitle="drop your pin on globe!"
       />
       <BasicMap userLocCoords={userLocCoords} />
 
@@ -134,27 +182,54 @@ const GeolocationPinModal = () => {
     </div>
   );
 
-  const footerContent = (
-    <>
-      {/* <div className="mt-3 flex flex-col gap-4">
-        <div></div>
-      </div> */}
-    </>
-  );
+  if (step === STEPS.MAPICON) {
+    bodyContent = (
+      <div className="flex flex-col gap-4">
+        <Heading
+          title="Pick Your Map Icon"
+          subtitle="choose map icon you want to use!"
+        />
+        <Input
+          id="emoji"
+          label="Emoji"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          // required
+        />
+
+        {/* svg icon picker */}
+      </div>
+    );
+  }
+
+  if (step === STEPS.MESSAGE) {
+    bodyContent = (
+      <div className="flex flex-col gap-4">
+        <Heading
+          title="Add Your Message"
+          subtitle="give some message to your map icon!"
+        />
+
+        {/* message section */}
+      </div>
+    );
+  }
 
   return (
     <Modal
       disabled={isLoading}
       isOpen={geolocationPinModal.isOpen}
       title="GeolocationPin"
-      actionLabel="Drop Pin"
+      actionLabel={actionLabel}
+      secondaryActionLabel={secondaryActionLabel}
+      secondaryAction={step === STEPS.GEOLOCATION ? undefined : onBack}
       onClose={geolocationPinModal.onClose}
-      // onSubmit={handleSubmit(onSubmit)}
-      onSubmit={() => {
-        console.log("hey");
-      }}
+      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={() => {
+      //   console.log("hey");
+      // }}
       body={bodyContent}
-      footer={footerContent}
     />
   );
 };
