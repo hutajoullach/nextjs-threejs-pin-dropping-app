@@ -21,8 +21,8 @@ const GeolocationPinModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [userLocCoords, setUserLocCoords] = useState({
-    lat: 35.6895,
-    lng: 139.69171,
+    lat: -77.508333,
+    lng: 164.754167,
   });
 
   const { ipLocStatus, ipLocCoords } = useIPLocation();
@@ -33,14 +33,26 @@ const GeolocationPinModal = () => {
     if (
       ipLocStatus === "success" &&
       ipLocCoords?.lat !== undefined &&
-      ipLocCoords?.lon !== undefined
+      ipLocCoords?.lon !== undefined &&
+      geolocationPinModal.isOpen
     ) {
+      setTimeout(() => {
+        setUserLocCoords({
+          lat: ipLocCoords?.lat,
+          lng: ipLocCoords?.lon,
+        });
+      }, 500);
+    }
+  }, [ipLocStatus, ipLocCoords, geolocationPinModal.isOpen]);
+
+  useEffect(() => {
+    if (!geolocationPinModal.isOpen) {
       setUserLocCoords({
-        lat: ipLocCoords?.lat,
-        lng: ipLocCoords?.lon,
+        lat: -77.508333,
+        lng: 164.754167,
       });
     }
-  }, [ipLocStatus, ipLocCoords]);
+  }, [geolocationPinModal.isOpen]);
 
   const { browserLocStatus, browserLocCoords, browserLocData } =
     useBrowserLocation();
