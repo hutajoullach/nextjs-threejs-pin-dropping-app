@@ -44,14 +44,6 @@ const Globe = () => {
   const pathname = usePathname();
   const isHomeRoute = pathname === "/";
 
-  // const { browserLocStatus, browserLocData } = useBrowserLocation();
-  // // const { browserLocStatus, browserLocData } = useMemo(
-  // //   () => useBrowserLocation(),
-  // //   []
-  // // );
-  // console.log(browserLocStatus);
-  // console.log(browserLocData);
-
   // need to expedite render with fallback state
   // const lookup = useLookup();
   let lookup: Lookup[] = [];
@@ -253,17 +245,6 @@ const Globe = () => {
   ) {
     return <div>Fetching data</div>;
   }
-
-  // return (
-  //   <button
-  //     onClick={() => {
-  //       const { browserLocStatus } = useBrowserLocation();
-  //       console.log(browserLocStatus);
-  //     }}
-  //   >
-  //     hey
-  //   </button>
-  // );
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>

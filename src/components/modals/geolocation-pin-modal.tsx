@@ -12,34 +12,35 @@ import Heading from "../heading";
 import Input from "../inputs/input";
 
 import { toast } from "react-hot-toast";
-import BasicMap from "../leaflet/basic-map";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-
-// import L from "leaflet";
-
-// import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-// import markerIcon from "leaflet/dist/images/marker-icon.png";
-// import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
-// // @ts-ignore
-// delete L.Icon.Default.prototype._getIconUrl;
-// L.Icon.Default.mergeOptions({
-//   iconUrl: markerIcon.src,
-//   iconRetinaUrl: markerIcon2x.src,
-//   shadowUrl: markerShadow.src,
-// });
-
-// const markerIcon = new L.Icon({
-//   iconUrl: require("resources/images/marker.png"),
-//   iconSize: [40, 40],
-//   iconAnchor: [17, 46], //[left/right, top/bottom]
-//   popupAnchor: [0, -46], //[left/right, top/bottom]
-// });
+const BasicMap = dynamic(() => import("../leaflet/basic-map"), { ssr: false });
 
 const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [userLocCoords, setUserLocCoords] = useState({
+    lat: 35.6895,
+    lng: 139.69171,
+  });
+
+  const { ipLocStatus, ipLocCoords } = useIPLocation();
+  // console.log(ipLocStatus);
+  // console.log(ipLocCoords);
+
+  useEffect(() => {
+    if (
+      ipLocStatus === "success" &&
+      ipLocCoords?.lat !== undefined &&
+      ipLocCoords?.lon !== undefined
+    ) {
+      setUserLocCoords({
+        lat: ipLocCoords?.lat,
+        lng: ipLocCoords?.lon,
+      });
+    }
+  }, [ipLocStatus, ipLocCoords]);
 
   const { browserLocStatus, browserLocCoords, browserLocData } =
     useBrowserLocation();
@@ -47,9 +48,18 @@ const GeolocationPinModal = () => {
   // console.log(browserLocCoords);
   // console.log(browserLocData);
 
-  const { ipLocStatus, ipLocCoords } = useIPLocation();
-  // console.log(ipLocStatus);
-  // console.log(ipLocCoords);
+  const getBrowserLocation = () => {
+    if (
+      browserLocStatus === "success" &&
+      browserLocCoords?.coords.latitude !== undefined &&
+      browserLocCoords?.coords.longitude !== undefined
+    ) {
+      setUserLocCoords({
+        lat: browserLocCoords?.coords.latitude,
+        lng: browserLocCoords?.coords.longitude,
+      });
+    }
+  };
 
   // console.log(user);
 
@@ -77,22 +87,32 @@ const GeolocationPinModal = () => {
         title="Add Your GeolocationPin"
         subtitle="drop your pin on a map!"
       />
-      <Input
+      <BasicMap userLocCoords={userLocCoords} />
+
+      {/* <Input
         id="address"
         label="Address"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
+      /> */}
+
+      <Button
+        onClick={getBrowserLocation}
+        label="Use Browser Location"
+        small
+        outline
       />
-      <BasicMap />
     </div>
   );
 
   const footerContent = (
-    <div className="mt-3 flex flex-col gap-4">
-      <div></div>
-    </div>
+    <>
+      {/* <div className="mt-3 flex flex-col gap-4">
+        <div></div>
+      </div> */}
+    </>
   );
 
   return (

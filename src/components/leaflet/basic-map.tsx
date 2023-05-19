@@ -1,19 +1,52 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import osm from "./osm-providers";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
-const BasicMap = () => {
-  const [center, setCenter] = useState({ lat: 13.084622, lng: 80.248357 });
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+
+type LocationMarkerProps = {
+  userLocCoords: { lat: number; lng: number };
+};
+
+const LocationMarker = ({ userLocCoords }: LocationMarkerProps) => {
+  const [bbox, setBbox] = useState([]);
+  const map = useMap();
+
+  useEffect(() => {
+    map.flyTo([userLocCoords.lat, userLocCoords.lng], map.getZoom());
+  }, [userLocCoords]);
+
+  return (
+    <Marker position={[userLocCoords.lat, userLocCoords.lng]}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+};
+
+type BasicMapProps = {
+  userLocCoords: { lat: number; lng: number };
+};
+
+const BasicMap = ({ userLocCoords }: BasicMapProps) => {
   const ZOOM_LEVEL = 9;
-  // const mapRef = useRef();
+
+  // console.log(userLocCoords);
 
   return (
     <MapContainer
-      center={center}
+      center={userLocCoords}
       zoom={ZOOM_LEVEL}
-      // ref={mapRef}
       scrollWheelZoom={false}
       className="h-[35vh] rounded-lg"
     >
@@ -21,7 +54,8 @@ const BasicMap = () => {
         url={osm.maptiler.url}
         attribution={osm.maptiler.attribution}
       />
-      <Marker position={[51, -0.09]}></Marker>
+
+      <LocationMarker userLocCoords={userLocCoords} />
     </MapContainer>
   );
 };

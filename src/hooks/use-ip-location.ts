@@ -10,10 +10,12 @@ const useIPLocation = () => {
 
   const ipAPIUrl = "http://ip-api.com/json/?fields=61439";
 
-  axios.get(ipAPIUrl).then((res: AxiosResponse<IPApiGeocode>) => {
-    setIPLocStatus("success");
-    setIPLocCoords(res.data);
-  });
+  useEffect(() => {
+    axios.get(ipAPIUrl).then((res: AxiosResponse<IPApiGeocode>) => {
+      setIPLocStatus("success");
+      setIPLocCoords(res.data);
+    });
+  }, []);
 
   return { ipLocStatus, ipLocCoords };
 };
