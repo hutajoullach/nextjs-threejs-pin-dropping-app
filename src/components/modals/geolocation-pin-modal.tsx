@@ -10,6 +10,7 @@ import Modal from "./modal";
 import Button from "../button";
 import Heading from "../heading";
 import Input from "../inputs/input";
+import TextArea from "../inputs/textarea";
 
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -93,6 +94,10 @@ const GeolocationPinModal = () => {
     defaultValues: {
       lat: "",
       lon: "",
+      country: "",
+      countrycode: "",
+      city: "",
+      timezone: "",
       emoji: "",
       svgicon: "",
       message: "",
@@ -213,7 +218,13 @@ const GeolocationPinModal = () => {
           subtitle="give some message to your map icon!"
         />
 
-        {/* message section */}
+        <TextArea
+          id="message"
+          label="Message"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
       </div>
     );
   }
