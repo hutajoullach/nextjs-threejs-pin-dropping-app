@@ -133,6 +133,14 @@ const GeolocationPinModal = () => {
 
     setIsLoading(true);
 
+    setCustomValue("lat", userLocCoords.lat);
+    setCustomValue("lon", userLocCoords.lng);
+    setCustomValue("country", ipLocCoords?.country);
+    setCustomValue("countrycode", ipLocCoords?.countryCode);
+    setCustomValue("city", ipLocCoords?.city);
+    setCustomValue("timezone", ipLocCoords?.timezone);
+    // setCustomValue("svgicon", {});
+
     // use mutation
   };
 

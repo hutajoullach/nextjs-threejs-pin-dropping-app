@@ -4,7 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import theme from "../../styles/styles";
 import { categories } from "../../constants";
-import worldHappinessScoreData from "../../constants/worldHappinessScoreData.json";
+import worldHappinessScoreData from "../../constants/world-happiness-score-data-2015.json";
 import { LoadingSpinner } from "../loading";
 import useLookup from "../../store/lookupStore";
 
