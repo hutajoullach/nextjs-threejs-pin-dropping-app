@@ -127,6 +127,8 @@ const GeolocationPinModal = () => {
     if (step !== STEPS.MESSAGE) return onNext();
 
     setIsLoading(true);
+
+    // use mutation
   };
 
   const actionLabel = useMemo(() => {
@@ -226,9 +228,6 @@ const GeolocationPinModal = () => {
       secondaryAction={step === STEPS.GEOLOCATION ? undefined : onBack}
       onClose={geolocationPinModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
-      // onSubmit={() => {
-      //   console.log("hey");
-      // }}
       body={bodyContent}
     />
   );
