@@ -12,17 +12,16 @@ import {
   Feature,
   Properties,
 } from "../../types/geo-json-collection";
+import { GlobeData } from "../../types/globe-data";
 import { Lookup } from "../../types/lookup";
 import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
 
 import number from "numeral";
 import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
-
 import * as THREE from "three";
 
 import { GlobeMethods, GlobeProps } from "react-globe.gl";
-import { GiLightningDissipation } from "react-icons/gi";
 const GlobeGl = dynamic(
   () => {
     return import("react-globe.gl");
@@ -30,24 +29,14 @@ const GlobeGl = dynamic(
   { ssr: false }
 );
 
-const WorldHappinessScoreGlobe = () => {
+const Globe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
-
   const sceneRef = useRef<THREE.Scene | null>(null);
 
   // need to expedite render with fallback state
   // const lookup = useLookup();
   let lookup: Lookup[] = [];
-
-  interface GlobeData {
-    countries: {
-      features: object[];
-    };
-    points: {
-      features: object[];
-    };
-  }
 
   const [globeData, setGlobeData] = useState<GlobeData>({
     countries: {
@@ -269,4 +258,4 @@ const WorldHappinessScoreGlobe = () => {
   );
 };
 
-export default WorldHappinessScoreGlobe;
+export default Globe;

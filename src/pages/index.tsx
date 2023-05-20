@@ -7,8 +7,8 @@ import { api } from "~/utils/api";
 import theme from "../styles/styles";
 
 import { PageLayout } from "~/components/layout";
-import GeolocationPinGlobe from "~/components/globe/geolocation-pin-globe";
-import WorldHappinessScoreGlobe from "~/components/globe/world-happiness-score-globe";
+
+import Globe from "~/components/globe/globe";
 
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
@@ -30,16 +30,7 @@ const Jumbotron = () => {
         {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
         ))} */}
-        {category === "home" && <GeolocationPinGlobe />}
-        {category === "health" && <WorldHappinessScoreGlobe />}
-        {category === "food" && scaffolding}
-        {category === "stores" && scaffolding}
-        {category === "weather" && scaffolding}
-        {category === "wildfire" && scaffolding}
-        {category === "tornado" && scaffolding}
-        {category === "flood" && scaffolding}
-        {category === "volcano" && scaffolding}
-        {category === "traffic" && scaffolding}
+        {/* <Globe /> */}
       </div>
     </div>
   );
