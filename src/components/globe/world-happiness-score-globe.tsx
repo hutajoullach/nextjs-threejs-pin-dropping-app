@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState, useMemo, Suspense } from "react";
 import dynamic from "next/dynamic";
-import { usePathname, useSearchParams } from "next/navigation";
 
 import theme from "../../styles/styles";
 import { categories } from "../../constants";
-// import worldHappinessScoreData from "../../constants/world-happiness-score-data-2015.json";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner } from "../loading";
-import useLookup from "../../store/lookupStore";
+// import useLookup from "../../store/lookupStore";
 
 import {
   GeoJsonCollection,
@@ -32,18 +30,11 @@ const GlobeGl = dynamic(
   { ssr: false }
 );
 
-import useBrowserLocation from "../../hooks/use-browser-location";
-
-const Globe = () => {
+const WorldHappinessScoreGlobe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
 
   const sceneRef = useRef<THREE.Scene | null>(null);
-
-  const params = useSearchParams();
-  const category = params?.get("category");
-  const pathname = usePathname();
-  const isHomeRoute = pathname === "/";
 
   // need to expedite render with fallback state
   // const lookup = useLookup();
@@ -134,8 +125,6 @@ const Globe = () => {
   const polygonCapColor = (obj: object) => {
     const d = obj as Feature<string>;
 
-    if (category !== "health") return "";
-
     if (lookup === undefined || lookup.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
@@ -219,19 +208,6 @@ const Globe = () => {
         `;
   };
 
-  if (
-    category === "home" ||
-    category === "food" ||
-    category === "stores" ||
-    category === "weather" ||
-    category === "wildfire" ||
-    category === "tornado" ||
-    category === "flood" ||
-    category === "volcano" ||
-    category === "traffic"
-  )
-    return <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
-
   if (loading) return <div>Loading...</div>;
 
   if (
@@ -293,4 +269,4 @@ const Globe = () => {
   );
 };
 
-export default Globe;
+export default WorldHappinessScoreGlobe;
