@@ -16,7 +16,9 @@ const Jumbotron = () => {
 
   if (!data) return null;
 
-  // const scaffolding = <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
+  // const scaffolding = (
+  //   <div className="text-slate-100">scaffolding... come back later 🚧🏗️👷‍♂️</div>
+  // );
 
   return (
     <div className={`${theme.bg.primary} flex h-full w-full justify-center`}>

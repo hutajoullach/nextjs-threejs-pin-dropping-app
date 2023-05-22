@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
-import { categories } from "../../constants";
+import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner } from "../loading";
 
@@ -22,6 +22,7 @@ import number from "numeral";
 import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
 import * as THREE from "three";
+import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -36,6 +37,8 @@ const GlobeGl = dynamic(
 );
 
 const Globe = () => {
+  const user = useUser();
+
   const { data } = api.geolocationPins.getAll.useQuery();
 
   const [hoverD, setHoverD] = useState<object | null>(null);
@@ -207,7 +210,7 @@ const Globe = () => {
                 <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
                     DataYear: ${lookedUpCountryData?.year}
                 </div>
-  
+
             </div>
         `;
   };
@@ -219,23 +222,31 @@ const Globe = () => {
 
     if (category !== "home") return document.createElement("div");
 
-    const markerSvg = `<svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      height="1em"
-      width="1em"
-      {...props}
-    >
-      <path d="M3 11v8h.051c.245 1.692 1.69 3 3.449 3 1.174 0 2.074-.417 2.672-1.174a3.99 3.99 0 005.668-.014c.601.762 1.504 1.188 2.66 1.188 1.93 0 3.5-1.57 3.5-3.5V11c0-4.962-4.037-9-9-9s-9 4.038-9 9zm6 1c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zm6-4c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2z" />
-    </svg>`;
+    let markerIcon = "";
+    if (geolocationPin.icontype === "emoji") {
+      emojis.map((emoji) => {
+        if (emoji.label === geolocationPin.emoji) {
+          markerIcon = `<span>&#x${emoji.unicode.slice(2)}</span>`;
+        }
+      });
+    }
 
-    // const markerSvg = `<span>&#x1FAE0</span>`;
+    if (geolocationPin.icontype === "svg") {
+      svgicons.map((svgicon) => {
+        if (svgicon.label === geolocationPin.svgicon) {
+          markerIcon = svgicon.stringifiedSvg;
+        }
+      });
+    }
 
     // HTMLElement only, JSX.Element cannot be returned.
     const el = document.createElement("div");
-    el.innerHTML = markerSvg;
+    el.innerHTML = markerIcon;
     // el.style.color = d.color;
-    el.style.width = "30px";
+    if (geolocationPin.icontype === "svg") {
+      el.style.color = geolocationPin.svgiconcolor;
+    }
+    el.style.width = "20px";
     el.style.pointerEvents = "auto";
     el.style.cursor = "pointer";
     // el.onclick = () => console.info(d);
@@ -252,7 +263,11 @@ const Globe = () => {
     category === "volcano" ||
     category === "traffic"
   )
-    return <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
+    return (
+      <div className="text-slate-100">
+        scaffolding... come back later 🚧🏗️👷‍♂️
+      </div>
+    );
 
   if (!data) return <div>something went wrong</div>;
   if (loading) return <div>Loading...</div>;
@@ -269,19 +284,6 @@ const Globe = () => {
     return <div>Fetching data</div>;
   }
 
-  // const markerSvg = `<svg viewBox="-4 0 36 36">
-  //   <path fill="currentColor" d="M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z"></path>
-  //   <circle fill="black" cx="14" cy="14" r="7"></circle>
-  // </svg>`;
-
-  // const N = 30;
-  // const gData = [...Array(N).keys()].map(() => ({
-  //   lat: (Math.random() - 0.5) * 180,
-  //   lng: (Math.random() - 0.5) * 360,
-  //   size: 7 + Math.random() * 30,
-  //   color: ["red", "white", "blue", "green"][Math.round(Math.random() * 3)],
-  // }));
-
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
       {!loading && (
@@ -293,7 +295,6 @@ const Globe = () => {
             backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
             // update canvas width on screen width change
             // width={1000}
-            // fix height to relative value
             // height={600}
             showAtmosphere={true}
             polygonsData={globeData.countries.features}
@@ -323,6 +324,12 @@ const Globe = () => {
             labelResolution={2}
             htmlElementsData={data}
             htmlElement={htmlElement}
+            htmlLat={(d: object) =>
+              parseFloat((d as GeolocationPinWithUser).geolocationPin.lat)
+            }
+            htmlLng={(d: object) =>
+              parseFloat((d as GeolocationPinWithUser).geolocationPin.lon)
+            }
           />
         </Suspense>
       )}

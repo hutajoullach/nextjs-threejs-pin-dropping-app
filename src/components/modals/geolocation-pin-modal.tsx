@@ -51,7 +51,7 @@ const GeolocationPinModal = () => {
 
   const { ipLocStatus, ipLocCoords } = useIPLocation();
   // console.log(ipLocStatus);
-  // console.log(ipLocCoords);
+  console.log(ipLocCoords);
 
   useEffect(() => {
     if (
