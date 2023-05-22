@@ -2,6 +2,7 @@
 
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
+import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const filterUserForClient = (user: User) => {
@@ -25,9 +26,23 @@ export const geolocationPinsRouter = createTRPCRouter({
     ).map(filterUserForClient);
     console.log(users);
 
-    return geolocationPins.map((geolocationPin) => ({
-      geolocationPin,
-      user: users.find((user) => user.id === geolocationPin.userId),
-    }));
+    return geolocationPins.map((geolocationPin) => {
+      console.log(users);
+      const user = users.find((user) => user.id === geolocationPin.userId);
+
+      if (!user || !user.username)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "User for geolocationPin not found",
+        });
+
+      return {
+        geolocationPin,
+        user: {
+          ...user,
+          username: user.username,
+        },
+      };
+    });
   }),
 });

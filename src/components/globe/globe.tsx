@@ -2,11 +2,12 @@ import { useEffect, useRef, useState, useMemo, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
 import { categories } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner } from "../loading";
-// import useLookup from "../../store/lookupStore";
 
 import {
   GeoJsonCollection,
@@ -22,6 +23,10 @@ import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
 import * as THREE from "three";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 import { GlobeMethods, GlobeProps } from "react-globe.gl";
 const GlobeGl = dynamic(
   () => {
@@ -31,6 +36,8 @@ const GlobeGl = dynamic(
 );
 
 const Globe = () => {
+  const { data } = api.geolocationPins.getAll.useQuery();
+
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -40,8 +47,6 @@ const Globe = () => {
   const pathname = usePathname();
   const isHomeRoute = pathname === "/";
 
-  // need to expedite render with fallback state
-  // const lookup = useLookup();
   let lookup: Lookup[] = [];
 
   const [globeData, setGlobeData] = useState<GlobeData>({
@@ -53,9 +58,9 @@ const Globe = () => {
     },
   });
 
-  const [data, setData] = useState<WorldHappinessScoreData[]>(
-    worldHappinessScoreData
-  );
+  const [happinessScoreData, setHappinessScoreData] = useState<
+    WorldHappinessScoreData[]
+  >(worldHappinessScoreData);
 
   const [loading, setLoading] = useState(true);
   const colorScale = chroma.scale(["red", "yellow"]);
@@ -67,7 +72,7 @@ const Globe = () => {
       const sortedData = worldHappinessScoreData.sort((a, b) =>
         a.countryName.localeCompare(b.countryName)
       );
-      setData(sortedData);
+      setHappinessScoreData(sortedData);
 
       axios
         .get<GeoJsonCollection<object>[]>(
@@ -123,7 +128,7 @@ const Globe = () => {
     if (category !== "health") return "#FF7F7F";
 
     if (lookup === undefined || lookup.length == 0) {
-      (data as WorldHappinessScoreData[]).forEach((d) => {
+      (happinessScoreData as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
         lookup.push(countryData);
       });
@@ -151,7 +156,7 @@ const Globe = () => {
     if (category !== "health") return "";
 
     if (lookup === undefined || lookup.length == 0) {
-      (data as WorldHappinessScoreData[]).forEach((d) => {
+      (happinessScoreData as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
         lookup.push(countryData);
       });
@@ -207,8 +212,10 @@ const Globe = () => {
         `;
   };
 
+  type GeolocationPinWithUser =
+    RouterOutputs["geolocationPins"]["getAll"][number];
   const htmlElement = (obj: object) => {
-    const d = obj as Feature<string>;
+    const { geolocationPin, user } = obj as GeolocationPinWithUser;
 
     if (category !== "home") return document.createElement("div");
 
@@ -227,11 +234,11 @@ const Globe = () => {
     // HTMLElement only, JSX.Element cannot be returned.
     const el = document.createElement("div");
     el.innerHTML = markerSvg;
-    el.style.color = d.color;
+    // el.style.color = d.color;
     el.style.width = "30px";
     el.style.pointerEvents = "auto";
     el.style.cursor = "pointer";
-    el.onclick = () => console.info(d);
+    // el.onclick = () => console.info(d);
     return el;
   };
 
@@ -247,8 +254,8 @@ const Globe = () => {
   )
     return <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
 
+  if (!data) return <div>something went wrong</div>;
   if (loading) return <div>Loading...</div>;
-
   if (
     globeData.countries.features === undefined ||
     globeData.countries.features === null ||
@@ -267,13 +274,13 @@ const Globe = () => {
   //   <circle fill="black" cx="14" cy="14" r="7"></circle>
   // </svg>`;
 
-  const N = 30;
-  const gData = [...Array(N).keys()].map(() => ({
-    lat: (Math.random() - 0.5) * 180,
-    lng: (Math.random() - 0.5) * 360,
-    size: 7 + Math.random() * 30,
-    color: ["red", "white", "blue", "green"][Math.round(Math.random() * 3)],
-  }));
+  // const N = 30;
+  // const gData = [...Array(N).keys()].map(() => ({
+  //   lat: (Math.random() - 0.5) * 180,
+  //   lng: (Math.random() - 0.5) * 360,
+  //   size: 7 + Math.random() * 30,
+  //   color: ["red", "white", "blue", "green"][Math.round(Math.random() * 3)],
+  // }));
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
@@ -314,7 +321,7 @@ const Globe = () => {
                 : "#51CB90"
             }
             labelResolution={2}
-            htmlElementsData={gData}
+            htmlElementsData={data}
             htmlElement={htmlElement}
           />
         </Suspense>

@@ -16,7 +16,7 @@ const Jumbotron = () => {
 
   if (!data) return null;
 
-  const scaffolding = <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
+  // const scaffolding = <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
 
   return (
     <div className={`${theme.bg.primary} flex h-full w-full justify-center`}>
@@ -24,7 +24,9 @@ const Jumbotron = () => {
         {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
         ))} */}
+
         <Globe />
+
         {/* {scaffolding} */}
       </div>
     </div>
