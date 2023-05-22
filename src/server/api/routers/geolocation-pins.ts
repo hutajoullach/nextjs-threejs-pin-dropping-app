@@ -1,9 +1,13 @@
-// import { z } from "zod";
-
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  privateProcedure,
+} from "~/server/api/trpc";
+
+import { z } from "zod";
 
 const filterUserForClient = (user: User) => {
   return {
@@ -45,4 +49,46 @@ export const geolocationPinsRouter = createTRPCRouter({
       };
     });
   }),
+
+  create: privateProcedure
+    .input(
+      z.object({
+        lat: z.string().min(1).max(90),
+        lon: z.string().min(1).max(90),
+        country: z.string().min(1).max(30),
+        countrycode: z.string().min(1).max(10),
+        city: z.string().min(1).max(30),
+        timezone: z.string().min(1).max(30),
+        emoji: z.string().min(0).max(30),
+        svgicon: z.string().min(0).max(30),
+        icontype: z.string().min(1).max(30),
+        svgiconcolor: z.string().min(0).max(50),
+        message: z.string().min(0).max(255),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.userId;
+
+      // const { success } = await ratelimit.limit(userId);
+      // if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
+      const geolocationPin = await ctx.prisma.geolocationPin.create({
+        data: {
+          userId,
+          lat: input.lat,
+          lon: input.lon,
+          country: input.country,
+          countrycode: input.countrycode,
+          city: input.city,
+          timezone: input.timezone,
+          emoji: input.emoji,
+          svgicon: input.svgicon,
+          icontype: input.icontype,
+          svgiconcolor: input.svgiconcolor,
+          message: input.message,
+        },
+      });
+
+      return geolocationPin;
+    }),
 });
