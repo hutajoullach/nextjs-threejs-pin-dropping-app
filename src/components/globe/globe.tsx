@@ -226,7 +226,8 @@ const Globe = () => {
     if (geolocationPin.icontype === "emoji") {
       emojis.map((emoji) => {
         if (emoji.label === geolocationPin.emoji) {
-          markerIcon = `<span>&#x${emoji.unicode.slice(2)}</span>`;
+          // markerIcon = `<span>&#x${emoji.unicode.slice(2)}</span>`;
+          markerIcon = `&#x${emoji.unicode.slice(2)}`;
         }
       });
     }
@@ -241,15 +242,15 @@ const Globe = () => {
 
     // HTMLElement only, JSX.Element cannot be returned.
     const el = document.createElement("div");
+    // unable to attach svg with appendChild
     el.innerHTML = markerIcon;
-    // el.style.color = d.color;
     if (geolocationPin.icontype === "svg") {
-      el.style.color = geolocationPin.svgiconcolor;
+      el.style.fill = geolocationPin.svgiconcolor;
     }
     el.style.width = "20px";
     el.style.pointerEvents = "auto";
     el.style.cursor = "pointer";
-    // el.onclick = () => console.info(d);
+    el.onclick = () => console.info("you clicked!");
     return el;
   };
 
