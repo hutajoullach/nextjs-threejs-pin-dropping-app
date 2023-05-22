@@ -5,7 +5,8 @@ type IconInputProps = {
   selected?: boolean;
   label: string;
   emoji?: string;
-  svgicon?: IconType;
+  svgIcon?: IconType;
+  svgColor?: string;
 };
 
 const IconInput = ({
@@ -13,7 +14,8 @@ const IconInput = ({
   selected,
   label,
   emoji,
-  svgicon: Svgicon,
+  svgIcon: SvgIcon,
+  svgColor,
 }: IconInputProps) => {
   return (
     <div
@@ -24,7 +26,7 @@ const IconInput = ({
     >
       {emoji && <span>{emoji}</span>}
 
-      {Svgicon && <Svgicon size={20} color="black" />}
+      {SvgIcon && <SvgIcon size={20} color={svgColor} />}
     </div>
   );
 };

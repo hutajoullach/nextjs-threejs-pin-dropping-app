@@ -16,6 +16,9 @@ import IconInput from "../inputs/icon-input";
 
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
+
+import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
+
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 const BasicMap = dynamic(() => import("../leaflet/basic-map"), { ssr: false });
 
@@ -29,10 +32,17 @@ const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState(STEPS.GEOLOCATION);
+
   const [selectedIconType, setSelectedIconType] = useState<"emoji" | "svg">(
     "emoji"
   );
+  const [pickedColor, setPickedColor] = useState("#000000");
+  const handleOnChangeColor = (color: ColorResult) => {
+    setPickedColor(color.hex);
+  };
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
+  const [step, setStep] = useState(STEPS.GEOLOCATION);
 
   const [userLocCoords, setUserLocCoords] = useState({
     lat: -77.508333,
@@ -255,16 +265,19 @@ const GeolocationPinModal = () => {
         </div>
 
         {selectedIconType === "emoji" && (
-          <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto pb-5">
-            {emojis.map((item) => (
-              <IconInput
-                onClick={(emoji) => setCustomValue("emoji", emoji)}
-                selected={emoji === item.label}
-                label={item.label}
-                emoji={item.emoji}
-              />
-            ))}
-          </div>
+          <>
+            <div className="mb-5 flex flex-row items-center justify-between gap-2 overflow-x-auto pb-5">
+              {emojis.map((item) => (
+                <IconInput
+                  onClick={(emoji) => setCustomValue("emoji", emoji)}
+                  selected={emoji === item.label}
+                  label={item.label}
+                  emoji={item.emoji}
+                />
+              ))}
+            </div>
+            <span className="h-3"></span>
+          </>
         )}
 
         {selectedIconType === "svg" && (
@@ -275,12 +288,31 @@ const GeolocationPinModal = () => {
                   onClick={(svgicon) => setCustomValue("svgicon", svgicon)}
                   selected={svgicon === item.label}
                   label={item.label}
-                  svgicon={item.svg}
+                  svgIcon={item.svg}
+                  svgColor={pickedColor}
                 />
               ))}
             </div>
 
-            {/* color picker */}
+            <button
+              onClick={() =>
+                setIsColorPickerOpen((prevState) => {
+                  return !prevState;
+                })
+              }
+              className="flex-start flex w-fit rounded-lg bg-slate-800 px-5 py-2 text-sm font-medium text-white"
+            >
+              change svg color
+            </button>
+
+            {isColorPickerOpen && (
+              <div className="-translate-x-1/6 absolute left-1/2 top-1/2 -translate-y-1/2 transform">
+                <SketchPicker
+                  color={pickedColor}
+                  onChangeComplete={handleOnChangeColor}
+                />
+              </div>
+            )}
           </>
         )}
       </div>
