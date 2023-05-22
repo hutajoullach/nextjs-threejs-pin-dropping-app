@@ -41,7 +41,7 @@ type BasicMapProps = {
 const BasicMap = ({ userLocCoords }: BasicMapProps) => {
   const ZOOM_LEVEL = 9;
 
-  // console.log(userLocCoords);
+  console.log(userLocCoords);
 
   return (
     <MapContainer

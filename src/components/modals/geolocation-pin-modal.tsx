@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useUser } from "@clerk/nextjs";
 
+import { emojis, svgicons } from "../../constants";
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 import useBrowserLocation from "../../hooks/use-browser-location";
 import useIPLocation from "../../hooks/use-ip-location";
@@ -11,8 +12,10 @@ import Button from "../button";
 import Heading from "../heading";
 import Input from "../inputs/input";
 import TextArea from "../inputs/textarea";
+import IconInput from "../inputs/icon-input";
 
 import { toast } from "react-hot-toast";
+import clsx from "clsx";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 const BasicMap = dynamic(() => import("../leaflet/basic-map"), { ssr: false });
 
@@ -27,6 +30,9 @@ const GeolocationPinModal = () => {
   const geolocationPinModal = useGeolocationPinModal();
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(STEPS.GEOLOCATION);
+  const [selectedIconType, setSelectedIconType] = useState<"emoji" | "svg">(
+    "emoji"
+  );
 
   const [userLocCoords, setUserLocCoords] = useState({
     lat: -77.508333,
@@ -100,6 +106,8 @@ const GeolocationPinModal = () => {
       timezone: "",
       emoji: "",
       svgicon: "",
+      icontype: "",
+      svgiconcolor: "",
       message: "",
     },
   });
@@ -107,7 +115,9 @@ const GeolocationPinModal = () => {
   // const lat = watch("lat");
   // const lon = watch("lon");
   const emoji = watch("emoji");
-  // const svgicon = watch("svgicon");
+  const svgicon = watch("svgicon");
+  const icontype = watch("icontype");
+  const svgiconcolor = watch("svgiconcolor");
   const message = watch("message");
 
   const setCustomValue = (id: string, value: any) => {
@@ -140,6 +150,8 @@ const GeolocationPinModal = () => {
     setCustomValue("city", ipLocCoords?.city);
     setCustomValue("timezone", ipLocCoords?.timezone);
     // setCustomValue("svgicon", {});
+    // setCustomValue("icontype", {});
+    // setCustomValue("svgiconcolor", {});
 
     // use mutation
   };
@@ -204,16 +216,73 @@ const GeolocationPinModal = () => {
           title="Pick Your Map Icon"
           subtitle="choose map icon you want to use!"
         />
-        <Input
+        {/* <Input
           id="emoji"
           label="Emoji"
           disabled={isLoading}
           register={register}
           errors={errors}
-          // required
-        />
+          required
+        /> */}
 
-        {/* svg icon picker */}
+        <div className="flex flex-wrap border-b border-gray-200 border-slate-800 text-center text-sm font-medium">
+          <div onClick={() => setSelectedIconType("emoji")} className="mr-2">
+            <p
+              className={clsx(
+                "inline-block rounded-t-lg px-6 py-2 text-gray-600",
+                {
+                  "border-slate-800 bg-slate-800 text-white":
+                    selectedIconType === "emoji",
+                }
+              )}
+            >
+              emoji
+            </p>
+          </div>
+          <div onClick={() => setSelectedIconType("svg")} className="mr-2">
+            <p
+              className={clsx(
+                "inline-block rounded-t-lg px-6 py-2 text-gray-600",
+                {
+                  "border-slate-800 bg-slate-800 text-white":
+                    selectedIconType === "svg",
+                }
+              )}
+            >
+              svg
+            </p>
+          </div>
+        </div>
+
+        {selectedIconType === "emoji" && (
+          <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto pb-5">
+            {emojis.map((item) => (
+              <IconInput
+                onClick={(emoji) => setCustomValue("emoji", emoji)}
+                selected={emoji === item.label}
+                label={item.label}
+                emoji={item.emoji}
+              />
+            ))}
+          </div>
+        )}
+
+        {selectedIconType === "svg" && (
+          <>
+            <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto pb-5">
+              {svgicons.map((item) => (
+                <IconInput
+                  onClick={(svgicon) => setCustomValue("svgicon", svgicon)}
+                  selected={svgicon === item.label}
+                  label={item.label}
+                  svgicon={item.svg}
+                />
+              ))}
+            </div>
+
+            {/* color picker */}
+          </>
+        )}
       </div>
     );
   }

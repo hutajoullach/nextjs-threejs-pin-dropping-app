@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo, Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
 import theme from "../../styles/styles";
@@ -33,6 +34,11 @@ const Globe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
+
+  const params = useSearchParams();
+  const category = params?.get("category");
+  const pathname = usePathname();
+  const isHomeRoute = pathname === "/";
 
   // need to expedite render with fallback state
   // const lookup = useLookup();
@@ -114,6 +120,8 @@ const Globe = () => {
   const polygonCapColor = (obj: object) => {
     const d = obj as Feature<string>;
 
+    if (category !== "health") return "#FF7F7F";
+
     if (lookup === undefined || lookup.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
         const countryData = { [d.countryName]: d };
@@ -139,6 +147,8 @@ const Globe = () => {
 
   const polygonLabel = (obj: object) => {
     const d = obj as Feature<string>;
+
+    if (category !== "health") return "";
 
     if (lookup === undefined || lookup.length == 0) {
       (data as WorldHappinessScoreData[]).forEach((d) => {
@@ -197,6 +207,46 @@ const Globe = () => {
         `;
   };
 
+  const htmlElement = (obj: object) => {
+    const d = obj as Feature<string>;
+
+    if (category !== "home") return document.createElement("div");
+
+    const markerSvg = `<svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path d="M3 11v8h.051c.245 1.692 1.69 3 3.449 3 1.174 0 2.074-.417 2.672-1.174a3.99 3.99 0 005.668-.014c.601.762 1.504 1.188 2.66 1.188 1.93 0 3.5-1.57 3.5-3.5V11c0-4.962-4.037-9-9-9s-9 4.038-9 9zm6 1c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zm6-4c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2z" />
+    </svg>`;
+
+    // const markerSvg = `<span>&#x1FAE0</span>`;
+
+    // HTMLElement only, JSX.Element cannot be returned.
+    const el = document.createElement("div");
+    el.innerHTML = markerSvg;
+    el.style.color = d.color;
+    el.style.width = "30px";
+    el.style.pointerEvents = "auto";
+    el.style.cursor = "pointer";
+    el.onclick = () => console.info(d);
+    return el;
+  };
+
+  if (
+    category === "food" ||
+    category === "stores" ||
+    category === "weather" ||
+    category === "wildfire" ||
+    category === "tornado" ||
+    category === "flood" ||
+    category === "volcano" ||
+    category === "traffic"
+  )
+    return <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
+
   if (loading) return <div>Loading...</div>;
 
   if (
@@ -211,6 +261,19 @@ const Globe = () => {
   ) {
     return <div>Fetching data</div>;
   }
+
+  // const markerSvg = `<svg viewBox="-4 0 36 36">
+  //   <path fill="currentColor" d="M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z"></path>
+  //   <circle fill="black" cx="14" cy="14" r="7"></circle>
+  // </svg>`;
+
+  const N = 30;
+  const gData = [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    size: 7 + Math.random() * 30,
+    color: ["red", "white", "blue", "green"][Math.round(Math.random() * 3)],
+  }));
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
@@ -251,6 +314,8 @@ const Globe = () => {
                 : "#51CB90"
             }
             labelResolution={2}
+            htmlElementsData={gData}
+            htmlElement={htmlElement}
           />
         </Suspense>
       )}

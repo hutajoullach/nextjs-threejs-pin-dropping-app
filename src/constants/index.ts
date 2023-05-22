@@ -29,6 +29,42 @@ import {
   GiDutchBike,
 } from "react-icons/gi";
 
+import {
+  FaGhost,
+  FaEarlybirds,
+  FaGithub,
+  FaGrav,
+  FaOctopusDeploy,
+  FaOptinMonster,
+  FaThemeisle,
+  FaCrow,
+  FaFighterJet,
+  FaFish,
+  FaFrog,
+  FaHippo,
+  FaRegFlushed,
+  FaRegGrinStars,
+  FaRegGrinSquintTears,
+} from "react-icons/fa";
+
+import {
+  stringifiedFaGhost,
+  stringifiedFaEarlybirds,
+  stringifiedFaGithub,
+  stringifiedFaGrav,
+  stringifiedFaOctopusDeploy,
+  stringifiedFaOptinMonster,
+  stringifiedFaThemeisle,
+  stringifiedFaCrow,
+  stringifiedFaFighterJet,
+  stringifiedFaFish,
+  stringifiedFaFrog,
+  stringifiedFaHippo,
+  stringifiedFaRegFlushed,
+  stringifiedFaRegGrinStars,
+  stringifiedFaRegGrinSquintTears,
+} from "./svg-icon";
+
 import { IconType } from "react-icons";
 
 export const searchTab = {
@@ -215,5 +251,187 @@ export const categories: Category[] = [
     label: "traffic",
     icon: GiTrafficCone,
     description: "description",
+  },
+];
+
+type Emoji = {
+  id: string;
+  label: string;
+  emoji: string;
+  unicode: string;
+};
+
+export const emojis: Emoji[] = [
+  {
+    id: "slightly_smiling_face",
+    label: "Slightly Smiling Face",
+    emoji: "🙂",
+    unicode: "U+1F642",
+  },
+  {
+    id: "rofl",
+    label: "ROFL",
+    emoji: "🤣",
+    unicode: "U+1F923",
+  },
+  {
+    id: "melting_face",
+    label: "Melting Face",
+    emoji: "🫠",
+    unicode: "U+1FAE0",
+  },
+  {
+    id: "doggo",
+    label: "Doggo",
+    emoji: "🐕",
+    unicode: "U+1F415",
+  },
+  {
+    id: "cat",
+    label: "Cat",
+    emoji: "🐈",
+    unicode: "U+1F408",
+  },
+  {
+    id: "raccoon",
+    label: "Raccoon",
+    emoji: "🦝",
+    unicode: "U+1F99D",
+  },
+  {
+    id: "zebra",
+    label: "Zebra",
+    emoji: "🦓",
+    unicode: "U+1F993",
+  },
+  {
+    id: "kangaroo",
+    label: "Kangaroo",
+    emoji: "🦘",
+    unicode: "U+1F998",
+  },
+  {
+    id: "rooster",
+    label: "Rooster",
+    emoji: "🐓",
+    unicode: "U+1F413",
+  },
+  {
+    id: "dodo",
+    label: "Dodo",
+    emoji: "🦤",
+    unicode: "U+1F9A4",
+  },
+  {
+    id: "flamingo",
+    label: "Flamingo",
+    emoji: "🦩",
+    unicode: "U+1F9A9",
+  },
+  {
+    id: "whale",
+    label: "Whale",
+    emoji: "🐋",
+    unicode: "U+1F40B",
+  },
+];
+
+type SvgIcon = {
+  id: string;
+  label: string;
+  svg: IconType;
+  stringifiedSvg: string;
+};
+
+export const svgicons: SvgIcon[] = [
+  {
+    id: "FaGhost",
+    label: "FaGhost",
+    svg: FaGhost,
+    stringifiedSvg: stringifiedFaGhost,
+  },
+  {
+    id: "FaEarlybirds",
+    label: "FaEarlybirds",
+    svg: FaEarlybirds,
+    stringifiedSvg: stringifiedFaEarlybirds,
+  },
+  {
+    id: "FaGithub",
+    label: "FaGithub",
+    svg: FaGithub,
+    stringifiedSvg: stringifiedFaGithub,
+  },
+  {
+    id: "FaGrav",
+    label: "FaGrav",
+    svg: FaGrav,
+    stringifiedSvg: stringifiedFaGrav,
+  },
+  {
+    id: "FaOctopusDeploy",
+    label: "FaOctopusDeploy",
+    svg: FaOctopusDeploy,
+    stringifiedSvg: stringifiedFaOctopusDeploy,
+  },
+  {
+    id: "FaOptinMonster",
+    label: "FaOptinMonster",
+    svg: FaOptinMonster,
+    stringifiedSvg: stringifiedFaOptinMonster,
+  },
+  {
+    id: "FaThemeisle",
+    label: "FaThemeisle",
+    svg: FaThemeisle,
+    stringifiedSvg: stringifiedFaThemeisle,
+  },
+  {
+    id: "FaCrow",
+    label: "FaCrow",
+    svg: FaCrow,
+    stringifiedSvg: stringifiedFaCrow,
+  },
+  {
+    id: "FaFighterJet",
+    label: "FaFighterJet",
+    svg: FaFighterJet,
+    stringifiedSvg: stringifiedFaFighterJet,
+  },
+  {
+    id: "FaFish",
+    label: "FaFish",
+    svg: FaFish,
+    stringifiedSvg: stringifiedFaFish,
+  },
+  {
+    id: "FaFrog",
+    label: "FaFrog",
+    svg: FaFrog,
+    stringifiedSvg: stringifiedFaFrog,
+  },
+  {
+    id: "FaHippo",
+    label: "FaHippo",
+    svg: FaHippo,
+    stringifiedSvg: stringifiedFaHippo,
+  },
+  {
+    id: "FaRegFlushed",
+    label: "FaRegFlushed",
+    svg: FaRegFlushed,
+    stringifiedSvg: stringifiedFaRegFlushed,
+  },
+  {
+    id: "FaRegGrinStars",
+    label: "FaRegGrinStars",
+    svg: FaRegGrinStars,
+    stringifiedSvg: stringifiedFaRegGrinStars,
+  },
+  {
+    id: "FaRegGrinSquintTears",
+    label: "FaRegGrinSquintTears",
+    svg: FaRegGrinSquintTears,
+    stringifiedSvg: stringifiedFaRegGrinSquintTears,
   },
 ];

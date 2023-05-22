@@ -1,4 +1,3 @@
-import { usePathname, useSearchParams } from "next/navigation";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,11 +14,6 @@ import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 const Jumbotron = () => {
   const { data } = api.geolocationPins.getAll.useQuery();
 
-  const params = useSearchParams();
-  const category = params?.get("category");
-  const pathname = usePathname();
-  const isHomeRoute = pathname === "/";
-
   if (!data) return null;
 
   const scaffolding = <div>scaffolding... come back later 🚧🏗️👷‍♂️</div>;
@@ -30,7 +24,8 @@ const Jumbotron = () => {
         {/* {data.map(({ geolocationPin: pin, user }) => (
           <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
         ))} */}
-        {/* <Globe /> */}
+        <Globe />
+        {/* {scaffolding} */}
       </div>
     </div>
   );
