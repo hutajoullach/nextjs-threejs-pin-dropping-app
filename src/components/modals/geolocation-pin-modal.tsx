@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useUser } from "@clerk/nextjs";
 
+import { api } from "~/utils/api";
 import { emojis, svgicons } from "../../constants";
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
 import useBrowserLocation from "../../hooks/use-browser-location";
@@ -31,13 +32,45 @@ enum STEPS {
 const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const ctx = api.useContext();
+  const { mutate, isLoading: isPosting } =
+    api.geolocationPins.create.useMutation({
+      onSuccess: () => {
+        toast.success("pin dropped!");
+        reset();
+        setStep(STEPS.GEOLOCATION);
+        setSelectedIconType("emoji");
+        setPickedColor("#000000");
+        geolocationPinModal.onClose();
+        void ctx.geolocationPins.getAll.invalidate();
+      },
+      onError: (e) => {
+        const errorMessages = e.data?.zodError?.fieldErrors;
+
+        if (errorMessages) {
+          Object.keys(errorMessages).forEach((key) => {
+            const value = errorMessages[key];
+
+            if (value && value[0]) toast.error(value[0]);
+
+            if (value !== undefined) {
+              value.forEach((error) => {
+                console.log(`Field ${key}: ${error}`);
+              });
+            }
+          });
+        } else {
+          toast.error("Failed to post! Please try again later.");
+        }
+      },
+    });
 
   const [selectedIconType, setSelectedIconType] = useState<"emoji" | "svg">(
     "emoji"
   );
   const [pickedColor, setPickedColor] = useState("#000000");
-  const handleOnChangeColor = (color: ColorResult) => {
+  const handleOnColorChange = (color: ColorResult) => {
     setPickedColor(color.hex);
   };
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
@@ -97,8 +130,6 @@ const GeolocationPinModal = () => {
     }
   };
 
-  // console.log(user);
-
   const {
     register,
     handleSubmit,
@@ -108,26 +139,14 @@ const GeolocationPinModal = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      lat: "",
-      lon: "",
-      country: "",
-      countrycode: "",
-      city: "",
-      timezone: "",
       emoji: "",
       svgicon: "",
-      icontype: "",
-      svgiconcolor: "",
       message: "",
     },
   });
 
-  // const lat = watch("lat");
-  // const lon = watch("lon");
   const emoji = watch("emoji");
   const svgicon = watch("svgicon");
-  const icontype = watch("icontype");
-  const svgiconcolor = watch("svgiconcolor");
   const message = watch("message");
 
   const setCustomValue = (id: string, value: any) => {
@@ -147,23 +166,26 @@ const GeolocationPinModal = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // if (!user) return null;
-
     if (step !== STEPS.MESSAGE) return onNext();
 
-    setIsLoading(true);
+    if (!user) {
+      toast.error("login to the app and try again!");
+      return null;
+    }
 
-    setCustomValue("lat", userLocCoords.lat);
-    setCustomValue("lon", userLocCoords.lng);
-    setCustomValue("country", ipLocCoords?.country);
-    setCustomValue("countrycode", ipLocCoords?.countryCode);
-    setCustomValue("city", ipLocCoords?.city);
-    setCustomValue("timezone", ipLocCoords?.timezone);
-    // setCustomValue("svgicon", {});
-    // setCustomValue("icontype", {});
-    // setCustomValue("svgiconcolor", {});
-
-    // use mutation
+    mutate({
+      lat: userLocCoords.lat.toString(),
+      lon: userLocCoords.lng.toString(),
+      country: ipLocCoords?.country || "",
+      countrycode: ipLocCoords?.countryCode || "",
+      city: ipLocCoords?.city || "",
+      timezone: ipLocCoords?.timezone || "",
+      emoji: data.emoji,
+      svgicon: data.svgicon,
+      icontype: selectedIconType,
+      svgiconcolor: pickedColor,
+      message: data.message,
+    });
   };
 
   const actionLabel = useMemo(() => {
@@ -189,7 +211,7 @@ const GeolocationPinModal = () => {
       {/* <Input
         id="address"
         label="Address"
-        disabled={isLoading}
+        disabled={isPosting}
         register={register}
         errors={errors}
         required
@@ -229,14 +251,17 @@ const GeolocationPinModal = () => {
         {/* <Input
           id="emoji"
           label="Emoji"
-          disabled={isLoading}
+          disabled={isPosting}
           register={register}
           errors={errors}
           required
         /> */}
 
         <div className="flex flex-wrap border-b border-gray-200 border-slate-800 text-center text-sm font-medium">
-          <div onClick={() => setSelectedIconType("emoji")} className="mr-2">
+          <div
+            onClick={() => setSelectedIconType("emoji")}
+            className="mr-2 cursor-pointer"
+          >
             <p
               className={clsx(
                 "inline-block rounded-t-lg px-6 py-2 text-gray-600",
@@ -249,7 +274,10 @@ const GeolocationPinModal = () => {
               emoji
             </p>
           </div>
-          <div onClick={() => setSelectedIconType("svg")} className="mr-2">
+          <div
+            onClick={() => setSelectedIconType("svg")}
+            className="mr-2 cursor-pointer"
+          >
             <p
               className={clsx(
                 "inline-block rounded-t-lg px-6 py-2 text-gray-600",
@@ -309,7 +337,7 @@ const GeolocationPinModal = () => {
               <div className="-translate-x-1/6 absolute left-1/2 top-1/2 -translate-y-1/2 transform">
                 <SketchPicker
                   color={pickedColor}
-                  onChangeComplete={handleOnChangeColor}
+                  onChangeComplete={handleOnColorChange}
                 />
               </div>
             )}
@@ -330,7 +358,7 @@ const GeolocationPinModal = () => {
         <TextArea
           id="message"
           label="Message"
-          disabled={isLoading}
+          disabled={isPosting}
           register={register}
           errors={errors}
         />
@@ -340,7 +368,7 @@ const GeolocationPinModal = () => {
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={isPosting}
       isOpen={geolocationPinModal.isOpen}
       title="GeolocationPin"
       actionLabel={actionLabel}

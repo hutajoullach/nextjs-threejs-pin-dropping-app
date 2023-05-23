@@ -21,6 +21,7 @@ export const geolocationPinsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const geolocationPins = await ctx.prisma.geolocationPin.findMany({
       take: 100,
+      orderBy: [{ createdAt: "desc" }],
     });
     const users = (
       await clerkClient.users.getUserList({

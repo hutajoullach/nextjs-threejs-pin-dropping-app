@@ -15,7 +15,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <meta name="description" content="t3-threejs-pin-dropping-app" />
         {/* <link rel="icon" href="/alphabet.svg" /> */}
       </Head>
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
       <Component {...pageProps} />
     </ClerkProvider>
   );
