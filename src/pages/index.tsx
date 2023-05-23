@@ -1,3 +1,4 @@
+import { usePathname, useSearchParams } from "next/navigation";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -46,8 +47,8 @@ const CardSection = () => {
   if (!data) return null;
 
   return (
-    <div className={`flex w-full justify-center`}>
-      <div>
+    <div className={`mt-20 flex w-full justify-center shadow-2xl`}>
+      <div className="grid grid-cols-1 gap-8 py-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {data.map((geolocationPinWithUser: GeolocationPinWithUser) => {
           const { geolocationPin: pin, user } = geolocationPinWithUser;
 
@@ -62,7 +63,7 @@ const CardSection = () => {
 
 const Footer = () => {
   return (
-    <div className={`${theme.bg.navbarBackground} w-full`}>
+    <div className={`${theme.bg.navbarBackground} w-full border-t`}>
       <div className="flex items-center justify-center py-2 text-gray-500">
         <span>©2023 @hutajoullach</span>
       </div>
@@ -72,6 +73,11 @@ const Footer = () => {
 
 const Home: NextPage = () => {
   const user = useUser();
+
+  const params = useSearchParams();
+  const category = params?.get("category");
+  const pathname = usePathname();
+  const isHomeRoute = pathname === "/";
 
   const { data, isLoading } = api.geolocationPins.getAll.useQuery();
 
@@ -83,7 +89,7 @@ const Home: NextPage = () => {
     <>
       <PageLayout>
         <Jumbotron />
-        <CardSection />
+        {category === "home" && <CardSection />}
         <Footer />
       </PageLayout>
     </>
