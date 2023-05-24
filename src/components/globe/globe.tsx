@@ -124,6 +124,9 @@ const Globe = () => {
         globeEl.current.controls().autoRotate = true;
         globeEl.current.controls().autoRotateSpeed = 0.5;
         globeEl.current.controls().enableZoom = true;
+
+        // aim at position of current user ip address with zoom
+        globeEl.current.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
       }
     }
   }, [globeData]);
