@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -10,8 +12,10 @@ import theme from "../styles/styles";
 import { PageLayout } from "~/components/layout";
 import Globe from "~/components/globe/globe";
 import GeolocationPinCard from "~/components/geolocation-pins/geolocation-pin-card";
-
-import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import {
+  ScrollButtonBottom,
+  ScrollButtonTop,
+} from "~/components/buttons/scroll-button";
 
 const Jumbotron = () => {
   // const { data } = api.geolocationPins.getAll.useQuery();
@@ -74,6 +78,19 @@ const Footer = () => {
 const Home: NextPage = () => {
   const user = useUser();
 
+  const jumbotronRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  const handleScrollClick = (direction: string) => {
+    if (direction === "top") {
+      jumbotronRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    if (direction === "bottom") {
+      footerRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
@@ -88,9 +105,24 @@ const Home: NextPage = () => {
   return (
     <>
       <PageLayout>
+        <span ref={jumbotronRef}></span>
         <Jumbotron />
+
         {category === "home" && <CardSection />}
+
+        <span ref={footerRef}></span>
         <Footer />
+
+        <div className="absolute bottom-5 right-5">
+          <ScrollButtonTop
+            onClick={() => handleScrollClick("top")}
+            direction="top"
+          />
+          <ScrollButtonBottom
+            onClick={() => handleScrollClick("bottom")}
+            direction="bottom"
+          />
+        </div>
       </PageLayout>
     </>
   );
