@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
+import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
+
 import Button from "../button";
 
 import { GoX } from "react-icons/go";
@@ -31,6 +33,8 @@ const Modal = ({
 }: ModalProps) => {
   const [showModal, setShowModal] = useState(isOpen);
 
+  const geolocationPinGlobe = useGeolocationPinGlobe();
+
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
@@ -40,6 +44,11 @@ const Modal = ({
 
     setShowModal(false);
     onClose();
+
+    if (!geolocationPinGlobe.isDisplayed) {
+      geolocationPinGlobe.onToggle();
+    }
+
     // setTimeout(() => {
     //   onClose();
     // }, 300);

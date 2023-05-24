@@ -51,7 +51,16 @@ const Navbar = () => {
         <ul className="hidden list-none flex-row items-center gap-3 sm:flex">
           <li className="cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
-              <div onClick={geolocationPinModal.onOpen}>
+              <div
+                onClick={() => {
+                  geolocationPinModal.onOpen();
+                  if (geolocationPinGlobe.isDisplayed) {
+                    setTimeout(() => {
+                      geolocationPinGlobe.onToggle();
+                    }, 300);
+                  }
+                }}
+              >
                 <GoPin size={29} color="black" />
               </div>
             </div>
@@ -59,14 +68,6 @@ const Navbar = () => {
 
           <li className="cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
-              {/* <a
-                target="_blank"
-                href="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app"
-                rel="noopener noreferrer"
-              >
-                <GoOctoface size={30} color="black" />
-              </a> */}
-
               <div onClick={geolocationPinGlobe.onToggle}>
                 {geolocationPinGlobe.isDisplayed && (
                   <GiSloth size={29} color="black" />

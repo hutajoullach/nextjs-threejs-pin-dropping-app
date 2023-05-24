@@ -273,9 +273,9 @@ const Globe = () => {
       </div>
     );
 
-  if (!data) return <div>something went wrong</div>;
-  if (loading) return <div>Loading...</div>;
+  if (!data) return <div className="text-slate-100">something went wrong</div>;
   if (
+    loading ||
     globeData.countries.features === undefined ||
     globeData.countries.features === null ||
     globeData.countries.features.length === 0 ||
@@ -285,7 +285,7 @@ const Globe = () => {
     globeData.points.features.length === 0 ||
     !Array.isArray(globeData.points.features)
   ) {
-    return <div>Fetching data</div>;
+    return <div className="text-slate-100">Fetching data</div>;
   }
 
   return (
