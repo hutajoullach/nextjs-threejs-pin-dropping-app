@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo, Suspense } from "react";
+import { useEffect, useRef, useState, useMemo, lazy, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -30,12 +30,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import { GlobeMethods, GlobeProps } from "react-globe.gl";
-const GlobeGl = dynamic(
-  () => {
-    return import("react-globe.gl");
-  },
-  { ssr: false }
-);
+const GlobeGl = lazy(() => {
+  return import("react-globe.gl");
+});
 
 const Globe = () => {
   const user = useUser();
@@ -107,6 +104,10 @@ const Globe = () => {
   }, []);
 
   useEffect(() => {
+    if (globeEl.current) {
+      console.log(globeEl.current);
+    }
+
     if (globeEl.current && globeEl.current.scene) {
       const scene = globeEl.current.scene && globeEl.current.scene();
       if (
@@ -126,10 +127,10 @@ const Globe = () => {
         globeEl.current.controls().enableZoom = true;
 
         // aim at position of current user ip address with zoom
-        globeEl.current.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
+        // globeEl.current.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
       }
     }
-  }, [globeData]);
+  }, [globeData, GlobeGl]);
 
   const polygonCapColor = (obj: object) => {
     const d = obj as Feature<string>;
@@ -232,7 +233,6 @@ const Globe = () => {
     if (geolocationPin.icontype === "emoji") {
       emojis.map((emoji) => {
         if (emoji.label === geolocationPin.emoji) {
-          // markerIcon = `<span>&#x${emoji.unicode.slice(2)}</span>`;
           markerIcon = `&#x${emoji.unicode.slice(2)}`;
         }
       });
@@ -300,9 +300,6 @@ const Globe = () => {
             backgroundColor="#F6F7FB"
             globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
             backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-            // update canvas width on screen width change
-            // width={1000}
-            // height={600}
             showAtmosphere={true}
             polygonsData={globeData.countries.features}
             polygonStrokeColor={() => "#A4B0BB"}
