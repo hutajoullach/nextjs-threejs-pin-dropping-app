@@ -84,11 +84,16 @@ const Home: NextPage = () => {
   const user = useUser();
 
   const jumbotronRef = useRef<HTMLDivElement>(null);
+  const cardSectionRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const handleScrollClick = (direction: string) => {
     if (direction === "top") {
       jumbotronRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    if (direction === "middle") {
+      cardSectionRef?.current?.scrollIntoView({ behavior: "smooth" });
     }
 
     if (direction === "bottom") {
@@ -113,6 +118,7 @@ const Home: NextPage = () => {
         <span ref={jumbotronRef}></span>
         <Jumbotron />
 
+        <span ref={cardSectionRef}></span>
         {category === "home" && <CardSection />}
 
         <span ref={footerRef}></span>
@@ -124,8 +130,8 @@ const Home: NextPage = () => {
             direction="top"
           />
           <ScrollButtonBottom
-            onClick={() => handleScrollClick("bottom")}
-            direction="bottom"
+            onClick={() => handleScrollClick("middle")}
+            direction="middle"
           />
         </div>
       </PageLayout>
