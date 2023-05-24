@@ -10,11 +10,11 @@ export const ScrollButtonTop = ({
   direction,
 }: ScrollButtonTopProps) => {
   return (
-    <div className="">
-      <GiAirplaneArrival
+    <div className="mb-1 rounded-sm bg-slate-700 px-1 pt-1 transition hover:opacity-80">
+      <GiAirplaneDeparture
         onClick={() => onClick(direction)}
-        color="gray"
-        size={28}
+        color="white"
+        size={34}
       />
     </div>
   );
@@ -30,11 +30,11 @@ export const ScrollButtonBottom = ({
   direction,
 }: ScrollButtonBottomProps) => {
   return (
-    <div className="">
-      <GiAirplaneDeparture
+    <div className="rounded-sm bg-slate-700 px-1 pt-1 transition hover:opacity-80">
+      <GiAirplaneArrival
         onClick={() => onClick(direction)}
-        color="gray"
-        size={28}
+        color="white"
+        size={34}
       />
     </div>
   );

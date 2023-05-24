@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
+import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
 import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner } from "../loading";
@@ -44,6 +45,8 @@ const Globe = () => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
+
+  const geolocationPinGlobe = useGeolocationPinGlobe();
 
   const params = useSearchParams();
   const category = params?.get("category");

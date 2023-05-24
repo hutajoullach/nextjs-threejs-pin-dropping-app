@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type NextPage } from "next";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../styles/styles";
+import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
 
 import { PageLayout } from "~/components/layout";
 import Globe from "~/components/globe/globe";
@@ -18,26 +19,21 @@ import {
 } from "~/components/buttons/scroll-button";
 
 const Jumbotron = () => {
-  // const { data } = api.geolocationPins.getAll.useQuery();
+  const geolocationPinGlobe = useGeolocationPinGlobe();
 
-  // if (!data) return null;
-
-  // const scaffolding = (
-  //   <div className="text-slate-100">scaffolding... come back later 🚧🏗️👷‍♂️</div>
-  // );
+  const unmountGlobe = (
+    <div className="text-slate-100">
+      unmounted globe... toggle it back to view again 🔍🌎👀
+    </div>
+  );
 
   return (
     <div
       className={`${theme.bg.primary} ${theme.h.contentShrunkWithCb} flex w-full justify-center`}
     >
       <div className="flex items-center justify-center">
-        {/* {data.map(({ geolocationPin: pin, user }) => (
-          <div key={pin.id}>{`${pin.lat} ${pin.lon}`}</div>
-        ))} */}
-
-        <Globe />
-
-        {/* {scaffolding} */}
+        {geolocationPinGlobe.isDisplayed && <Globe />}
+        {!geolocationPinGlobe.isDisplayed && unmountGlobe}
       </div>
     </div>
   );
@@ -48,20 +44,29 @@ type GeolocationPinWithUser =
 const CardSection = () => {
   const { data } = api.geolocationPins.getAll.useQuery();
 
+  const geolocationPinGlobe = useGeolocationPinGlobe();
+
   if (!data) return null;
 
   return (
-    <div className={`mt-20 flex w-full justify-center shadow-2xl`}>
-      <div className="grid grid-cols-1 gap-8 py-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-        {data.map((geolocationPinWithUser: GeolocationPinWithUser) => {
-          const { geolocationPin: pin, user } = geolocationPinWithUser;
+    <>
+      <div
+        className={`${theme.bg.primary} ${
+          geolocationPinGlobe.isDisplayed ? "h-24" : ""
+        }`}
+      />
+      <div className={`flex w-full justify-center`}>
+        <div className="grid grid-cols-1 gap-8 py-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          {data.map((geolocationPinWithUser: GeolocationPinWithUser) => {
+            const { geolocationPin: pin, user } = geolocationPinWithUser;
 
-          return (
-            <GeolocationPinCard key={pin.id} {...geolocationPinWithUser} />
-          );
-        })}
+            return (
+              <GeolocationPinCard key={pin.id} {...geolocationPinWithUser} />
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

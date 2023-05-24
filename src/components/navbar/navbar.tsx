@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import useGeolocationPinModal from "~/store/geolocationPinModalStore";
+import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
 import theme from "../../styles/styles";
 import {
   travelPinGlobeLogo,
@@ -17,11 +18,14 @@ import Search from "./search";
 
 import { GoOctoface, GoSignIn, GoPin } from "react-icons/go";
 
+import { GiSloth, GiSpyglass, GiPin } from "react-icons/gi";
+
 const Navbar = () => {
   const { route } = useRouter();
 
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
+  const geolocationPinGlobe = useGeolocationPinGlobe();
 
   const logo = travelPinGlobeSquare as StaticImageData;
 
@@ -55,13 +59,22 @@ const Navbar = () => {
 
           <li className="cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-300">
-              <a
+              {/* <a
                 target="_blank"
                 href="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app"
                 rel="noopener noreferrer"
               >
                 <GoOctoface size={30} color="black" />
-              </a>
+              </a> */}
+
+              <div onClick={geolocationPinGlobe.onToggle}>
+                {geolocationPinGlobe.isDisplayed && (
+                  <GiSloth size={29} color="black" />
+                )}
+                {!geolocationPinGlobe.isDisplayed && (
+                  <GiSpyglass size={29} color="black" />
+                )}
+              </div>
             </div>
           </li>
 
