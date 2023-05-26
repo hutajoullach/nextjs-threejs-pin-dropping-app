@@ -11,11 +11,16 @@ export default async function handler(
 ) {
   if (req.method !== "GET") return res.status(405).end();
 
-  // const detectedIp = requestIp.getClientIp(req);
-  const detectedIp = "24.48.0.1";
+  // const detectedIp = "24.48.0.1";
+  let detectedIp = requestIp.getClientIp(req);
+  if (detectedIp !== null && detectedIp.substring(0, 7) === "::ffff:") {
+    detectedIp = detectedIp.substring(7);
+  }
 
   try {
-    if (!detectedIp) throw new Error("ip data not available");
+    if (!detectedIp || detectedIp === null) {
+      throw new Error("ip data not available");
+    }
 
     const ipAPIUrl = `http://ip-api.com/json/${detectedIp}`;
 

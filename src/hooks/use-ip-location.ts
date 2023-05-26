@@ -14,8 +14,6 @@ const useIPLocation = () => {
       .then((res: AxiosResponse<IPApiGeocode>) => {
         setIPLocStatus("success");
         setIPLocCoords(res.data);
-        console.log(res.data);
-        console.log("hey");
       })
       .catch((err) => {
         console.log(err);

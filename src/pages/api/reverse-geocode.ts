@@ -23,6 +23,7 @@ export default async function handler(
       .get(geoAPIUrl)
       .then((res: AxiosResponse<BigdataReverseGeocode>) => {
         console.log(res.data);
+        return res.data;
       })
       .catch((err) => {
         console.log(err);
