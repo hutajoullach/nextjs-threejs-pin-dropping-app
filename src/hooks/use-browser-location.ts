@@ -11,11 +11,14 @@ const useBrowserLocation = () => {
   const [browserLocData, setBrowserLocData] = useState<BigdataReverseGeocode>();
 
   const onSuccess = (position: GeolocationPosition) => {
-    const geoAPIUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`;
-
-    axios.get(geoAPIUrl).then((res: AxiosResponse<BigdataReverseGeocode>) => {
-      setBrowserLocData(res.data);
-    });
+    axios
+      .post("/api/reverse-geocode", position)
+      .then((res: AxiosResponse<BigdataReverseGeocode>) => {
+        setBrowserLocData(res.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
 
     setBrowserLocStatus("success");
     setBrowserLocCoords(position);

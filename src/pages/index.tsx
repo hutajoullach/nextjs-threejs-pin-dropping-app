@@ -17,6 +17,7 @@ import {
   ScrollButtonBottom,
   ScrollButtonTop,
 } from "~/components/buttons/scroll-button";
+import { LoadingPage } from "../components/loading";
 
 const Jumbotron = () => {
   const geolocationPinGlobe = useGeolocationPinGlobe();
@@ -108,9 +109,17 @@ const Home: NextPage = () => {
 
   const { data, isLoading } = api.geolocationPins.getAll.useQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading)
+  //   return <div className="flex h-full justify-center text-slate-100">Loading...</div>;
 
-  if (!data) return <div>Something went wrong</div>;
+  if (isLoading) return <LoadingPage />;
+
+  if (!data)
+    return (
+      <div className="flex h-full justify-center text-slate-100">
+        Something went wrong
+      </div>
+    );
 
   return (
     <>

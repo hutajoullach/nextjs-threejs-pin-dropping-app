@@ -15,6 +15,7 @@ import Input from "../inputs/input";
 import TextArea from "../inputs/textarea";
 import IconInput from "../inputs/icon-input";
 
+import axios, { AxiosResponse } from "axios";
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
 
@@ -168,24 +169,26 @@ const GeolocationPinModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.MESSAGE) return onNext();
 
+    return;
+
     if (!user) {
       toast.error("login to the app and try again!");
       return null;
     }
 
-    mutate({
-      lat: userLocCoords.lat.toString(),
-      lon: userLocCoords.lng.toString(),
-      country: ipLocCoords?.country || "",
-      countrycode: ipLocCoords?.countryCode || "",
-      city: ipLocCoords?.city || "",
-      timezone: ipLocCoords?.timezone || "",
-      emoji: data.emoji,
-      svgicon: data.svgicon,
-      icontype: selectedIconType,
-      svgiconcolor: pickedColor,
-      message: data.message,
-    });
+    // mutate({
+    //   lat: userLocCoords.lat.toString(),
+    //   lon: userLocCoords.lng.toString(),
+    //   country: ipLocCoords?.country || "",
+    //   countrycode: ipLocCoords?.countryCode || "",
+    //   city: ipLocCoords?.city || "",
+    //   timezone: ipLocCoords?.timezone || "",
+    //   emoji: data.emoji,
+    //   svgicon: data.svgicon,
+    //   icontype: selectedIconType,
+    //   svgiconcolor: pickedColor,
+    //   message: data.message,
+    // });
   };
 
   const actionLabel = useMemo(() => {

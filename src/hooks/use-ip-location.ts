@@ -8,13 +8,18 @@ const useIPLocation = () => {
   const [ipLocStatus, setIPLocStatus] = useState("");
   const [ipLocCoords, setIPLocCoords] = useState<IPApiGeocode>();
 
-  const ipAPIUrl = "http://ip-api.com/json/?fields=61439";
-
   useEffect(() => {
-    axios.get(ipAPIUrl).then((res: AxiosResponse<IPApiGeocode>) => {
-      setIPLocStatus("success");
-      setIPLocCoords(res.data);
-    });
+    axios
+      .get("/api/ip-data")
+      .then((res: AxiosResponse<IPApiGeocode>) => {
+        setIPLocStatus("success");
+        setIPLocCoords(res.data);
+        console.log(res.data);
+        console.log("hey");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return { ipLocStatus, ipLocCoords };

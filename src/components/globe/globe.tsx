@@ -8,7 +8,7 @@ import theme from "../../styles/styles";
 import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
 import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
-import { LoadingSpinner } from "../loading";
+import { LoadingSpinner, LoadingPage } from "../loading";
 
 import {
   GeoJsonCollection,
@@ -104,10 +104,6 @@ const Globe = () => {
   }, []);
 
   useEffect(() => {
-    if (globeEl.current) {
-      console.log(globeEl.current);
-    }
-
     if (globeEl.current && globeEl.current.scene) {
       const scene = globeEl.current.scene && globeEl.current.scene();
       if (
@@ -294,7 +290,7 @@ const Globe = () => {
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
       {!loading && (
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<LoadingPage />}>
           <GlobeGl
             ref={globeEl}
             backgroundColor="#F6F7FB"

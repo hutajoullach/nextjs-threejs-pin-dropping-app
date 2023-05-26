@@ -18,6 +18,7 @@ const GeolocationPinCard = ({
 }: GeolocationPinWithUser) => {
   return (
     <div
+      key={pin.id}
       className={`${theme.bg.cardBackground} flex cursor-pointer rounded-lg px-3 py-3 hover:opacity-80`}
     >
       <div className="flex w-full flex-col gap-2">
@@ -43,7 +44,10 @@ const GeolocationPinCard = ({
             emojis.map(({ label, emoji }) => {
               if (label === pin.emoji)
                 return (
-                  <span className="flex w-full justify-center text-lg">
+                  <span
+                    key={pin.id}
+                    className="flex w-full justify-center text-lg"
+                  >
                     {emoji}
                   </span>
                 );
@@ -53,7 +57,10 @@ const GeolocationPinCard = ({
             svgicons.map(({ label, svg: Svg }) => {
               if (label === pin.svgicon)
                 return (
-                  <span className={`flex w-full justify-center py-1 text-xl`}>
+                  <span
+                    key={pin.id}
+                    className={`flex w-full justify-center py-1 text-xl`}
+                  >
                     <Svg color={pin.svgiconcolor} />
                   </span>
                 );

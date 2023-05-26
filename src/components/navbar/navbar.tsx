@@ -41,7 +41,6 @@ const Navbar = () => {
             src={logo}
             className="hidden cursor-pointer md:block"
             width={70}
-            height={70}
             alt="logo"
           />
         </Link>
