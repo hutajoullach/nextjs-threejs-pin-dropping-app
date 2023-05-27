@@ -22,6 +22,10 @@ export default async function handler(
       throw new Error("ip data not available");
     }
 
+    if (detectedIp === "127.0.0.1") {
+      throw new Error("you are on localhost");
+    }
+
     const ipAPIUrl = `http://ip-api.com/json/${detectedIp}`;
 
     const ipData = await axios

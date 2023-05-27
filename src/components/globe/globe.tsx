@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
 import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
+import useUserLocCoords from "~/store/user-loc-coords-store";
 import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner, LoadingPage } from "../loading";
@@ -44,6 +45,7 @@ const Globe = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
 
   const geolocationPinGlobe = useGeolocationPinGlobe();
+  const userLocCoords = useUserLocCoords();
 
   const params = useSearchParams();
   const category = params?.get("category");
@@ -97,6 +99,16 @@ const Globe = () => {
           console.log(err);
         });
 
+      // setTimeout(() => {
+      //   if (globeEl.current) {
+      //     globeEl.current.pointOfView({
+      //       lat: userLocCoords.coords.lat,
+      //       lng: userLocCoords.coords.lng,
+      //       altitude: 0.5,
+      //     });
+      //   }
+      // }, 500);
+
       setLoading(false);
     };
 
@@ -121,9 +133,6 @@ const Globe = () => {
         globeEl.current.controls().autoRotate = true;
         globeEl.current.controls().autoRotateSpeed = 0.5;
         globeEl.current.controls().enableZoom = true;
-
-        // aim at position of current user ip address with zoom
-        // globeEl.current.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
       }
     }
   }, [globeData, GlobeGl]);
@@ -259,7 +268,11 @@ const Globe = () => {
 
   // const handleIconClick = () => {
   //   if (globeEl && globeEl.current) {
-  //     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }); // Zoom in to level 2
+  //     globeEl.current.pointOfView({
+  //       lat: userLocCoords.coords.lat,
+  //       lng: userLocCoords.coords.lng,
+  //       altitude: 0.5,
+  //     });
   //   }
   // };
 
