@@ -8,7 +8,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../styles/styles";
-import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
+import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 
 import { PageLayout } from "~/components/layout";
 import Globe from "~/components/globe/globe";

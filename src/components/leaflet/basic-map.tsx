@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
+import useUserLocCoords from "~/store/user-loc-coords-store";
+
 import {
   MapContainer,
   TileLayer,
@@ -34,18 +36,15 @@ const LocationMarker = ({ userLocCoords }: LocationMarkerProps) => {
   );
 };
 
-type BasicMapProps = {
-  userLocCoords: { lat: number; lng: number };
-};
-
-const BasicMap = ({ userLocCoords }: BasicMapProps) => {
+const BasicMap = () => {
+  const userLocCoords = useUserLocCoords();
   const ZOOM_LEVEL = 9;
 
-  console.log(userLocCoords);
+  // console.log(userLocCoords.coords);
 
   return (
     <MapContainer
-      center={userLocCoords}
+      center={userLocCoords.coords}
       zoom={ZOOM_LEVEL}
       scrollWheelZoom={false}
       className="h-[35vh] rounded-lg"
@@ -54,8 +53,7 @@ const BasicMap = ({ userLocCoords }: BasicMapProps) => {
         url={osm.maptiler.url}
         attribution={osm.maptiler.attribution}
       />
-
-      <LocationMarker userLocCoords={userLocCoords} />
+      <LocationMarker userLocCoords={userLocCoords.coords} />
     </MapContainer>
   );
 };

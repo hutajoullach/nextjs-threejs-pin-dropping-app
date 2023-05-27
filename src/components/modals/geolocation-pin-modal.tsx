@@ -4,7 +4,8 @@ import { useUser } from "@clerk/nextjs";
 
 import { api } from "~/utils/api";
 import { emojis, svgicons } from "../../constants";
-import useGeolocationPinModal from "~/store/geolocationPinModalStore";
+import useGeolocationPinModal from "~/store/geolocation-pin-modal-store";
+import useUserLocCoords from "~/store/user-loc-coords-store";
 import useBrowserLocation from "../../hooks/use-browser-location";
 import useIPLocation from "../../hooks/use-ip-location";
 
@@ -33,6 +34,7 @@ enum STEPS {
 const GeolocationPinModal = () => {
   const { user } = useUser();
   const geolocationPinModal = useGeolocationPinModal();
+  const userLocCoords = useUserLocCoords();
 
   const ctx = api.useContext();
   const { mutate, isLoading: isPosting } =
@@ -78,11 +80,6 @@ const GeolocationPinModal = () => {
 
   const [step, setStep] = useState(STEPS.GEOLOCATION);
 
-  const [userLocCoords, setUserLocCoords] = useState({
-    lat: -77.508333,
-    lng: 164.754167,
-  });
-
   const { ipLocStatus, ipLocCoords } = useIPLocation();
   // console.log(ipLocStatus);
   // console.log(ipLocCoords);
@@ -95,7 +92,7 @@ const GeolocationPinModal = () => {
       geolocationPinModal.isOpen
     ) {
       setTimeout(() => {
-        setUserLocCoords({
+        userLocCoords.setCoords({
           lat: ipLocCoords?.lat,
           lng: ipLocCoords?.lon,
         });
@@ -105,10 +102,7 @@ const GeolocationPinModal = () => {
 
   useEffect(() => {
     if (!geolocationPinModal.isOpen) {
-      setUserLocCoords({
-        lat: -77.508333,
-        lng: 164.754167,
-      });
+      userLocCoords.resetCoords();
     }
   }, [geolocationPinModal.isOpen]);
 
@@ -124,7 +118,7 @@ const GeolocationPinModal = () => {
       browserLocCoords?.coords.latitude !== undefined &&
       browserLocCoords?.coords.longitude !== undefined
     ) {
-      setUserLocCoords({
+      userLocCoords.setCoords({
         lat: browserLocCoords?.coords.latitude,
         lng: browserLocCoords?.coords.longitude,
       });
@@ -209,16 +203,8 @@ const GeolocationPinModal = () => {
         title="Add Your GeolocationPin"
         subtitle="drop your pin on globe!"
       />
-      <BasicMap userLocCoords={userLocCoords} />
 
-      {/* <Input
-        id="address"
-        label="Address"
-        disabled={isPosting}
-        register={register}
-        errors={errors}
-        required
-      /> */}
+      <BasicMap />
 
       <Button
         onClick={getBrowserLocation}
@@ -251,16 +237,8 @@ const GeolocationPinModal = () => {
           title="Pick Your Map Icon"
           subtitle="choose map icon you want to use!"
         />
-        {/* <Input
-          id="emoji"
-          label="Emoji"
-          disabled={isPosting}
-          register={register}
-          errors={errors}
-          required
-        /> */}
 
-        <div className="flex flex-wrap border-b border-gray-200 border-slate-800 text-center text-sm font-medium">
+        <div className="flex flex-wrap border-b border-slate-800 text-center text-sm font-medium">
           <div
             onClick={() => setSelectedIconType("emoji")}
             className="mr-2 cursor-pointer"

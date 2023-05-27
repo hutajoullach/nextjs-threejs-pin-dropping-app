@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
-import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
+import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner, LoadingPage } from "../loading";
@@ -253,8 +253,15 @@ const Globe = () => {
     el.style.pointerEvents = "auto";
     el.style.cursor = "pointer";
     el.onclick = () => console.info("you clicked!");
+    // el.onclick = () => handleIconClick();
     return el;
   };
+
+  // const handleIconClick = () => {
+  //   if (globeEl && globeEl.current) {
+  //     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }); // Zoom in to level 2
+  //   }
+  // };
 
   if (
     category === "food" ||

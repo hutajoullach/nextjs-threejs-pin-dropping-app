@@ -4,8 +4,8 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import useGeolocationPinModal from "~/store/geolocationPinModalStore";
-import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
+import useGeolocationPinModal from "~/store/geolocation-pin-modal-store";
+import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 import theme from "../../styles/styles";
 import {
   travelPinGlobeLogo,

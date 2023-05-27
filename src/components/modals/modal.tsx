@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import useGeolocationPinGlobe from "~/store/geolocationPinGlobeStore";
+import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 
 import Button from "../button";
 
