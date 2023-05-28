@@ -20,6 +20,7 @@ import { GlobeData } from "../../types/globe-data";
 import { Lookup } from "../../types/lookup";
 import { IPApiGeocode } from "../../types/ip-api-geocode";
 import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
+import useGroupByProximity from "~/hooks/use-group-by-proximity";
 
 import number from "numeral";
 import chroma from "chroma-js";
@@ -42,6 +43,13 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const user = useUser();
 
   const { data } = api.geolocationPins.getAll.useQuery();
+  // console.log(data);
+  const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(
+    data ?? [],
+    500
+  ); // Group data within 500 km of each
+  // console.log(filteredData);
+  // console.log(proximityCoordsGroups);
 
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
@@ -395,7 +403,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
                   : "#51CB90"
               }
               labelResolution={2}
-              htmlElementsData={data}
+              htmlElementsData={filteredData}
               htmlElement={htmlElement}
               htmlLat={(d: object) =>
                 parseFloat((d as GeolocationPinWithUser).geolocationPin.lat)

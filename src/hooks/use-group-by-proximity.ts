@@ -16,40 +16,40 @@ const distance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   return d;
 };
 
-type GeolocationPinWithoutUser =
-  RouterOutputs["geolocationPins"]["getAll"][number][GeolocationPin];
+type GeolocationPinWithUser = RouterOutputs["geolocationPins"]["getAll"];
 
-const useGroupByProximity = (data: object[], threshold: number) => {
-  const groups = [];
-  const filteredData = [];
-  for (let i = 0; i < data.length; i++) {
-    const group = [data[i]];
-    for (let j = i + 1; j < data.length; j++) {
-      if (
-        distance(data[i].lat, data[i].lon, data[j].lat, data[j].lon) <=
-        threshold
-      ) {
-        group.push(data[j]);
+const useGroupByProximity = (
+  data: GeolocationPinWithUser,
+  threshold: number
+) => {
+  const groups: GeolocationPinWithUser[] = [];
+  const filteredData: GeolocationPinWithUser = [];
+
+  data.forEach((item, i) => {
+    if (!filteredData.includes(item)) {
+      const group = [item];
+      data.slice(i + 1).forEach((otherItem) => {
+        if (
+          distance(
+            parseFloat(item.geolocationPin.lat),
+            parseFloat(item.geolocationPin.lon),
+            parseFloat(otherItem.geolocationPin.lat),
+            parseFloat(otherItem.geolocationPin.lon)
+          ) <= threshold &&
+          !filteredData.includes(otherItem)
+        ) {
+          group.push(otherItem);
+        }
+      });
+      if (group.length > 1) {
+        groups.push(group);
+      } else {
+        filteredData.push(item);
       }
     }
-    if (group.length > 1) {
-      groups.push(group);
-    } else {
-      filteredData.push(data[i]);
-    }
-  }
+  });
+
   return { filteredData, groups };
 };
 
 export default useGroupByProximity;
-
-// const myData = [
-//   { name: "Location 1", lat: 40.7128, lon: -74.006 },
-//   { name: "Location 2", lat: 51.5074, lon: -0.1278 },
-//   { name: "Location 3", lat: 35.6895, lon: 139.6917 },
-// ];
-
-// const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(myData, 500); // Group data within 500 km of each other
-
-// console.log(filteredData);
-// console.log(proximityCoordsGroups);
