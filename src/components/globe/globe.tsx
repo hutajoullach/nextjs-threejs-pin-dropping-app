@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
 import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
-import useUserLocCoords from "~/store/user-loc-coords-store";
+import useIPLocation from "../../hooks/use-ip-location";
 import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
 import { LoadingSpinner, LoadingPage } from "../loading";
@@ -18,6 +18,7 @@ import {
 } from "../../types/geo-json-collection";
 import { GlobeData } from "../../types/globe-data";
 import { Lookup } from "../../types/lookup";
+import { IPApiGeocode } from "../../types/ip-api-geocode";
 import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
 
 import number from "numeral";
@@ -25,6 +26,7 @@ import chroma from "chroma-js";
 import axios, { AxiosResponse } from "axios";
 import * as THREE from "three";
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -45,7 +47,23 @@ const Globe = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
 
   const geolocationPinGlobe = useGeolocationPinGlobe();
-  const userLocCoords = useUserLocCoords();
+
+  const [isIpCoordsFetched, setIsIpCoordsFetched] = useState(false);
+  const [userLocCoords, setUserLocCoords] = useState<
+    IPApiGeocode | undefined
+  >();
+
+  useEffect(() => {
+    axios
+      .get("/api/ip-data")
+      .then((res: AxiosResponse<IPApiGeocode>) => {
+        setUserLocCoords(res.data);
+        setIsIpCoordsFetched(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const params = useSearchParams();
   const category = params?.get("category");
@@ -99,21 +117,31 @@ const Globe = () => {
           console.log(err);
         });
 
-      // setTimeout(() => {
-      //   if (globeEl.current) {
-      //     globeEl.current.pointOfView({
-      //       lat: userLocCoords.coords.lat,
-      //       lng: userLocCoords.coords.lng,
-      //       altitude: 0.5,
-      //     });
-      //   }
-      // }, 500);
-
       setLoading(false);
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (globeEl.current && isIpCoordsFetched && userLocCoords) {
+      if (category === "home") {
+        globeEl.current.pointOfView({
+          lat: userLocCoords.lat,
+          lng: userLocCoords.lon,
+          altitude: 0.5,
+        });
+      }
+
+      if (category !== "home") {
+        globeEl.current.pointOfView({
+          lat: userLocCoords.lat,
+          lng: userLocCoords.lon,
+          altitude: 2.5,
+        });
+      }
+    }
+  }, [isIpCoordsFetched, userLocCoords, category]);
 
   useEffect(() => {
     if (globeEl.current && globeEl.current.scene) {
@@ -262,19 +290,8 @@ const Globe = () => {
     el.style.pointerEvents = "auto";
     el.style.cursor = "pointer";
     el.onclick = () => console.info("you clicked!");
-    // el.onclick = () => handleIconClick();
     return el;
   };
-
-  // const handleIconClick = () => {
-  //   if (globeEl && globeEl.current) {
-  //     globeEl.current.pointOfView({
-  //       lat: userLocCoords.coords.lat,
-  //       lng: userLocCoords.coords.lng,
-  //       altitude: 0.5,
-  //     });
-  //   }
-  // };
 
   if (
     category === "food" ||

@@ -80,15 +80,23 @@ const GeolocationPinModal = () => {
 
   const [step, setStep] = useState(STEPS.GEOLOCATION);
 
-  const { ipLocStatus, ipLocCoords } = useIPLocation();
-  // console.log(ipLocStatus);
+  const {
+    data: ipLocCoords,
+    isLoading: isIpCoordsLoading,
+    isError: isIpCoordsError,
+    status: ipLocStatus,
+    isPreviousData: isIpCoordsPrevData,
+  } = useIPLocation();
   // console.log(ipLocCoords);
+  // console.log(isIpCoordsLoading);
+  // console.log(isIpCoordsError);
+  // console.log(ipLocStatus);
+  // console.log(isIpCoordsPrevData);
 
   useEffect(() => {
     if (
       ipLocStatus === "success" &&
-      ipLocCoords?.lat !== undefined &&
-      ipLocCoords?.lon !== undefined &&
+      ipLocCoords !== undefined &&
       geolocationPinModal.isOpen
     ) {
       setTimeout(() => {
