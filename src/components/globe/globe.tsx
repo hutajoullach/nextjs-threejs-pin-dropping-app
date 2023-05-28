@@ -46,7 +46,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(0.7);
 
   const geolocationPinGlobe = useGeolocationPinGlobe();
 
@@ -131,7 +131,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
         globeEl.current.pointOfView({
           lat: userLocCoords.lat,
           lng: userLocCoords.lon,
-          altitude: 0.5,
+          altitude: zoomLevel,
         });
       }
 
@@ -296,21 +296,23 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   };
 
   const handleZoomClick = (zoom: string) => {
-    if (zoom === "zoom-in" && globeEl.current) {
+    if (zoom === "zoom-in") {
       setZoomLevel((prev) => {
-        return prev - 0.1;
-      });
-      globeEl.current.pointOfView({
-        altitude: zoomLevel,
+        const newZoomLevel = prev - 0.1;
+        if (globeEl.current) {
+          globeEl.current.pointOfView({ altitude: newZoomLevel });
+        }
+        return newZoomLevel;
       });
     }
 
-    if (zoom === "zoom-out" && globeEl.current) {
+    if (zoom === "zoom-out") {
       setZoomLevel((prev) => {
-        return prev + 0.1;
-      });
-      globeEl.current.pointOfView({
-        altitude: zoomLevel,
+        const newZoomLevel = prev + 0.1;
+        if (globeEl.current) {
+          globeEl.current.pointOfView({ altitude: newZoomLevel });
+        }
+        return newZoomLevel;
       });
     }
   };
@@ -357,13 +359,17 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
               globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
               backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
               showAtmosphere={true}
-              polygonsData={globeData.countries.features}
+              polygonsData={
+                category === "health" ? globeData.countries.features : undefined
+              }
               polygonStrokeColor={() => "#A4B0BB"}
               polygonSideColor={() => "rgba(222,225,228,.6)"}
               onPolygonHover={setHoverD}
               polygonCapColor={polygonCapColor}
               polygonLabel={polygonLabel}
-              labelsData={globeData.points.features}
+              labelsData={
+                category === "health" ? globeData.points.features : undefined
+              }
               labelLat={(d: object) =>
                 (d as Feature<number>).properties.latitude || 0
               }
