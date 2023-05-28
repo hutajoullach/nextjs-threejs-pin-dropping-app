@@ -111,7 +111,7 @@ const Home: NextPage = () => {
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
-  const isHomeRoute = pathname === "/";
+  const isRootRoute = pathname === "/";
 
   const { data, isLoading } = api.geolocationPins.getAll.useQuery();
 

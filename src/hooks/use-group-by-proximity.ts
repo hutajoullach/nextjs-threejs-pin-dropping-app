@@ -1,3 +1,6 @@
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
+
 const distance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // Earth's radius in km
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -12,6 +15,9 @@ const distance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const d = R * c; // Distance in km
   return d;
 };
+
+type GeolocationPinWithoutUser =
+  RouterOutputs["geolocationPins"]["getAll"][number][GeolocationPin];
 
 const useGroupByProximity = (data: object[], threshold: number) => {
   const groups = [];
@@ -32,7 +38,7 @@ const useGroupByProximity = (data: object[], threshold: number) => {
       filteredData.push(data[i]);
     }
   }
-  return { groups, filteredData };
+  return { filteredData, groups };
 };
 
 export default useGroupByProximity;
@@ -43,7 +49,7 @@ export default useGroupByProximity;
 //   { name: "Location 3", lat: 35.6895, lon: 139.6917 },
 // ];
 
-// const { groups, filteredData } = useGroupByProximity(myData, 500); // Group data within 500 km of each other
+// const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(myData, 500); // Group data within 500 km of each other
 
-// console.log(groups);
 // console.log(filteredData);
+// console.log(proximityCoordsGroups);
