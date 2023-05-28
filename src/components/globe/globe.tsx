@@ -70,7 +70,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
-  const isHomeRoute = pathname === "/";
+  const isRootRoute = pathname === "/";
 
   let lookup: Lookup[] = [];
 
@@ -356,7 +356,12 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
             <GlobeGl
               ref={globeEl}
               backgroundColor="#F6F7FB"
-              globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+              globeImageUrl={
+                category === null
+                  ? "//unpkg.com/three-globe/example/img/earth-night.jpg"
+                  : "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+              }
+              bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
               backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
               showAtmosphere={true}
               polygonsData={
