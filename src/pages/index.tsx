@@ -19,7 +19,9 @@ import {
 } from "~/components/buttons/scroll-button";
 import { LoadingPage } from "../components/loading";
 
-const Jumbotron = () => {
+import { useInView } from "react-intersection-observer";
+
+const Jumbotron = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const geolocationPinGlobe = useGeolocationPinGlobe();
 
   const unmountGlobe = (
@@ -33,7 +35,9 @@ const Jumbotron = () => {
       className={`${theme.bg.primary} ${theme.h.contentShrunkWithCb} flex w-full justify-center`}
     >
       <div className="flex items-center justify-center">
-        {geolocationPinGlobe.isDisplayed && <Globe />}
+        {geolocationPinGlobe.isDisplayed && (
+          <Globe jumboIsVisible={jumboIsVisible} />
+        )}
         {!geolocationPinGlobe.isDisplayed && unmountGlobe}
       </div>
     </div>
@@ -88,6 +92,8 @@ const Home: NextPage = () => {
   const cardSectionRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
+  const { ref: intersectionJumboRef, inView: jumboIsVisible } = useInView();
+
   const handleScrollClick = (direction: string) => {
     if (direction === "top") {
       jumbotronRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -125,7 +131,8 @@ const Home: NextPage = () => {
     <>
       <PageLayout>
         <span ref={jumbotronRef}></span>
-        <Jumbotron />
+        <span ref={intersectionJumboRef}></span>
+        <Jumbotron jumboIsVisible={jumboIsVisible} />
 
         <span ref={cardSectionRef}></span>
         {category === "home" && <CardSection />}
