@@ -1,15 +1,5 @@
 import { useEffect, useRef, useState, useMemo, lazy, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import dynamic from "next/dynamic";
-
-import { api } from "~/utils/api";
-import type { RouterOutputs } from "~/utils/api";
-import theme from "../../styles/styles";
-import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
-import useIPLocation from "../../hooks/use-ip-location";
-import { categories, emojis, svgicons } from "../../constants";
-import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
-import { LoadingSpinner, LoadingPage } from "../loading";
 
 import {
   GeoJsonCollection,
@@ -17,13 +7,21 @@ import {
   Properties,
 } from "../../types/geo-json-collection";
 import { GlobeData } from "../../types/globe-data";
-import { Lookup } from "../../types/lookup";
 import { IPApiGeocode } from "../../types/ip-api-geocode";
 import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
-import useGroupByProximity from "~/hooks/use-group-by-proximity";
 
-import number from "numeral";
-import chroma from "chroma-js";
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
+import theme from "../../styles/styles";
+import { categories, emojis, svgicons } from "../../constants";
+import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
+import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
+import useIPLocation from "../../hooks/use-ip-location";
+import useGroupByProximity from "~/hooks/use-group-by-proximity";
+import { LoadingSpinner, LoadingPage } from "../loading";
+import createHtmlElement from "./create-html-element";
+import { createPolygonCapColor, createPolygonLabel } from "./create-polygon";
+
 import axios, { AxiosResponse } from "axios";
 import * as THREE from "three";
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
@@ -39,6 +37,8 @@ const GlobeGl = lazy(() => {
   return import("react-globe.gl");
 });
 
+type GeolocationPinWithUser =
+  RouterOutputs["geolocationPins"]["getAll"][number];
 const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const user = useUser();
 
@@ -52,16 +52,11 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const [zoomLevel, setZoomLevel] = useState(0.7);
-  const colorScale = chroma.scale(["red", "yellow"]);
 
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
   const isRootRoute = pathname === "/";
-
-  let lookup: Lookup[] = [];
-
-  const geolocationPinGlobe = useGeolocationPinGlobe();
 
   const [isIpCoordsFetched, setIsIpCoordsFetched] = useState(false);
   const [userLocCoords, setUserLocCoords] = useState<
@@ -108,25 +103,25 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
     setIsApiDataFetched(true);
   }, []);
 
-  useEffect(() => {
-    if (globeEl.current && isIpCoordsFetched && userLocCoords) {
-      if (category === "home") {
-        globeEl.current.pointOfView({
-          lat: userLocCoords.lat,
-          lng: userLocCoords.lon,
-          altitude: zoomLevel,
-        });
-      }
+  // useEffect(() => {
+  //   if (globeEl.current && isIpCoordsFetched && userLocCoords) {
+  //     if (category === "home") {
+  //       globeEl.current.pointOfView({
+  //         lat: userLocCoords.lat,
+  //         lng: userLocCoords.lon,
+  //         altitude: zoomLevel,
+  //       });
+  //     }
 
-      if (category !== "home") {
-        globeEl.current.pointOfView({
-          lat: userLocCoords.lat,
-          lng: userLocCoords.lon,
-          altitude: 2.5,
-        });
-      }
-    }
-  }, [isIpCoordsFetched, userLocCoords, category]);
+  //     if (category !== "home") {
+  //       globeEl.current.pointOfView({
+  //         lat: userLocCoords.lat,
+  //         lng: userLocCoords.lon,
+  //         altitude: 2.5,
+  //       });
+  //     }
+  //   }
+  // }, [isIpCoordsFetched, userLocCoords, category]);
 
   useEffect(() => {
     if (globeEl.current && globeEl.current.scene) {
@@ -149,134 +144,6 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
       }
     }
   }, [globeData, GlobeGl]);
-
-  const polygonCapColor = (obj: object) => {
-    const d = obj as Feature<string>;
-
-    if (category !== "health") return "#FF7F7F";
-
-    if (lookup === undefined || lookup.length == 0) {
-      (happinessScoreData as WorldHappinessScoreData[]).forEach((d) => {
-        const countryData = { [d.countryName]: d };
-        lookup.push(countryData);
-      });
-    }
-
-    let lookedUpCountryData;
-    for (const object of lookup) {
-      for (const key in object) {
-        if (key === d?.properties?.ADMIN) {
-          lookedUpCountryData = object[key];
-        }
-      }
-    }
-
-    if (typeof lookedUpCountryData === "undefined") return "";
-
-    return colorScale(parseInt(lookedUpCountryData?.happinessScore) * 0.1)
-      .brighten(0.5)
-      .hex();
-  };
-
-  const polygonLabel = (obj: object) => {
-    const d = obj as Feature<string>;
-
-    if (category !== "health") return "";
-
-    if (lookup === undefined || lookup.length == 0) {
-      (happinessScoreData as WorldHappinessScoreData[]).forEach((d) => {
-        const countryData = { [d.countryName]: d };
-        lookup.push(countryData);
-      });
-    }
-
-    let lookedUpCountryData;
-    for (const object of lookup) {
-      for (const key in object) {
-        if (key === d?.properties?.ADMIN) {
-          lookedUpCountryData = object[key];
-        }
-      }
-    }
-
-    return `
-            <div style="position: relative; z-index: 4; min-width: 108px; padding: 10px 14px;background: #fff;border: 1px solid #E5E5E5;box-shadow: 0px 2px 20px rgba(32, 32, 35, 0.13);border-radius: 4px; text-align: left;">
-            <div style="font-family: 'Open sans', sans-serif; margin-bottom:10px;font-weight: 600;font-size: 13px;line-height: 16px;text-transform: capitalize;color: #2D3032;">
-                ${d?.properties?.ADMIN}
-            </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Visitors: ${number(d?.properties?.POP_EST).format("0a")}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Happiness Score: ${lookedUpCountryData?.happinessScore}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Happiness Rank: ${lookedUpCountryData?.happinessRank}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Life Expectancy: ${
-                      lookedUpCountryData?.healthLifeExpectancy
-                    }
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Generosity: ${lookedUpCountryData?.generosity}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    Freedom: ${lookedUpCountryData?.freedom}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    TrustGovernmentCorruption: ${
-                      lookedUpCountryData?.trustGovernmentCorruption
-                    }
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    DystopiaResidual: ${lookedUpCountryData?.dystopiaResidual}
-                </div>
-                <div style="font-family: 'Open sans', sans-serif;font-size: 13px;line-height: 16px;color: #3E4850;">
-                    DataYear: ${lookedUpCountryData?.year}
-                </div>
-
-            </div>
-        `;
-  };
-
-  type GeolocationPinWithUser =
-    RouterOutputs["geolocationPins"]["getAll"][number];
-  const htmlElement = (obj: object) => {
-    const { geolocationPin, user } = obj as GeolocationPinWithUser;
-
-    if (category !== "home") return document.createElement("div");
-
-    let markerIcon = "";
-    if (geolocationPin.icontype === "emoji") {
-      emojis.map((emoji) => {
-        if (emoji.label === geolocationPin.emoji) {
-          markerIcon = `&#x${emoji.unicode.slice(2)}`;
-        }
-      });
-    }
-
-    if (geolocationPin.icontype === "svg") {
-      svgicons.map((svgicon) => {
-        if (svgicon.label === geolocationPin.svgicon) {
-          markerIcon = svgicon.stringifiedSvg;
-        }
-      });
-    }
-
-    // HTMLElement only, JSX.Element cannot be returned.
-    const el = document.createElement("div");
-    // unable to attach svg with appendChild
-    el.innerHTML = markerIcon;
-    if (geolocationPin.icontype === "svg") {
-      el.style.fill = geolocationPin.svgiconcolor;
-    }
-    el.style.width = "20px";
-    el.style.pointerEvents = "auto";
-    el.style.cursor = "pointer";
-    el.onclick = () => console.info("you clicked!");
-    return el;
-  };
 
   const handleZoomClick = (zoom: string) => {
     if (zoom === "zoom-in") {
@@ -333,7 +200,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
-      {isApiDataFetched && (
+      {isApiDataFetched && isGlobeDataFetched && (
         <>
           <Suspense fallback={<LoadingPage />}>
             <GlobeGl
@@ -353,8 +220,12 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
               polygonStrokeColor={() => "#A4B0BB"}
               polygonSideColor={() => "rgba(222,225,228,.6)"}
               onPolygonHover={setHoverD}
-              polygonCapColor={polygonCapColor}
-              polygonLabel={polygonLabel}
+              polygonCapColor={(d: object) =>
+                createPolygonCapColor(d, category, happinessScoreData)
+              }
+              polygonLabel={(d: object) =>
+                createPolygonLabel(d, category, happinessScoreData)
+              }
               labelsData={
                 category === "health" ? globeData.points.features : undefined
               }
@@ -379,7 +250,9 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
               }
               labelResolution={2}
               htmlElementsData={filteredData}
-              htmlElement={htmlElement}
+              htmlElement={(d: object) =>
+                createHtmlElement(d as GeolocationPinWithUser, category)
+              }
               htmlLat={(d: object) =>
                 parseFloat((d as GeolocationPinWithUser).geolocationPin.lat)
               }
