@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
 import { emojis, svgicons } from "../../constants";
 
@@ -7,22 +9,30 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-const SinglePinCard = () => {
+type GeolocationPinWithUser =
+  RouterOutputs["geolocationPins"]["getAll"][number];
+const SinglePinCard = ({
+  pinWithUser,
+}: {
+  pinWithUser: GeolocationPinWithUser;
+}) => {
+  const { geolocationPin: pin, user } = pinWithUser;
+
   return (
     <div
       className={`${theme.bg.cardBackground} flex cursor-pointer rounded-lg px-3 py-3 hover:opacity-80`}
     >
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full rounded-xl">
-          {/* <Image
+          <Image
             src={user.profileImageUrl}
             width={45}
             height={45}
             className="rounded-full object-cover"
             alt=""
-          /> */}
+          />
           <div className="flex w-full justify-end px-3 py-3 text-xs font-semibold text-neutral-600">
-            {/* @{user.username} */}
+            @{user.username}
           </div>
         </div>
 
@@ -30,7 +40,7 @@ const SinglePinCard = () => {
           dropped icon
         </span>
         <div className="flex rounded-full bg-white px-6 py-2 text-xs text-neutral-500">
-          {/* {pin.icontype === "emoji" &&
+          {pin.icontype === "emoji" &&
             emojis.map(({ label, emoji }) => {
               if (label === pin.emoji)
                 return (
@@ -41,9 +51,9 @@ const SinglePinCard = () => {
                     {emoji}
                   </span>
                 );
-            })} */}
+            })}
 
-          {/* {pin.icontype === "svg" &&
+          {pin.icontype === "svg" &&
             svgicons.map(({ label, svg: Svg }) => {
               if (label === pin.svgicon)
                 return (
@@ -54,18 +64,18 @@ const SinglePinCard = () => {
                     <Svg color={pin.svgiconcolor} />
                   </span>
                 );
-            })} */}
+            })}
         </div>
 
         <div className="-mb-1 flex flex-col justify-between rounded-lg px-6 text-xs text-neutral-600">
           <span className="font-light">dropped @</span>
-          {/* {pin.city && pin.country && (
+          {pin.city && pin.country && (
             <span className="font-semibold">
               {pin.city}, {pin.country}
             </span>
-          )} */}
+          )}
           <span className="flex-end flex font-light">
-            {/* {dayjs(pin.createdAt).fromNow()} */}
+            {dayjs(pin.createdAt).fromNow()}
           </span>
         </div>
       </div>
