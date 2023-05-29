@@ -171,26 +171,24 @@ const GeolocationPinModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.MESSAGE) return onNext();
 
-    return;
-
     if (!user) {
       toast.error("login to the app and try again!");
       return null;
     }
 
-    // mutate({
-    //   lat: userLocCoords.lat.toString(),
-    //   lon: userLocCoords.lng.toString(),
-    //   country: ipLocCoords?.country || "",
-    //   countrycode: ipLocCoords?.countryCode || "",
-    //   city: ipLocCoords?.city || "",
-    //   timezone: ipLocCoords?.timezone || "",
-    //   emoji: data.emoji,
-    //   svgicon: data.svgicon,
-    //   icontype: selectedIconType,
-    //   svgiconcolor: pickedColor,
-    //   message: data.message,
-    // });
+    mutate({
+      lat: userLocCoords.coords.lat.toString(),
+      lon: userLocCoords.coords.lng.toString(),
+      country: ipLocCoords?.country || "",
+      countrycode: ipLocCoords?.countryCode || "",
+      city: ipLocCoords?.city || "",
+      timezone: ipLocCoords?.timezone || "",
+      emoji: data.emoji,
+      svgicon: data.svgicon,
+      icontype: selectedIconType,
+      svgiconcolor: pickedColor,
+      message: data.message,
+    });
   };
 
   const actionLabel = useMemo(() => {
