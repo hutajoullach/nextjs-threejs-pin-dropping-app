@@ -11,6 +11,7 @@ import theme from "../styles/styles";
 import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 
 import { PageLayout } from "~/components/layout";
+import Categories from "~/components/navbar/categories";
 import Globe from "~/components/globe/globe";
 import GeolocationPinCard from "~/components/geolocation-pins/geolocation-pin-card";
 import {
@@ -96,7 +97,7 @@ const Home: NextPage = () => {
 
   const handleScrollClick = (direction: string) => {
     if (direction === "top") {
-      jumbotronRef?.current?.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
 
     if (direction === "middle") {
@@ -140,7 +141,7 @@ const Home: NextPage = () => {
         <span ref={footerRef}></span>
         <Footer />
 
-        <div className="absolute bottom-5 right-5">
+        <div className="fixed bottom-5 right-5">
           <ScrollButtonTop
             onClick={() => handleScrollClick("top")}
             direction="top"
