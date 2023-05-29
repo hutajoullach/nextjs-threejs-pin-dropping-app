@@ -11,20 +11,20 @@ export default async function handler(
 ) {
   if (req.method !== "GET") return res.status(405).end();
 
-  // const detectedIp = "24.48.0.1";
-  let detectedIp = requestIp.getClientIp(req);
-  if (detectedIp !== null && detectedIp.substring(0, 7) === "::ffff:") {
-    detectedIp = detectedIp.substring(7);
-  }
+  const detectedIp = "24.48.0.1";
+  // let detectedIp = requestIp.getClientIp(req);
+  // if (detectedIp !== null && detectedIp.substring(0, 7) === "::ffff:") {
+  //   detectedIp = detectedIp.substring(7);
+  // }
 
   try {
     if (!detectedIp || detectedIp === null) {
       throw new Error("ip data not available");
     }
 
-    if (detectedIp === "127.0.0.1") {
-      throw new Error("you are on localhost");
-    }
+    // if (detectedIp === "127.0.0.1") {
+    //   throw new Error("you are on localhost");
+    // }
 
     const ipAPIUrl = `http://ip-api.com/json/${detectedIp}`;
 

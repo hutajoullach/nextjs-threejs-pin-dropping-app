@@ -43,18 +43,23 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const user = useUser();
 
   const { data } = api.geolocationPins.getAll.useQuery();
-  // console.log(data);
   const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(
     data ?? [],
     500
   ); // Group data within 500 km of each
-  // console.log(filteredData);
-  // console.log(proximityCoordsGroups);
 
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const [zoomLevel, setZoomLevel] = useState(0.7);
+  const colorScale = chroma.scale(["red", "yellow"]);
+
+  const params = useSearchParams();
+  const category = params?.get("category");
+  const pathname = usePathname();
+  const isRootRoute = pathname === "/";
+
+  let lookup: Lookup[] = [];
 
   const geolocationPinGlobe = useGeolocationPinGlobe();
 
@@ -62,6 +67,8 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const [userLocCoords, setUserLocCoords] = useState<
     IPApiGeocode | undefined
   >();
+  const [isGlobeDataFetched, setIsGlobeDataFetched] = useState(false);
+  const [globeData, setGlobeData] = useState<GlobeData | undefined>();
 
   useEffect(() => {
     axios
@@ -73,64 +80,32 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
       .catch((err) => {
         console.log(err);
       });
+
+    axios
+      .get("/api/globe")
+      .then((res: AxiosResponse<GlobeData>) => {
+        setGlobeData(res.data);
+        setIsGlobeDataFetched(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  const params = useSearchParams();
-  const category = params?.get("category");
-  const pathname = usePathname();
-  const isRootRoute = pathname === "/";
-
-  let lookup: Lookup[] = [];
-
-  const [globeData, setGlobeData] = useState<GlobeData>({
-    countries: {
-      features: [],
-    },
-    points: {
-      features: [],
-    },
-  });
-
+  const [isApiDataFetched, setIsApiDataFetched] = useState(false);
   const [happinessScoreData, setHappinessScoreData] = useState<
     WorldHappinessScoreData[]
   >(worldHappinessScoreData);
 
-  const [loading, setLoading] = useState(true);
-  const colorScale = chroma.scale(["red", "yellow"]);
-
   useEffect(() => {
-    const fetchData = () => {
-      setLoading(true);
-
+    if (category === "health") {
       const sortedData = worldHappinessScoreData.sort((a, b) =>
         a.countryName.localeCompare(b.countryName)
       );
       setHappinessScoreData(sortedData);
+    }
 
-      axios
-        .get<GeoJsonCollection<object>[]>(
-          "https://raw.githubusercontent.com/iamanas20/geojson/main/map11.geojson"
-        )
-        .then((res: AxiosResponse<GeoJsonCollection<object>[]>) => {
-          if (
-            Array.isArray(res.data) &&
-            res.data[0] !== undefined &&
-            res.data[1] !== undefined
-          ) {
-            setGlobeData({
-              countries: { features: res.data[0].features },
-              points: { features: res.data[1].features },
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      setLoading(false);
-    };
-
-    fetchData();
+    setIsApiDataFetched(true);
   }, []);
 
   useEffect(() => {
@@ -343,22 +318,22 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
 
   if (!data) return <div className="text-slate-100">something went wrong</div>;
   if (
-    loading ||
-    globeData.countries.features === undefined ||
-    globeData.countries.features === null ||
-    globeData.countries.features.length === 0 ||
-    !Array.isArray(globeData.countries.features) ||
-    globeData.points.features === undefined ||
-    globeData.points.features === null ||
-    globeData.points.features.length === 0 ||
-    !Array.isArray(globeData.points.features)
+    !isApiDataFetched ||
+    globeData?.countries.features === undefined ||
+    globeData?.countries.features === null ||
+    globeData?.countries.features.length === 0 ||
+    !Array.isArray(globeData?.countries.features) ||
+    globeData?.points.features === undefined ||
+    globeData?.points.features === null ||
+    globeData?.points.features.length === 0 ||
+    !Array.isArray(globeData?.points.features)
   ) {
     return <div className="text-slate-100">Fetching data</div>;
   }
 
   return (
     <div className={`${theme.h.contentShrunkWithCb} flex`}>
-      {!loading && (
+      {isApiDataFetched && (
         <>
           <Suspense fallback={<LoadingPage />}>
             <GlobeGl
