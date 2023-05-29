@@ -103,25 +103,25 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
     setIsApiDataFetched(true);
   }, []);
 
-  useEffect(() => {
-    if (globeEl.current && isIpCoordsFetched && userLocCoords) {
-      if (category === "home") {
-        globeEl.current.pointOfView({
-          lat: userLocCoords.lat,
-          lng: userLocCoords.lon,
-          altitude: zoomLevel,
-        });
-      }
+  // useEffect(() => {
+  //   if (globeEl.current && isIpCoordsFetched && userLocCoords) {
+  //     if (category === "home") {
+  //       globeEl.current.pointOfView({
+  //         lat: userLocCoords.lat,
+  //         lng: userLocCoords.lon,
+  //         altitude: zoomLevel,
+  //       });
+  //     }
 
-      if (category !== "home") {
-        globeEl.current.pointOfView({
-          lat: userLocCoords.lat,
-          lng: userLocCoords.lon,
-          altitude: 2.5,
-        });
-      }
-    }
-  }, [isIpCoordsFetched, userLocCoords, category]);
+  //     if (category !== "home") {
+  //       globeEl.current.pointOfView({
+  //         lat: userLocCoords.lat,
+  //         lng: userLocCoords.lon,
+  //         altitude: 2.5,
+  //       });
+  //     }
+  //   }
+  // }, [isIpCoordsFetched, userLocCoords, category]);
 
   useEffect(() => {
     if (globeEl.current && globeEl.current.scene) {
