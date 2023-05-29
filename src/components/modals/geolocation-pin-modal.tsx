@@ -51,12 +51,10 @@ const GeolocationPinModal = () => {
       onError: (e) => {
         const errorMessages = e.data?.zodError?.fieldErrors;
 
-        if (errorMessages) {
+        if (errorMessages && Array.isArray(errorMessages)) {
           Object.keys(errorMessages).forEach((key) => {
             const value = errorMessages[key];
-
             if (value && value[0]) toast.error(value[0]);
-
             if (value !== undefined) {
               value.forEach((error) => {
                 console.log(`Field ${key}: ${error}`);
@@ -288,6 +286,7 @@ const GeolocationPinModal = () => {
                   selected={emoji === item.label}
                   label={item.label}
                   emoji={item.emoji}
+                  key={item.id}
                 />
               ))}
             </div>
@@ -305,6 +304,7 @@ const GeolocationPinModal = () => {
                   label={item.label}
                   svgIcon={item.svg}
                   svgColor={pickedColor}
+                  key={item.id}
                 />
               ))}
             </div>

@@ -13,7 +13,7 @@ import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 import { PageLayout } from "~/components/layout";
 import Categories from "~/components/navbar/categories";
 import Globe from "~/components/globe/globe";
-import GeolocationPinCard from "~/components/geolocation-pins/geolocation-pin-card";
+import TilePinCard from "~/components/geolocation-pins/tile-pin-card";
 import {
   ScrollButtonBottom,
   ScrollButtonTop,
@@ -66,9 +66,7 @@ const CardSection = () => {
           {data.map((geolocationPinWithUser: GeolocationPinWithUser) => {
             const { geolocationPin: pin, user } = geolocationPinWithUser;
 
-            return (
-              <GeolocationPinCard key={pin.id} {...geolocationPinWithUser} />
-            );
+            return <TilePinCard key={pin.id} {...geolocationPinWithUser} />;
           })}
         </div>
       </div>
