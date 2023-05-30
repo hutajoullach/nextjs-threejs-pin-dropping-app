@@ -16,6 +16,8 @@ type GeolocationPinWithUser =
 const TilePinCard = ({ geolocationPin: pin, user }: GeolocationPinWithUser) => {
   const router = useRouter();
 
+  const nameMaxLength = 14;
+
   return (
     <div
       key={pin.id}
@@ -31,9 +33,14 @@ const TilePinCard = ({ geolocationPin: pin, user }: GeolocationPinWithUser) => {
             className="rounded-full object-cover"
             alt=""
           />
-          {/* trim username */}
+
           <div className="flex w-full justify-end px-3 py-3 text-xs font-semibold text-neutral-600">
-            @{user.username}
+            {user.username.length <= nameMaxLength && (
+              <span>@{user.username}</span>
+            )}
+            {user.username.length > nameMaxLength && (
+              <span>@{`${user.username.slice(0, nameMaxLength - 1)}...`}</span>
+            )}
           </div>
         </div>
 
