@@ -4,45 +4,40 @@ import { useRouter } from "next/router";
 import { IconType } from "react-icons";
 
 type MenuItemProps = {
-  onClick: () => void;
   id: string;
   title: string;
   icon: IconType;
+  url: string;
 };
 
-const MenuItem = ({ onClick, id, title, icon: Icon }: MenuItemProps) => {
+const MenuItem = ({ id, title, icon: Icon, url }: MenuItemProps) => {
   return (
     <>
-      <li
-        onClick={onClick}
-        className="flex items-center gap-8 text-base hover:text-gray-700"
-        key={id}
-      >
-        <Icon size={21} />
-        <span>{title}</span>
+      <li key={id} className="flex items-center text-sm hover:text-gray-700">
+        <a
+          target="_blank"
+          href={`${url}`}
+          rel="noopener noreferrer"
+          className="flex items-center gap-4"
+        >
+          <Icon size={21} />
+          <span>{title}</span>
+        </a>
       </li>
     </>
   );
 };
 
 type SearchMenuProps = {
-  searchMenuList: { id: string; title: string; icon: IconType }[];
+  searchMenuList: { id: string; title: string; icon: IconType; url: string }[];
   searchTabDesc: { name: string; title: string; desc: string };
 };
 
 const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
   const router = useRouter();
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      router.push("/").catch((err) => console.error(err));
-    },
-    [router]
-  );
-
   return (
-    <div className="flex w-screen flex-col px-8 py-4 sm:w-96">
+    <div className="flex w-screen flex-col px-8 py-6 sm:w-96">
       <div className="flex flex-col justify-start gap-1 px-3 pb-4">
         <h3 className="text-sm font-semibold text-blue-900">
           {searchTabDesc.title}
@@ -50,17 +45,17 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
         <span>{searchTabDesc.desc}</span>
       </div>
       {/* <hr /> */}
-      <div className="flex justify-evenly pb-1">
+      <div className="flex justify-evenly gap-4 pb-1">
         <ul className="space-y-3 text-sm font-semibold text-gray-500">
           {searchMenuList.map((list, index) => (
             <>
               {index < 3 && (
                 <MenuItem
                   key={list.id}
-                  onClick={() => handleClick}
                   id={list.id}
                   title={list.title}
                   icon={list.icon}
+                  url={list.url}
                 />
               )}
             </>
@@ -73,10 +68,10 @@ const SearchMenu = ({ searchMenuList, searchTabDesc }: SearchMenuProps) => {
               {index >= 3 && index <= 6 && (
                 <MenuItem
                   key={list.id}
-                  onClick={() => handleClick}
                   id={list.id}
                   title={list.title}
                   icon={list.icon}
+                  url={list.url}
                 />
               )}
             </>

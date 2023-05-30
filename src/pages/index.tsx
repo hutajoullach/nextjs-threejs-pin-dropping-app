@@ -61,7 +61,7 @@ const CardSection = () => {
           geolocationPinGlobe.isDisplayed ? "h-24" : ""
         }`}
       />
-      <div className={`flex w-full justify-center`}>
+      <div className={`flex w-full justify-center px-16`}>
         <div className="grid grid-cols-1 gap-8 py-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {data.map((geolocationPinWithUser: GeolocationPinWithUser) => {
             const { geolocationPin: pin, user } = geolocationPinWithUser;

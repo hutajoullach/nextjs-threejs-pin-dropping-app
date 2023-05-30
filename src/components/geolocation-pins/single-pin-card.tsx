@@ -80,6 +80,11 @@ const SinglePinCard = ({
               })}
           </div>
 
+          <span
+            className={`-mb-4 flex w-full text-left text-sm text-neutral-600`}
+          >
+            message
+          </span>
           <div
             className={`${theme.font.color.primary} w-full rounded-lg bg-slate-700 px-3 py-4 text-sm`}
           >

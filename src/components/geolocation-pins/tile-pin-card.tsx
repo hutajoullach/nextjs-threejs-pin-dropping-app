@@ -19,7 +19,7 @@ const TilePinCard = ({ geolocationPin: pin, user }: GeolocationPinWithUser) => {
   return (
     <div
       key={pin.id}
-      className={`${theme.bg.cardBackground} flex cursor-pointer rounded-lg px-3 py-3 hover:opacity-80`}
+      className={`${theme.bg.cardBackground} flex cursor-pointer rounded-lg px-3 py-5 hover:opacity-80`}
       onClick={() => router.push(`/pin/${pin.id}`)}
     >
       <div className="flex w-full flex-col gap-2">

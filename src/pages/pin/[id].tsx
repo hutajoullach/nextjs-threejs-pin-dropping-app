@@ -36,7 +36,7 @@ const SinglePinPage = () => {
     <>
       <PageLayout>
         <div
-          className={`${theme.top.content} ${theme.bg.primary} ${theme.font.color.primary} flex h-screen items-center justify-center`}
+          className={`${theme.top.content} ${theme.bg.primary} ${theme.font.color.primary} ${theme.h.content} flex items-center justify-center`}
         >
           <SinglePinCard pinWithUser={data} />
         </div>
