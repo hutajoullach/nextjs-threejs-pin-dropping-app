@@ -1,4 +1,6 @@
-# Create T3 App
+#  Next.js, Three.js, pin dropping app
+
+Simple three.js app to drop a pin with your choice of svg or emoji. Login using your Github account and add your pin.
 
 <img width="1280" alt="Screen Shot 2023-05-31 at 3 31 40 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/182333b2-702f-4ad2-9639-56e31445277a">
 
