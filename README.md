@@ -1,5 +1,13 @@
 # Create T3 App
 
+## How to run the app?
+
+- run `npm install`
+- Signup and create an account for PlanetScale, Clerk, and Upstash if you don't have.
+- Create .env file and add "DATABASE_URL" for PlanetScale, "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" and "CLERK_SECRET_KEY" for Clerk, "UPSTASH_REDIS_REST_URL" and "UPSTASH_REDIS_REST_TOKEN" for Upstash.
+- run `npx prisma studio` to connect to Prisma db.
+- run `npm run dev` for the frontend.
+
 https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/9305dec5-b065-4b02-89ee-fda8c91ff11c
 
 https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/fb731160-954b-4768-85f8-9ee1dc590683
