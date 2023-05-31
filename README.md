@@ -1,5 +1,7 @@
 # Create T3 App
 
+<img width="1280" alt="Screen Shot 2023-05-31 at 3 31 40 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/182333b2-702f-4ad2-9639-56e31445277a">
+
 ## How to run the app?
 
 - run `npm install`
