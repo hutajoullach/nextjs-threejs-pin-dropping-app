@@ -2,6 +2,8 @@
 
 https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/9305dec5-b065-4b02-89ee-fda8c91ff11c
 
+https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/fb731160-954b-4768-85f8-9ee1dc590683
+
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## What's next? How do I make an app with this?
