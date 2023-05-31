@@ -45,8 +45,8 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   const { data } = api.geolocationPins.getAll.useQuery();
   const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(
     data ?? [],
-    500
-  ); // Group data within 500 km of each
+    200
+  ); // Group data within 200 km of each
 
   const [hoverD, setHoverD] = useState<object | null>(null);
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
