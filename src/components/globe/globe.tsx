@@ -186,6 +186,7 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
   if (!data) return <div className="text-slate-100">something went wrong</div>;
   if (
     !isApiDataFetched ||
+    !globeData ||
     globeData?.countries.features === undefined ||
     globeData?.countries.features === null ||
     globeData?.countries.features.length === 0 ||
