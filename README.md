@@ -2,6 +2,12 @@
 
 <img width="1280" alt="Screen Shot 2023-05-31 at 3 31 40 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/182333b2-702f-4ad2-9639-56e31445277a">
 
+<img width="1280" alt="Screen Shot 2023-05-31 at 3 35 00 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/751030b2-c84a-44ea-a8ed-43e642c82730">
+
+<img width="1280" alt="Screen Shot 2023-05-31 at 3 33 19 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/ebd705ea-7347-4ccf-a5e7-4dee6db0fd67">
+
+<img width="1280" alt="Screen Shot 2023-05-31 at 3 34 02 PM" src="https://github.com/HutaJoullach/nextjs-threejs-pin-dropping-app/assets/60039508/f7f4f76c-4fb9-4437-8f91-cb2ace085867">
+
 ## How to run the app?
 
 - run `npm install`
