@@ -1,8 +1,6 @@
 import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import theme from "../styles/styles";
-
 import qs, { ParsedQuery } from "query-string";
 import { IconType } from "react-icons";
 

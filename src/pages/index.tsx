@@ -1,9 +1,7 @@
-import { useRef, useCallback } from "react";
-import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useRef } from "react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
 
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
@@ -11,7 +9,6 @@ import theme from "../styles/styles";
 import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 
 import { PageLayout } from "~/components/layout";
-import Categories from "~/components/navbar/categories";
 import Globe from "~/components/globe/globe";
 import TilePinCard from "~/components/geolocation-pins/tile-pin-card";
 import {

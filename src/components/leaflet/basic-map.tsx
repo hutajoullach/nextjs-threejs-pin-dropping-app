@@ -1,15 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import useUserLocCoords from "~/store/user-loc-coords-store";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import osm from "./osm-providers";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -39,8 +32,6 @@ const LocationMarker = ({ userLocCoords }: LocationMarkerProps) => {
 const BasicMap = () => {
   const userLocCoords = useUserLocCoords();
   const ZOOM_LEVEL = 9;
-
-  // console.log(userLocCoords.coords);
 
   return (
     <MapContainer

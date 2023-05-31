@@ -8,17 +8,7 @@ import {
 } from "../../constants";
 import SearchMenu from "./search-menu";
 
-import { GoGlobe, GoRocket, GoSquirrel } from "react-icons/go";
-import {
-  GiWorld,
-  GiPlanetConquest,
-  GiPeriscope,
-  GiCrowNest,
-  GiConqueror,
-  GiSeaCreature,
-  GiPlesiosaurus,
-} from "react-icons/gi";
-// import { motion } from "framer-motion";
+import { GiWorld, GiPeriscope, GiConqueror } from "react-icons/gi";
 
 const Search = () => {
   const [activeSearchTab, setActiveSearchTab] = useState("");

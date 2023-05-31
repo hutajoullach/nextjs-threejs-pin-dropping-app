@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 
-import { categories, emojis, svgicons } from "../../constants";
+import { emojis, svgicons } from "../../constants";
 
 type GeolocationPinWithUser =
   RouterOutputs["geolocationPins"]["getAll"][number];

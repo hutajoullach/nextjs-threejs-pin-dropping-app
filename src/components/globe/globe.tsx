@@ -1,11 +1,7 @@
-import { useEffect, useRef, useState, useMemo, lazy, Suspense } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
-import {
-  GeoJsonCollection,
-  Feature,
-  Properties,
-} from "../../types/geo-json-collection";
+import { Feature } from "../../types/geo-json-collection";
 import { GlobeData } from "../../types/globe-data";
 import { IPApiGeocode } from "../../types/ip-api-geocode";
 import { WorldHappinessScoreData } from "../../types/world-happiness-score-data";
@@ -13,26 +9,21 @@ import { WorldHappinessScoreData } from "../../types/world-happiness-score-data"
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import theme from "../../styles/styles";
-import { categories, emojis, svgicons } from "../../constants";
 import worldHappinessScoreData from "../../constants/world-happiness-score-data-2022.json";
-import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
-import useIPLocation from "../../hooks/use-ip-location";
 import useGroupByProximity from "~/hooks/use-group-by-proximity";
-import { LoadingSpinner, LoadingPage } from "../loading";
+import { LoadingPage } from "../loading";
 import createHtmlElement from "./create-html-element";
 import { createPolygonCapColor, createPolygonLabel } from "./create-polygon";
 
 import axios, { AxiosResponse } from "axios";
 import * as THREE from "three";
-import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { GlobeMethods, GlobeProps } from "react-globe.gl";
+import { GlobeMethods } from "react-globe.gl";
 const GlobeGl = lazy(() => {
   return import("react-globe.gl");
 });
@@ -40,8 +31,6 @@ const GlobeGl = lazy(() => {
 type GeolocationPinWithUser =
   RouterOutputs["geolocationPins"]["getAll"][number];
 const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
-  const user = useUser();
-
   const { data } = api.geolocationPins.getAll.useQuery();
   const { filteredData, groups: proximityCoordsGroups } = useGroupByProximity(
     data ?? [],
@@ -55,8 +44,6 @@ const Globe = ({ jumboIsVisible }: { jumboIsVisible: boolean }) => {
 
   const params = useSearchParams();
   const category = params?.get("category");
-  const pathname = usePathname();
-  const isRootRoute = pathname === "/";
 
   const [isIpCoordsFetched, setIsIpCoordsFetched] = useState(false);
   const [userLocCoords, setUserLocCoords] = useState<

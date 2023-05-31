@@ -1,5 +1,5 @@
-import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
-import React, { useState } from "react";
+import React from "react";
+import { useUser, UserButton } from "@clerk/nextjs";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,18 +7,11 @@ import { useRouter } from "next/router";
 import useGeolocationPinModal from "~/store/geolocation-pin-modal-store";
 import useGeolocationPinGlobe from "~/store/geolocation-pin-globe-store";
 import theme from "../../styles/styles";
-import {
-  travelPinGlobeLogo,
-  travelPinGlobeBlack,
-  travelPinGlobeCircle,
-  travelPinGlobeCircleBlack,
-  travelPinGlobeSquare,
-} from "../../assets";
+import { travelPinGlobeSquare } from "../../assets";
 import Search from "./search";
 
-import { GoOctoface, GoSignIn, GoPin } from "react-icons/go";
-
-import { GiSloth, GiSpyglass, GiPin } from "react-icons/gi";
+import { GoSignIn, GoPin } from "react-icons/go";
+import { GiSloth, GiSpyglass } from "react-icons/gi";
 
 const Navbar = () => {
   const { route } = useRouter();

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import { IconType } from "react-icons";

@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useUser } from "@clerk/nextjs";
 
@@ -12,15 +12,12 @@ import useIPLocation from "../../hooks/use-ip-location";
 import Modal from "./modal";
 import Button from "../button";
 import Heading from "../heading";
-import Input from "../inputs/input";
 import TextArea from "../inputs/textarea";
 import IconInput from "../inputs/icon-input";
 
-import axios, { AxiosResponse } from "axios";
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
-
-import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
+import { SketchPicker, ColorResult } from "react-color";
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 const BasicMap = dynamic(() => import("../leaflet/basic-map"), { ssr: false });
@@ -85,11 +82,6 @@ const GeolocationPinModal = () => {
     status: ipLocStatus,
     isPreviousData: isIpCoordsPrevData,
   } = useIPLocation();
-  // console.log(ipLocCoords);
-  // console.log(isIpCoordsLoading);
-  // console.log(isIpCoordsError);
-  // console.log(ipLocStatus);
-  // console.log(isIpCoordsPrevData);
 
   useEffect(() => {
     if (
@@ -114,9 +106,6 @@ const GeolocationPinModal = () => {
 
   const { browserLocStatus, browserLocCoords, browserLocData } =
     useBrowserLocation();
-  // console.log(browserLocStatus);
-  // console.log(browserLocCoords);
-  // console.log(browserLocData);
 
   const getBrowserLocation = () => {
     if (

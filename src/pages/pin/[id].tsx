@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
-import Head from "next/head";
 
 import { api } from "~/utils/api";
 import theme from "../../styles/styles";
 import { PageLayout } from "~/components/layout";
 import SinglePinCard from "~/components/geolocation-pins/single-pin-card";
-import { LoadingSpinner, LoadingPage } from "../../components/loading";
+import { LoadingPage } from "../../components/loading";
 
 const SinglePinPage = () => {
   const router = useRouter();
